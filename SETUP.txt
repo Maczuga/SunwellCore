@@ -1,0 +1,48 @@
+#1 - Create a new user
+sudo adduser <username>
+
+#2 - Switch to this account
+sudo su - <username>
+
+#3 - Get dependencies:
+sudo apt-get install git cmake make gcc g++ libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev
+sudo apt-get install libboost-dev libboost-thread-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev
+sudo apt-get install mysql-server p7zip
+
+# Comment: you might want to replace all mysql libs for mariadb ones.
+# Comment: dunno if libboost is really needed with SunwellCore.
+
+#4 - Install ACE library.
+cd ~
+wget http://download.dre.vanderbilt.edu/previous_versions/ACE-6.0.3.tar.gz
+tar xvzf ACE-6.0.3.tar.gz
+cd ACE_wrappers/
+mkdir build
+cd build
+../configure --disable-ssl
+make
+sudo make install
+
+#5 - Pull the repository.
+cd ~
+git clone https://bitbucket.org/maczuga/sunwellcore.git
+
+#6 - Create build directory
+mkdir build
+cd build
+
+#7 - CMAKE configuration
+cmake ../ -DCMAKE_INSTALL_PREFIX=/home/`echo $USER`/server -DWITH_COREDEBUG=1
+# or
+cmake ../ -DCMAKE_INSTALL_PREFIX=/home/`echo $USER`/server -DWITH_COREDEBUG=1 -DWITH_WARNINGS=1
+
+#8 - Compilation
+make -j <number of cores>
+make install
+
+################
+# USEFUL LINKS #
+################
+
+# Restarter
+https://gist.github.com/Lillecarl/5421446
