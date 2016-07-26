@@ -32,9 +32,9 @@ mkdir build
 cd build
 
 #7 - CMAKE configuration
-cmake ../ -DCMAKE_INSTALL_PREFIX=/home/`echo $USER`/server -DWITH_COREDEBUG=1 -DOPENSSL_LIBRARIES=/usr/local/ssl/lib64/ -DOPENSSL_INCLUDE_DIR=/usr/local/ssl/include/
+cmake ../ -DCMAKE_INSTALL=/home/$USER/server -DCMAKE_INSTALL_PREFIX=/home/$USER/server -DWITH_COREDEBUG=1 -DWITH_WARNINGS=0
 # or
-cmake ../ -DCMAKE_INSTALL_PREFIX=/home/`echo $USER`/server -DWITH_COREDEBUG=1 -DOPENSSL_LIBRARIES=/usr/local/ssl/lib64/ -DOPENSSL_INCLUDE_DIR=/usr/local/ssl/include/ -DWITH_WARNINGS=0 
+cmake ../ -DCMAKE_INSTALL=/home/$USER/server -DCMAKE_INSTALL_PREFIX=/home/$USER/server -DWITH_COREDEBUG=1
 
 #8 - Compilation
 make -j <number of cores>
@@ -46,3 +46,4 @@ make install
 
 # Restarter
 https://gist.github.com/Lillecarl/5421446
+

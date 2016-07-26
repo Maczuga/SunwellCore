@@ -1,0 +1,2 @@
+ALTER TABLE `account`
+	ADD COLUMN `active` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' AFTER `recruiter`;
