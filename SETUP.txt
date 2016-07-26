@@ -23,27 +23,20 @@ cd build
 make
 sudo make install
 
-#5 - Install OpenSSL 1.0.0a
-wget http://www.openssl.org/source/openssl-1.0.0a.tar.gz
-tar -xf openssl-1.0.0a.tar.gz
-cd openssl-1.0.0a
-./config
-sudo make install_sw
-
-#6 - Pull the repository.
+#5 - Pull the repository.
 cd ~
 git clone https://bitbucket.org/maczuga/sunwellcore.git
 
-#7 - Create build directory
+#6 - Create build directory
 mkdir build
 cd build
 
-#8 - CMAKE configuration
+#7 - CMAKE configuration
 cmake ../ -DCMAKE_INSTALL_PREFIX=/home/`echo $USER`/server -DWITH_COREDEBUG=1 -DOPENSSL_LIBRARIES=/usr/local/ssl/lib64/ -DOPENSSL_INCLUDE_DIR=/usr/local/ssl/include/
 # or
 cmake ../ -DCMAKE_INSTALL_PREFIX=/home/`echo $USER`/server -DWITH_COREDEBUG=1 -DOPENSSL_LIBRARIES=/usr/local/ssl/lib64/ -DOPENSSL_INCLUDE_DIR=/usr/local/ssl/include/ -DWITH_WARNINGS=0 
 
-#9 - Compilation
+#8 - Compilation
 make -j <number of cores>
 make install
 

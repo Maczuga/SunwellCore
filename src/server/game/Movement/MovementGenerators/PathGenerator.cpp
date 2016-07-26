@@ -24,6 +24,8 @@
 #include "DetourCommon.h"
 #include "DetourNavMeshQuery.h"
 
+#include "CellImpl.h"
+
 ////////////////// PathGenerator //////////////////
 PathGenerator::PathGenerator(const Unit* owner) :
 	_polyLength(0), _type(PATHFIND_BLANK), _useStraightPath(false),
