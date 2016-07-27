@@ -406,6 +406,13 @@ bool AuthSocket::_HandleLogonChallenge()
     }
     else
     {
+//        if (_login.find("@") == std::string::npos)                  // account is not email address
+//        {
+//            pkt << uint8(WOW_FAIL_CONVERSION_REQUIRED);
+//            socket().send((char const*)pkt.contents(), pkt.size());
+//            return true;
+//        }
+
         // Get the account details from the account table
         // No SQL injection (prepared statement)
         stmt = LoginDatabase.GetPreparedStatement(LOGIN_SEL_LOGONCHALLENGE);
@@ -414,10 +421,10 @@ bool AuthSocket::_HandleLogonChallenge()
         PreparedQueryResult res2 = LoginDatabase.Query(stmt);
         if (res2)
         {
+            bool locked = false;
             Field* fields = res2->Fetch();
 
             // If the IP is 'locked', check that the player comes indeed from the correct IP address
-            bool locked = false;
             if (fields[2].GetUInt8() == 1)                  // if ip is locked
             {
                 ;//sLog->outDebug(LOG_FILTER_NETWORKIO, "[AuthChallenge] Account '%s' is locked to IP - '%s'", _login.c_str(), fields[3].GetCString());
@@ -434,6 +441,12 @@ bool AuthSocket::_HandleLogonChallenge()
             }
             else
                 ;//sLog->outDebug(LOG_FILTER_NETWORKIO, "[AuthChallenge] Account '%s' is not locked to ip", _login.c_str());
+
+            if (fields[7].GetUInt8() == 0)                  // if account is not active
+            {
+                pkt << uint8(WOW_FAIL_UNLOCKABLE_LOCK);
+                locked = true;
+            }
 
             if (!locked)
             {
