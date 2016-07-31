@@ -7,6 +7,8 @@ REWRITTEN BY XINEF
 #include "InstanceScript.h"
 #include "shadowfang_keep.h"
 #include "TemporarySummon.h"
+#include "SpellScript.h"
+#include "SpellAuraEffects.h"
 
 
 enum Creatures

@@ -20,6 +20,7 @@
 #define __TRINITY_VEHICLEDEFINES_H
 
 #include "Define.h"
+#include "Object.h"
 #include <vector>
 #include <map>
 

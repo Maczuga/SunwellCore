@@ -12,6 +12,8 @@ REWRITTEN BY XINEF
 #include "ScriptedCreature.h"
 #include "ruby_sanctum.h"
 #include "Player.h"
+#include "Opcodes.h"
+#include "PassiveAI.h"
 
 
 enum Texts

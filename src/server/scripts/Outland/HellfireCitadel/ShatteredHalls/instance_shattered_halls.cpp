@@ -6,6 +6,7 @@ REWRITTEN BY XINEF
 #include "InstanceScript.h"
 #include "shattered_halls.h"
 #include "CreatureTextMgr.h"
+#include "SpellScript.h"
 
 class instance_shattered_halls : public InstanceMapScript
 {

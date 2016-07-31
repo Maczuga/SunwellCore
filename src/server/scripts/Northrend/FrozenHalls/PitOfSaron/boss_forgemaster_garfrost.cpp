@@ -11,6 +11,7 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "WorldSession.h"
 #include "Opcodes.h"
 #include "CreatureGroups.h"
+#include "Chat.h"
 
 enum Yells
 {

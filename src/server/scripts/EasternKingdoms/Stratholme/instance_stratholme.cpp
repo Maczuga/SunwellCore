@@ -7,6 +7,7 @@ REWRITTEN BY XINEF
 #include "InstanceScript.h"
 #include "stratholme.h"
 #include "Player.h"
+#include "SpellAuras.h"
 
 const Position BlackGuardPos[10] = 
 {

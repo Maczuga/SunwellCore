@@ -22,10 +22,14 @@
 
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
+#include "ScriptedGossip.h"
 #include "Player.h"
 #include "Group.h"
 #include "CreatureTextMgr.h"
 #include "PetAI.h"
+#include "PassiveAI.h"
+#include "SpellScript.h"
+#include "SpellAuras.h"
 
 enum Mojo
 {

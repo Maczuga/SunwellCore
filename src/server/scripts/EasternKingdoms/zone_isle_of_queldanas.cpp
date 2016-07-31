@@ -33,6 +33,8 @@ EndContentData */
 #include "Player.h"
 #include "Pet.h"
 #include "SpellInfo.h"
+#include "PassiveAI.h"
+#include "SpellScript.h"
 
 /*###### OUR: ######*/
 

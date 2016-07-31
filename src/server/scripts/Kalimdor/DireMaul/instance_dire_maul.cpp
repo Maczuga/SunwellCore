@@ -5,6 +5,8 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "InstanceScript.h"
 #include "dire_maul.h"
+#include "UnitAI.h"
+#include "Gameobject.h"
 
 class instance_dire_maul : public InstanceMapScript
 {

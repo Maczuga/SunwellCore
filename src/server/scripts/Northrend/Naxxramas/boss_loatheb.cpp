@@ -5,6 +5,7 @@ REWRITTEN FROM SCRATCH BY XINEF, IT OWNS NOW!
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "naxxramas.h"
+#include "SpellScript.h"
 
 enum Spells
 {

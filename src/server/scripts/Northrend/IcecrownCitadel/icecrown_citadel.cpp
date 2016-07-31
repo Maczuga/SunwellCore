@@ -16,6 +16,8 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "SmartAI.h"
 #include "Group.h"
 #include "icecrown_citadel.h"
+#include "ScriptedGossip.h"
+#include "Chat.h"
 
 enum Texts
 {

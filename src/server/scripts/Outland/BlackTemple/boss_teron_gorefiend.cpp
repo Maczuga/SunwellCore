@@ -5,6 +5,11 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "black_temple.h"
+#include "SpellScript.h"
+#include "SpellAuraEffects.h"
+#include "MapReference.h"
+#include "Player.h"
+#include "Creature.h"
 
 enum Says
 {

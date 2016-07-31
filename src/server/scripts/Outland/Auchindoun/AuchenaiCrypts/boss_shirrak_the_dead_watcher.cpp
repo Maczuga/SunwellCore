@@ -5,6 +5,9 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "Player.h"
+#include "SpellInfo.h"
+#include "SpellAuras.h"
+#include "SpellScript.h"
 
 enum eShirrak
 {

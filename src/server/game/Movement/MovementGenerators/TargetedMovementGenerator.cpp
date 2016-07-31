@@ -29,6 +29,7 @@
 #include "BattlegroundRV.h"
 #include "VehicleDefines.h"
 #include "Transport.h"
+#include "MapManager.h"
 
 #include <cmath>
 

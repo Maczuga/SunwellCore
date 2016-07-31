@@ -34,6 +34,8 @@ EndContentData */
 #include "Group.h"
 #include "Player.h"
 #include "AccountMgr.h"
+#include "SpellInfo.h"
+#include "Spell.h"
 
 /*###
 ## npcs_rutgar_and_frankal

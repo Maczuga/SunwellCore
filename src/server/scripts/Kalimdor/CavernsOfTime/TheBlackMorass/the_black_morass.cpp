@@ -7,6 +7,8 @@ REWRITTEN BY XINEF
 #include "ScriptedGossip.h"
 #include "the_black_morass.h"
 #include "MoveSplineInit.h"
+#include "SpellScript.h"
+#include "PassiveAI.h"
 
 enum medivhSays
 {

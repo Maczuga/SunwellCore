@@ -5,6 +5,7 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "drak_tharon_keep.h"
+#include "SpellScript.h"
 
 DoorData const doorData[] =
 {

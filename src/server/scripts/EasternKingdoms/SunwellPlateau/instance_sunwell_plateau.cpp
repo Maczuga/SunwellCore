@@ -6,6 +6,9 @@ REWRITTEN BY XINEF
 #include "InstanceScript.h"
 #include "Player.h"
 #include "sunwell_plateau.h"
+#include "SpellScript.h"
+#include "CreatureAI.h"
+#include "CreatureAIImpl.h"
 
 DoorData const doorData[] =
 {

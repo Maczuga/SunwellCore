@@ -12,6 +12,7 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "Player.h"
 #include "WorldSession.h"
 #include "Opcodes.h"
+#include "Chat.h"
 
 enum Yells
 {

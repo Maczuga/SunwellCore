@@ -5,6 +5,8 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "InstanceScript.h"
 #include "uldaman.h"
+#include "SpellScript.h"
+#include "CreatureAI.h"
 
 enum Spells
 {

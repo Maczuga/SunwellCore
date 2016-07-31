@@ -8,6 +8,7 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "SpellScript.h"
 #include "PassiveAI.h"
 #include "Player.h"
+#include "SpellAuraEffects.h"
 
 enum AnubTexts
 {

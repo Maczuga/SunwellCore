@@ -25,6 +25,7 @@
 #include "Pet.h"
 #include "SpellInfo.h"
 #include "CreatureTextMgr.h"
+#include "SpellScript.h"
 
 // Ours
 enum qRedRocket

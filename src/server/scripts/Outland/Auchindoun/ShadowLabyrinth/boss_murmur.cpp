@@ -6,6 +6,8 @@ REWRITTEN BY XINEF
 #include "ScriptedCreature.h"
 #include "shadow_labyrinth.h"
 #include "SpellInfo.h"
+#include "SpellScript.h"
+#include "GridNotifiers.h"
 
 enum Murmur
 {

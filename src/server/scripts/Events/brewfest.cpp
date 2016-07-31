@@ -10,6 +10,7 @@
 #include "GameEventMgr.h"
 #include "Group.h"
 #include "LFGMgr.h"
+#include "PassiveAI.h"
 
 ///////////////////////////////////////
 ////// GOS

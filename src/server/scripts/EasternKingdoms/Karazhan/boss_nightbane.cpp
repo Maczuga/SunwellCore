@@ -25,7 +25,10 @@ EndScriptData */
 
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
+#include "Gameobject.h"
 #include "karazhan.h"
+#include "Player.h"
+#include "Creature.h"
 
 enum Spells
 {

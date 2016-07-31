@@ -2,6 +2,8 @@
 #define __ASYNCAUCTIONLISTING_H
 
 #include "Common.h"
+#include "WorldPacket.h"
+#include "EventProcessor.h"
 
 class AuctionListOwnerItemsDelayEvent : public BasicEvent
 {

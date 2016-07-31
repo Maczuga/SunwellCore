@@ -5,6 +5,7 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "InstanceScript.h"
 #include "the_eye.h"
+#include "SpellScript.h"
 
 class instance_the_eye : public InstanceMapScript
 {

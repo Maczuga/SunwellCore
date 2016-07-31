@@ -33,6 +33,7 @@
 #include "GroupMgr.h"
 #include "GameEventMgr.h"
 #include "WorldSession.h"
+#include "Opcodes.h"
 
 namespace lfg
 {

@@ -9,6 +9,7 @@
 #include "SpellScript.h"
 #include "LFGMgr.h"
 #include "Group.h"
+#include "PassiveAI.h"
 
 ///////////////////////////////////////
 ////// GOS

@@ -6,6 +6,7 @@ REWRITTEN BY XINEF
 #include "ScriptedCreature.h"
 #include "SpellInfo.h"
 #include "karazhan.h"
+#include "SpellScript.h"
 
 enum eSay
 {

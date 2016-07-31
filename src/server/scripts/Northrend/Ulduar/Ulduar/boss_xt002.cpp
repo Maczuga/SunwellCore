@@ -11,6 +11,7 @@ REWRITTEN FROM SCRATCH BY XINEF, IT OWNS NOW!
 #include "SpellAuraEffects.h"
 #include "Player.h"
 #include "Opcodes.h"
+#include "GridNotifiers.h"
 
 enum XT002Spells
 {

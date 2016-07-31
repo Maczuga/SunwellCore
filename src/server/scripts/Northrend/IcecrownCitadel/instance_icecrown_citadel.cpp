@@ -15,6 +15,8 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "Transport.h"
 #include "Group.h"
 #include "CreatureTextMgr.h"
+#include "SpellAuras.h"
+#include "Chat.h"
 
 enum EventIds
 {

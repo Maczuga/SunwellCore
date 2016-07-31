@@ -5,6 +5,7 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "InstanceScript.h"
 #include "shadow_labyrinth.h"
+#include "CreatureAI.h"
 
 class instance_shadow_labyrinth : public InstanceMapScript
 {

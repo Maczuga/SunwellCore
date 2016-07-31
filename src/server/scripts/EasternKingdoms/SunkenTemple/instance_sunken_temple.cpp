@@ -5,6 +5,9 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "InstanceScript.h"
 #include "sunken_temple.h"
+#include "SpellScript.h"
+#include "Player.h"
+#include "CreatureAI.h"
 
 class instance_sunken_temple : public InstanceMapScript
 {

@@ -5,8 +5,10 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "magisters_terrace.h"
-#include "WorldPacket.h"
 #include "Opcodes.h"
+#include "Creature.h"
+#include "Player.h"
+#include "SpellScript.h"
 
 enum Says
 {

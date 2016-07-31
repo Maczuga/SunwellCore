@@ -7,6 +7,9 @@ REWRITTEN BY XINEF
 #include "sunwell_plateau.h"
 #include "MoveSplineInit.h"
 #include "CreatureTextMgr.h"
+#include "SpellScript.h"
+#include "PassiveAI.h"
+#include "SpellAuraEffects.h"
 
 enum Yells
 {

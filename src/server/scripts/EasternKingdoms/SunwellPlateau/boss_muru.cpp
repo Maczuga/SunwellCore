@@ -7,6 +7,9 @@ REWRITTEN BY XINEF
 #include "sunwell_plateau.h"
 #include "Player.h"
 #include "SpellInfo.h"
+#include "SpellScript.h"
+#include "SpellAuraEffects.h"
+#include "PassiveAI.h"
 
 enum Spells
 {

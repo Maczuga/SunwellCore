@@ -19,12 +19,14 @@
 #define _LFGMGR_H
 
 #include <ace/Singleton.h>
+#include "ByteBuffer.h"
 #include "DBCStructure.h"
 #include "Field.h"
 #include "LFG.h"
 #include "LFGQueue.h"
 #include "LFGGroupData.h"
 #include "LFGPlayerData.h"
+#include "Map.h"
 
 class Group;
 class Player;

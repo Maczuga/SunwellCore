@@ -6,6 +6,9 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "nexus.h"
+#include "MapReference.h"
+#include "Player.h"
+#include "SpellAuras.h"
 
 enum eEnums
 {

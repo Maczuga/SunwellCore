@@ -5,6 +5,8 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "InstanceScript.h"
 #include "the_botanica.h"
+#include "SpellInfo.h"
+#include "SpellScript.h"
 
 class instance_the_botanica : public InstanceMapScript
 {

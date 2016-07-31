@@ -23,6 +23,7 @@
 #include "DBCStructure.h"
 #include "Object.h"
 
+class AuraEffect;
 class Unit;
 class Player;
 class Item;

@@ -5,6 +5,8 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "serpent_shrine.h"
+#include "SpellScript.h"
+#include "SpellAuraEffects.h"
 
 enum Talk
 {

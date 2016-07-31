@@ -7,6 +7,7 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "GameObjectAI.h"
 #include "Vehicle.h"
 #include "utgarde_keep.h"
+#include "SpellScript.h"
 
 class npc_dragonflayer_forge_master : public CreatureScript
 {

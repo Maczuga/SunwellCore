@@ -21,11 +21,11 @@
  * Scriptnames of files in this file should be prefixed with "spell_pri_".
  */
 
+#include "GridNotifiers.h"
 #include "Player.h"
 #include "ScriptMgr.h"
 #include "SpellScript.h"
 #include "SpellAuraEffects.h"
-#include "GridNotifiers.h"
 
 enum PriestSpells
 {

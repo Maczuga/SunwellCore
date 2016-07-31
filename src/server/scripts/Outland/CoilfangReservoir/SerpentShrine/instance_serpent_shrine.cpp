@@ -7,6 +7,9 @@ REWRITTEN BY XINEF
 #include "serpent_shrine.h"
 #include "Player.h"
 #include "TemporarySummon.h"
+#include "SpellScript.h"
+#include "SpellAuraEffects.h"
+#include "CreatureAI.h"
 
 DoorData const doorData[] =
 {

@@ -6,6 +6,7 @@ REWRITTEN BY XINEF
 #include "ScriptedCreature.h"
 #include "SpellScript.h"
 #include "gruuls_lair.h"
+#include "SpellAuraEffects.h"
 
 enum Yells
 {

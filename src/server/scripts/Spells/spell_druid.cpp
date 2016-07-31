@@ -21,6 +21,7 @@
  * Scriptnames of files in this file should be prefixed with "spell_dru_".
  */
 
+#include "GridNotifiers.h"
 #include "Player.h"
 #include "ScriptMgr.h"
 #include "SpellScript.h"

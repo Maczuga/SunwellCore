@@ -7,6 +7,10 @@ Xinef
 
 #include <map>
 #include <list>
+#include <ace/Singleton.h>
+#include "LinkedList.h"
+#include "LootMgr.h"
+#include "Item.h"
 
 struct StoredLootItem
 {

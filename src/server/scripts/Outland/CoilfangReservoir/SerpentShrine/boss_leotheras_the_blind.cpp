@@ -6,6 +6,10 @@ REWRITTEN BY XINEF
 #include "ScriptedCreature.h"
 #include "serpent_shrine.h"
 #include "Player.h"
+#include "SpellScript.h"
+#include "GridNotifiers.h"
+#include "SpellAuras.h"
+#include "SpellAuraEffects.h"
 
 enum Talk
 {

@@ -7,6 +7,8 @@ REWRITTEN BY XINEF
 #include "zulfarrak.h"
 #include "Player.h"
 #include "TemporarySummon.h"
+#include "SpellScript.h"
+#include "GridNotifiers.h"
 
 class instance_zulfarrak : public InstanceMapScript
 {

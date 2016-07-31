@@ -6,6 +6,7 @@ REWRITTEN BY XINEF
 #include "ScriptedCreature.h"
 #include "steam_vault.h"
 #include "SpellInfo.h"
+#include "PassiveAI.h"
 
 enum NagaDistiller
 {

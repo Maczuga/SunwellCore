@@ -8,6 +8,7 @@ REWRITTEN FROM SCRATCH BY XINEF, IT OWNS NOW!
 #include "SpellScript.h"
 #include "Player.h"
 #include "PassiveAI.h"
+#include "Opcodes.h"
 
 enum Misc
 {

@@ -26,6 +26,7 @@
 #include "SpellScript.h"
 #include "Vehicle.h"
 #include "SpellAuras.h"
+#include "SpellAuraEffects.h"
 #include "GridNotifiers.h"
 #include "MapManager.h"
 #include "CreatureTextMgr.h"

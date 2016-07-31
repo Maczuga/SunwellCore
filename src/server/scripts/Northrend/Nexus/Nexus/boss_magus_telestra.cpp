@@ -5,6 +5,10 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "nexus.h"
+#include "SpellInfo.h"
+#include "SpellScript.h"
+#include "GridNotifiers.h"
+#include "GameEventMgr.h"
 
 enum Spells
 {

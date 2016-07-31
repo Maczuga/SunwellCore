@@ -27,6 +27,7 @@
 #include "SpellInfo.h"
 #include "CreatureTextMgr.h"
 #include "PetAI.h"
+#include "SpellScript.h"
 
 // Ours
 enum eyeOfAcherus

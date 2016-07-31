@@ -5,6 +5,7 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "InstanceScript.h"
 #include "wailing_caverns.h"
+#include "CreatureAI.h"
 
 class instance_wailing_caverns : public InstanceMapScript
 {

@@ -7,6 +7,8 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "ScriptedCreature.h"
 #include "SpellAuras.h"
 #include "icecrown_citadel.h"
+#include "SpellAuraEffects.h"
+#include "Player.h"
 
 enum ScriptTexts
 {

@@ -27,6 +27,8 @@
 #include "CellImpl.h"
 #include "GridNotifiers.h"
 #include "GridNotifiersImpl.h"
+#include "SpellAuraEffects.h"
+#include "PassiveAI.h"
 
 enum DeathKnightSpells
 {

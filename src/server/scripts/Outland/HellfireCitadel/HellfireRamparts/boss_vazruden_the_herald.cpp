@@ -5,6 +5,7 @@ REWRITTEN BY XINEF
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "hellfire_ramparts.h"
+#include "SpellScript.h"
 
 enum Says
 {

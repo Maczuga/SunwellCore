@@ -10,6 +10,8 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "CombatAI.h"
 #include "Player.h"
 #include "SpellInfo.h"
+#include "SpellAuraEffects.h"
+#include "SpellScript.h"
 
 enum DrakeGiverTexts
 {

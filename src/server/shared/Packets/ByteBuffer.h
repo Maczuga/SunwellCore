@@ -19,6 +19,7 @@
 #ifndef _BYTEBUFFER_H
 #define _BYTEBUFFER_H
 
+#include "Common.h"
 #include "Define.h"
 #include "Errors.h"
 #include "ByteConverter.h"

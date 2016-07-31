@@ -37,6 +37,8 @@ EndContentData */
 #include "Player.h"
 #include "Vehicle.h"
 #include "WaypointManager.h"
+#include "PassiveAI.h"
+#include "CombatAI.h"
 
 // Ours
 enum songOfWindandWater

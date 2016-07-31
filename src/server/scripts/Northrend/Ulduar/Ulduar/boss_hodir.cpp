@@ -10,6 +10,7 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "SpellAuras.h"
 #include "PassiveAI.h"
 #include "Player.h"
+#include "GridNotifiers.h"
 
 enum HodirSpellData
 {

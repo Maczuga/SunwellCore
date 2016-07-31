@@ -8,6 +8,8 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "GridNotifiers.h"
 #include "icecrown_citadel.h"
 #include "Player.h"
+#include "SpellAuraEffects.h"
+#include "PassiveAI.h"
 
 enum Texts
 {
