@@ -27,6 +27,7 @@
 #include "LFGGroupData.h"
 #include "LFGPlayerData.h"
 #include "Map.h"
+#include "UnorderedMap.h"
 
 class Group;
 class Player;

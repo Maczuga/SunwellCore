@@ -25,7 +25,7 @@ EndScriptData */
 
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
-#include "Gameobject.h"
+#include "GameObject.h"
 #include "karazhan.h"
 #include "Player.h"
 #include "Creature.h"
