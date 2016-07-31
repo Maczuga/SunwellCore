@@ -19,12 +19,14 @@
 #ifndef _MMAP_FACTORY_H
 #define _MMAP_FACTORY_H
 
+#include "Define.h"
 #include "MMapManager.h"
-#include "UnorderedMap.h"
 #include "DetourAlloc.h"
 #include "DetourNavMesh.h"
 #include "DetourNavMeshQuery.h"
 #include "Map.h"
+
+#include <unordered_map>
 
 namespace MMAP
 {

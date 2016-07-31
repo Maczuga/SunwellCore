@@ -25,10 +25,11 @@
 #include <ace/Thread_Mutex.h>
 #include <list>
 #include <map>
-#include "UnorderedMap.h"
 #include "DatabaseEnv.h"
 #include "DBCEnums.h"
 #include "ObjectDefines.h"
+
+#include <unordered_map>
 
 struct InstanceTemplate;
 struct MapEntry;
@@ -88,7 +89,7 @@ class InstanceSave
         ACE_Thread_Mutex _lock;
 };
 
-typedef UNORDERED_MAP<uint32 /*PAIR32(map, difficulty)*/, time_t /*resetTime*/> ResetTimeByMapDifficultyMap;
+typedef std::unordered_map<uint32 /*PAIR32(map, difficulty)*/, time_t /*resetTime*/> ResetTimeByMapDifficultyMap;
 
 struct InstancePlayerBind
 {
@@ -98,14 +99,14 @@ struct InstancePlayerBind
     InstancePlayerBind() : save(NULL), perm(false), extended(false) {}
 };
 
-typedef UNORDERED_MAP< uint32 /*mapId*/, InstancePlayerBind > BoundInstancesMap;
+typedef std::unordered_map< uint32 /*mapId*/, InstancePlayerBind > BoundInstancesMap;
 
 struct BoundInstancesMapWrapper
 {
     BoundInstancesMap m[MAX_DIFFICULTY];
 };
 
-typedef UNORDERED_MAP< uint32 /*guidLow*/, BoundInstancesMapWrapper* > PlayerBindStorage;
+typedef std::unordered_map< uint32 /*guidLow*/, BoundInstancesMapWrapper* > PlayerBindStorage;
 
 class InstanceSaveManager
 {
@@ -117,7 +118,7 @@ class InstanceSaveManager
         ~InstanceSaveManager();
 
     public:
-        typedef UNORDERED_MAP<uint32 /*InstanceId*/, InstanceSave*> InstanceSaveHashMap;
+        typedef std::unordered_map<uint32 /*InstanceId*/, InstanceSave*> InstanceSaveHashMap;
 
         struct InstResetEvent
         {
