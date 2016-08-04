@@ -24,6 +24,7 @@
 #include <ace/Thread_Mutex.h>
 
 #include "UpdateData.h"
+#include "Log.h"
 
 #include "GridDefines.h"
 #include "Object.h"
