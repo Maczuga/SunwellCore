@@ -20,9 +20,7 @@
 #define TRINITY_MAP_H
 
 // Pathfinding
-#include "DetourAlloc.h"
 #include "DetourNavMesh.h"
-#include "DetourNavMeshQuery.h"
 
 #include "Define.h"
 #include <ace/RW_Thread_Mutex.h>
@@ -32,12 +30,10 @@
 #include "GridDefines.h"
 #include "Cell.h"
 #include "Timer.h"
-#include "SharedDefines.h"
 #include "GridRefManager.h"
 #include "MapRefManager.h"
 #include "DynamicTree.h"
 #include "GameObjectModel.h"
-#include "Log.h"
 
 #include <bitset>
 #include <list>

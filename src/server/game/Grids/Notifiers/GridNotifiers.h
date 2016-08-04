@@ -33,6 +33,7 @@
 #include "Spell.h"
 #include "WorldSession.h"
 
+class Corpse;
 class Player;
 //class Map;
 

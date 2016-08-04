@@ -6,9 +6,9 @@ REWRITTEN BY XINEF
 #include "InstanceScript.h"
 #include "zulfarrak.h"
 #include "Player.h"
-#include "TemporarySummon.h"
 #include "SpellScript.h"
 #include "GridNotifiers.h"
+#include "CellImpl.h"
 
 class instance_zulfarrak : public InstanceMapScript
 {

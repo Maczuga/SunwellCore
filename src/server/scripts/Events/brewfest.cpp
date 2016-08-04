@@ -11,6 +11,7 @@
 #include "Group.h"
 #include "LFGMgr.h"
 #include "PassiveAI.h"
+#include "CellImpl.h"
 
 ///////////////////////////////////////
 ////// GOS
