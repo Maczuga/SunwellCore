@@ -19,6 +19,7 @@
 #include "Creature.h"
 #include "CreatureGroups.h"
 #include "ObjectMgr.h"
+#include "World.h"
 
 #include "CreatureAI.h"
 #include "MoveSplineInit.h"
@@ -78,8 +79,15 @@ void FormationMgr::LoadCreatureFormations()
         delete itr->second;
     CreatureGroupMap.clear();
 
+    uint32 currentBuild = sWorld->getIntConfig(CONFIG_CURRENT_BUILD);
     //Get group data
-    QueryResult result = WorldDatabase.Query("SELECT leaderGUID, memberGUID, dist, angle, groupAI, point_1, point_2 FROM creature_formations ORDER BY leaderGUID");
+    QueryResult result = WorldDatabase.PQuery("SELECT leaderGUID, memberGUID, dist, angle, groupAI, point_1, point_2 FROM creature_formations cf "
+    "LEFT OUTER JOIN creature cl ON cl.guid = cf.leaderGUID "
+    "LEFT OUTER JOIN creature_template ctl ON ctl.entry = cl.id "
+    "LEFT OUTER JOIN creature cm ON cm.guid = cf.memberGUID "
+    "LEFT OUTER JOIN creature_template ctm ON ctm.entry = cm.id "
+    "WHERE ctl.AddedInBuild <= '%u' AND ctm.AddedInBuild <= '%u' "
+    "ORDER BY leaderGUID ", currentBuild, currentBuild);
 
     if (!result)
     {
