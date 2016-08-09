@@ -20,6 +20,7 @@
 #define TRINITY_FORMULAS_H
 
 #include "World.h"
+#include "WorldSession.h"
 #include "SharedDefines.h"
 #include "ScriptMgr.h"
 #include "Player.h"
@@ -180,7 +181,18 @@ namespace Trinity
                         gain *= 2;
                 }
 
-                gain = uint32(gain * sWorld->getRate(RATE_XP_KILL));
+                float bonusXpRate = sWorld->getRate(RATE_XP_KILL);
+
+                // Maczuga - premium service
+                if (player->GetSession()->IsPremiumServiceActive(PREMIUM_EXP_BOOST))
+                    bonusXpRate *= sWorld->getRate(RATE_VIP_XP_KILL);
+
+//                char buff[20];
+//                time_t now = player->GetSession()->GetPremiumService(PREMIUM_EXP_BOOST);
+//                strftime(buff, 20, "%Y-%m-%d %H:%M:%S", localtime(&now));
+//                sLog->outString("Boost expires at: %s", buff);
+
+                gain = uint32(gain * bonusXpRate);
             }
 
             //sScriptMgr->OnGainCalculation(gain, player, u); // pussywizard: optimization

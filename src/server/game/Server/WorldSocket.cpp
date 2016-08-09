@@ -888,6 +888,26 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
         return -1;
     }
 
+    // Check premium services
+    stmt = LoginDatabase.GetPreparedStatement(LOGIN_SEL_PREMIUM);
+    stmt->setUInt32(0, id);
+
+    time_t premiumServices[MAX_PREMIUM_SERVICES] = { 0 };
+    if (PreparedQueryResult premiumInfo = LoginDatabase.Query(stmt))
+    {
+        do
+        {
+            Field* fields = premiumInfo->Fetch();
+            uint8 type = fields[0].GetUInt8();
+            if (type < 0 || type >= MAX_PREMIUM_SERVICES) continue;
+
+            time_t expires_at = time_t(fields[1].GetUInt32());
+            if (expires_at < time(NULL)) continue;
+
+            premiumServices[type] = time_t(fields[1].GetUInt32());
+        } while (premiumInfo->NextRow());
+    }
+    
     // Check locked state for server
     AccountTypes allowedAccountType = sWorld->GetPlayerSecurityLimit();
     ;//sLog->outDebug(LOG_FILTER_NETWORKIO, "Allowed Level: %u Player Level %u", allowedAccountType, AccountTypes(security));
@@ -951,7 +971,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     LoginDatabase.Execute(stmt);
 
     // NOTE ATM the socket is single-threaded, have this in mind ...
-    ACE_NEW_RETURN (m_Session, WorldSession (id, this, AccountTypes(security), expansion, mutetime, locale, recruiter, isRecruiter, skipQueue), -1);
+    ACE_NEW_RETURN (m_Session, WorldSession (id, this, AccountTypes(security), expansion, mutetime, locale, recruiter, isRecruiter, skipQueue, premiumServices), -1);
 
     m_Crypt.Init(&k);
 

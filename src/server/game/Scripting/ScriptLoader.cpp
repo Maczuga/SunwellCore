@@ -65,6 +65,7 @@ void AddSC_message_commandscript();
 void AddSC_misc_commandscript();
 void AddSC_modify_commandscript();
 void AddSC_npc_commandscript();
+void AddSC_premium_commandscript();
 void AddSC_quest_commandscript();
 void AddSC_reload_commandscript();
 void AddSC_reset_commandscript();
@@ -684,6 +685,7 @@ void AddCommandScripts()
     AddSC_misc_commandscript();
     AddSC_modify_commandscript();
     AddSC_npc_commandscript();
+    AddSC_premium_commandscript();
     AddSC_quest_commandscript();
     AddSC_reload_commandscript();
 	AddSC_reset_commandscript();

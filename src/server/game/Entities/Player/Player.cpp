@@ -5210,6 +5210,10 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
 
     // update visibility
     UpdateObjectVisibility();
+    
+    // Premium service
+    if (GetSession()->IsPremiumServiceActive(PREMIUM_NO_RESSURECTION_SICKNESS))
+        return;
 
     if(!applySickness)
         return;
@@ -5370,6 +5374,10 @@ Corpse* Player::GetCorpse() const
 
 void Player::DurabilityLossAll(double percent, bool inventory)
 { 
+    // Premium service
+    if (GetSession()->IsPremiumServiceActive(PREMIUM_NO_DURABILITY_LOSS)) 
+        return;
+
     for (uint8 i = EQUIPMENT_SLOT_START; i < EQUIPMENT_SLOT_END; i++)
         if (Item* pItem = GetItemByPos(INVENTORY_SLOT_BAG_0, i))
             DurabilityLoss(pItem, percent);
@@ -6905,9 +6913,16 @@ void Player::CheckAreaExploreAndOutdoor()
             {
                 int32 diff = int32(getLevel()) - areaEntry->area_level;
                 uint32 XP = 0;
+
+                float bonusXpRate = sWorld->getRate(RATE_XP_EXPLORE);
+
+                // Maczuga - premium service
+                if (GetSession()->IsPremiumServiceActive(PREMIUM_EXP_BOOST))
+                    bonusXpRate *= sWorld->getRate(RATE_VIP_XP_EXPLORE);
+                
                 if (diff < -5)
                 {
-                    XP = uint32(sObjectMgr->GetBaseXP(getLevel()+5)*sWorld->getRate(RATE_XP_EXPLORE));
+                    XP = uint32(sObjectMgr->GetBaseXP(getLevel()+5) * bonusXpRate);
                 }
                 else if (diff > 5)
                 {
@@ -6917,11 +6932,11 @@ void Player::CheckAreaExploreAndOutdoor()
                     else if (exploration_percent < 0)
                         exploration_percent = 0;
 
-                    XP = uint32(sObjectMgr->GetBaseXP(areaEntry->area_level)*exploration_percent/100*sWorld->getRate(RATE_XP_EXPLORE));
+                    XP = uint32(sObjectMgr->GetBaseXP(areaEntry->area_level)*exploration_percent/100 * bonusXpRate);
                 }
                 else
                 {
-                    XP = uint32(sObjectMgr->GetBaseXP(areaEntry->area_level)*sWorld->getRate(RATE_XP_EXPLORE));
+                    XP = uint32(sObjectMgr->GetBaseXP(areaEntry->area_level) * bonusXpRate);
                 }
 
                 GiveXP(XP, NULL);
@@ -15543,7 +15558,7 @@ void Player::RewardQuest(Quest const* quest, uint32 reward, Object* questGiver, 
 	bool rewarded = IsQuestRewarded(quest_id) && !quest->IsDFQuest();
 
     // Not give XP in case already completed once repeatable quest
-    uint32 XP = rewarded ? 0 : uint32(quest->XPValue(this)*sWorld->getRate(RATE_XP_QUEST));
+    uint32 XP = rewarded ? 0 : uint32(quest->XPValue(this));
 
     // handle SPELL_AURA_MOD_XP_QUEST_PCT auras
     Unit::AuraEffectList const& ModXPPctAuras = GetAuraEffectsByType(SPELL_AURA_MOD_XP_QUEST_PCT);
@@ -21248,8 +21263,9 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
     // prevent stealth flight
     //RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_TALK);
 
-	// Xinef: dont use instant flight paths if spellid is present (custom calls use spellid = 1)
-	if (sWorld->getBoolConfig(CONFIG_INSTANT_TAXI) && !spellid)
+	// Xinef: dont use instant flight paths if swwwwwwwwpellid is present (custom calls use spellid = 1)
+    // Premium service
+	if ((sWorld->getBoolConfig(CONFIG_INSTANT_TAXI) || GetSession()->IsPremiumServiceActive(PREMIUM_INSTANT_FLIGHT_PATHS)) && !spellid)
     {
         TaxiNodesEntry const* lastPathNode = sTaxiNodesStore.LookupEntry(nodes[nodes.size()-1]);
         m_taxi.ClearTaxiDestinations();

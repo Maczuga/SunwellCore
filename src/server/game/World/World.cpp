@@ -1154,6 +1154,11 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_CHARDELETE_MIN_LEVEL] = sConfigMgr->GetIntDefault("CharDelete.MinLevel", 0);
     m_int_configs[CONFIG_CHARDELETE_KEEP_DAYS] = sConfigMgr->GetIntDefault("CharDelete.KeepDays", 30);
 
+    // Maczuga - Premium service
+    rate_values[RATE_VIP_XP_KILL] = sConfigMgr->GetFloatDefault("Rate.VIP.XP.Kill", 1.0f);
+    rate_values[RATE_VIP_XP_QUEST] = sConfigMgr->GetFloatDefault("Rate.VIP.XP.Quest", 1.0f);
+    rate_values[RATE_VIP_XP_EXPLORE] = sConfigMgr->GetFloatDefault("Rate.VIP.XP.Explore", 1.0f);
+
     ///- Read the "Data" directory from the config file
     std::string dataPath = sConfigMgr->GetStringDefault("DataDir", "./");
     if (dataPath.empty() || (dataPath.at(dataPath.length()-1) != '/' && dataPath.at(dataPath.length()-1) != '\\'))

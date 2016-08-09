@@ -193,7 +193,12 @@ uint32 Quest::XPValue(Player* player) const
         else
             xp = 50 * ((xp + 25) / 50);
 
-        return xp;
+        float bonusXpRate = sWorld->getRate(RATE_XP_QUEST);
+
+        if (player->GetSession()->IsPremiumServiceActive(PREMIUM_EXP_BOOST))
+            bonusXpRate *= sWorld->getRate(RATE_VIP_XP_QUEST);
+
+        return xp * bonusXpRate;
     }
 
     return 0;
