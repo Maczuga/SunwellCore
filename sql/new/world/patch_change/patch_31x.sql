@@ -38,5 +38,7 @@ UPDATE `quest_template` SET `RewardItemId4`=@EmblemLowCURR WHERE `RewardItemId4`
 # Remove disables for raids and instances for current content
 DELETE FROM `disables` WHERE `sourceType` = 2 AND `entry` IN (603);
 
+DELETE FROM `spell_area` WHERE `spell` = 61831; -- 3.1 phase
+
 # =============================================================================================
 

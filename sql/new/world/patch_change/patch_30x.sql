@@ -116,5 +116,21 @@ REPLACE INTO `pool_quest` VALUES
 
 UPDATE `creature_template` SET `ScriptName`='npc_archmage_timear' WHERE `entry`=31439;
 
+# AT phasing for objects
+
+DELETE FROM `spell_area` WHERE `spell` = 61831; -- 3.1 phase
+REPLACE INTO `spell_area` (`spell`, `area`, `autocast`) VALUES 
+(61831, 4670, 1),
+(61831, 4671, 1),
+(61831, 4673, 1),
+(61831, 4669, 1),
+(61831, 4672, 1),
+(61831, 4658, 1),
+(61831, 4666, 1),
+(61831, 4667, 1),
+(61831, 4674, 1),
+(61831, 4676, 1),
+(61831, 4677, 1);
+
 # =============================================================================================
 
