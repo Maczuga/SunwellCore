@@ -21263,7 +21263,7 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
     // prevent stealth flight
     //RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_TALK);
 
-	// Xinef: dont use instant flight paths if swwwwwwwwpellid is present (custom calls use spellid = 1)
+	// Xinef: dont use instant flight paths if spellid is present (custom calls use spellid = 1)
     // Premium service
 	if ((sWorld->getBoolConfig(CONFIG_INSTANT_TAXI) || GetSession()->IsPremiumServiceActive(PREMIUM_INSTANT_FLIGHT_PATHS)) && !spellid)
     {
