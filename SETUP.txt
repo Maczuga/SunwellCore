@@ -1,4 +1,4 @@
-#1 - Create a new user
+#1 - Create a new user 
 sudo adduser <username>
 
 #2 - Switch to this account
