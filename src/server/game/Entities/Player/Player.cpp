@@ -3290,6 +3290,8 @@ void Player::GiveLevel(uint8 level)
     if (sWorld->getBoolConfig(CONFIG_ALWAYS_MAXSKILL)) // Max weapon skill when leveling up
         UpdateSkillsToMaxSkillsForLevel();
 
+    _ApplyAllLevelScaleItemMods(true);
+
     // set current level health and mana/energy to maximum after applying all mods.
     SetFullHealth();
     SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
@@ -3298,8 +3300,6 @@ void Player::GiveLevel(uint8 level)
         SetPower(POWER_RAGE, GetMaxPower(POWER_RAGE));
     SetPower(POWER_FOCUS, 0);
     SetPower(POWER_HAPPINESS, 0);
-
-    _ApplyAllLevelScaleItemMods(true);
 
     // update level to hunter/summon pet
     if (Pet* pet = GetPet())
@@ -15460,12 +15460,8 @@ void Player::CompleteQuest(uint32 quest_id)
             SetQuestSlotState(log_slot, QUEST_STATE_COMPLETE);
 
         if (Quest const* qInfo = sObjectMgr->GetQuestTemplate(quest_id))
-        {
             if (qInfo->HasFlag(QUEST_FLAGS_TRACKING))
                 RewardQuest(qInfo, 0, this, false);
-            else
-                SendQuestComplete(quest_id);
-        }
 
 		// Xinef: area auras may change on quest completion!
 		UpdateZoneDependentAuras(GetZoneId());

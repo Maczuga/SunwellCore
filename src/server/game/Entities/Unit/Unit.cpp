@@ -12517,6 +12517,7 @@ void Unit::ClearInCombat()
 void Unit::ClearInPetCombat()
 {
 	RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PET_IN_COMBAT);
+    RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_LEAVE_COMBAT);
 	if (Unit* owner = GetOwner())
 		owner->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PET_IN_COMBAT);
 }
@@ -13288,7 +13289,7 @@ float Unit::ApplyTotalThreatModifier(float fThreat, SpellSchoolMask schoolMask)
 void Unit::AddThreat(Unit* victim, float fThreat, SpellSchoolMask schoolMask, SpellInfo const* threatSpell)
 { 
     // Only mobs can manage threat lists
-    if (CanHaveThreatList())
+    if (CanHaveThreatList() && !HasUnitState(UNIT_STATE_EVADE))
         m_ThreatManager.addThreat(victim, fThreat, schoolMask, threatSpell);
 }
 
@@ -18934,14 +18935,8 @@ bool Unit::SetDisableGravity(bool disable, bool /*packetOnly = false*/)
         RemoveUnitMovementFlag(MOVEMENTFLAG_FALLING);
     }
     else
-    {
         RemoveUnitMovementFlag(MOVEMENTFLAG_DISABLE_GRAVITY);
-        if (!HasUnitMovementFlag(MOVEMENTFLAG_CAN_FLY))
-        {
-            m_movementInfo.SetFallTime(0);
-            //AddUnitMovementFlag(MOVEMENTFLAG_FALLING); // pussywizard: ZOMG!
-        }
-    }
+
 
     return true;
 }
@@ -18970,14 +18965,8 @@ bool Unit::SetCanFly(bool enable, bool /*packetOnly = false */)
         RemoveUnitMovementFlag(MOVEMENTFLAG_FALLING);
     }
     else
-    {
         RemoveUnitMovementFlag(MOVEMENTFLAG_CAN_FLY | MOVEMENTFLAG_MASK_MOVING_FLY);
-        if (!IsLevitating())
-        {
-            m_movementInfo.SetFallTime(0);
-            //AddUnitMovementFlag(MOVEMENTFLAG_FALLING); // pussywizard: ZOMG!
-        }
-    }
+
 
     return true;
 }

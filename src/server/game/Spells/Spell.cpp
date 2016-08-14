@@ -2392,8 +2392,14 @@ void Spell::DoAllEffectOnTarget(TargetInfo* target)
         }
     }
 
+    bool enablePvP = false; // need to check PvP state before spell effects, but act on it afterwards
+
     if (spellHitTarget)
     {
+        // if target is flagged for pvp also flag caster if a player
+        if (effectUnit->IsPvP() && m_caster->GetTypeId() == TYPEID_PLAYER && !m_spellInfo->HasAura(SPELL_AURA_BIND_SIGHT))
+            enablePvP = true; // Decide on PvP flagging now, but act on it later.
+
         SpellMissInfo missInfo2 = DoSpellHitOnUnit(spellHitTarget, mask, target->scaleAura);
         if (missInfo2 != SPELL_MISS_NONE)
         {
@@ -2635,8 +2641,7 @@ void Spell::DoAllEffectOnTarget(TargetInfo* target)
         DoTriggersOnSpellHit(spellHitTarget, mask);
 
         // if target is fallged for pvp also flag caster if a player
-		// xinef: do not flag spells with aura bind sight (no special attribute)
-        if (effectUnit->IsPvP() && effectUnit != m_caster && m_caster->GetTypeId() == TYPEID_PLAYER && !m_spellInfo->HasAura(SPELL_AURA_BIND_SIGHT))
+        if (enablePvP)
             m_caster->ToPlayer()->UpdatePvP(true);
 
         CallScriptAfterHitHandlers();
@@ -5562,13 +5567,14 @@ SpellCastResult Spell::CheckCast(bool strict)
 							break;
 						return SPELL_FAILED_NOPATH;
 					}
-					else if (m_caster->GetMapId() == 572) // pussywizard: 572 Ruins of Lordaeron
-					{
-						if (pos.GetPositionX() < 1275.0f || m_caster->GetPositionX() < 1275.0f) // special case (acid)
-							break; // can't force path because the way is around and the path is too long
-					}
 
-					if (m_caster->GetTransport() != target->GetTransport())
+                    if (m_caster->GetMapId() == 572) // pussywizard: 572 Ruins of Lordaeron
+                    {
+                        if (pos.GetPositionX() < 1275.0f || m_caster->GetPositionX() < 1275.0f) // special case (acid)
+                            break; // can't force path because the way is around and the path is too long
+                    }
+
+                    if (m_caster->GetTransport() != target->GetTransport())
 						return SPELL_FAILED_NOPATH;
 					if (m_caster->GetTransport())
 						break;
@@ -6291,69 +6297,100 @@ SpellCastResult Spell::CheckRange(bool strict)
     if (!strict && m_casttime == 0)
         return SPELL_CAST_OK;
 
-    uint32 range_type = 0;
+    uint32 rangeType = m_spellInfo->RangeEntry->type;
+    Unit* target = m_targets.GetUnitTarget();
+    float minRange = 0.0f;
+    float maxRange = 0.0f;
+    float rangeMod = 0.0f;
 
-    if (m_spellInfo->RangeEntry)
+    // xinef: hack for npc shooters
+    if (minRange && GetCaster()->GetTypeId() == TYPEID_UNIT && !IS_PLAYER_GUID(GetCaster()->GetOwnerGUID()) && minRange <= 6.0f)
+        rangeType = SPELL_RANGE_RANGED;
+
+    if (strict && IsNextMeleeSwingSpell())
+        maxRange = 100.0f;
+    else if (m_spellInfo->RangeEntry)
     {
-        // check needed by 68766 51693 - both spells are cast on enemies and have 0 max range
-        // these are triggered by other spells - possibly we should omit range check in that case?
-        if (m_spellInfo->RangeEntry->ID == 1)
-            return SPELL_CAST_OK;
+        if (rangeType & SPELL_RANGE_MELEE)
+        {
+            rangeMod = m_caster->GetCombatReach() + 4.0f / 3.0f;
+            if (target)
+                rangeMod += target->GetCombatReach();
+            else
+                rangeMod += m_caster->GetCombatReach();
 
-        range_type = m_spellInfo->RangeEntry->type;
+            rangeMod = std::max(rangeMod, NOMINAL_MELEE_RANGE);
+        }
+        else
+        {
+            float meleeRange = 0.0f;
+            if (rangeType & SPELL_RANGE_RANGED)
+            {
+                meleeRange = m_caster->GetCombatReach() + 4.0f / 3.0f;
+                if (target)
+                    meleeRange += target->GetCombatReach();
+                else
+                    meleeRange += m_caster->GetCombatReach();
+
+                meleeRange = std::max(meleeRange, NOMINAL_MELEE_RANGE);
+            }
+
+            minRange = m_caster->GetSpellMinRangeForTarget(target, m_spellInfo) + meleeRange;
+            maxRange = m_caster->GetSpellMaxRangeForTarget(target, m_spellInfo);
+
+            if (target || m_targets.GetCorpseTarget())
+            {
+                rangeMod = m_caster->GetCombatReach();
+                if (target)
+                    rangeMod += target->GetCombatReach();
+
+                if (minRange > 0.0f && !(rangeType & SPELL_RANGE_RANGED))
+                    minRange += rangeMod;
+            }
+        }
+
+        if (target && m_caster->isMoving() && target->isMoving() && !m_caster->IsWalking() && !target->IsWalking() &&
+            (rangeType & SPELL_RANGE_MELEE || target->GetTypeId() == TYPEID_PLAYER))
+            rangeMod += 5.0f / 3.0f;
     }
 
-    Unit* target = m_targets.GetUnitTarget();
-    float max_range = m_caster->GetSpellMaxRangeForTarget(target, m_spellInfo);
-    float min_range = m_caster->GetSpellMinRangeForTarget(target, m_spellInfo);
-
-	// xinef: hack for npc shooters
-	if (min_range && GetCaster()->GetTypeId() == TYPEID_UNIT && !IS_PLAYER_GUID(GetCaster()->GetOwnerGUID()) && min_range <= 6.0f)
-		range_type = SPELL_RANGE_RANGED;
+    if (m_spellInfo->HasAttribute(SPELL_ATTR0_REQ_AMMO) && m_caster->GetTypeId() == TYPEID_PLAYER)
+        if (Item* ranged = m_caster->ToPlayer()->GetWeaponForAttack(RANGED_ATTACK, true))
+            maxRange *= ranged->GetTemplate()->RangedModRange * 0.01f;
 
     if (Player* modOwner = m_caster->GetSpellModOwner())
-        modOwner->ApplySpellMod(m_spellInfo->Id, SPELLMOD_RANGE, max_range, this);
+        modOwner->ApplySpellMod(m_spellInfo->Id, SPELLMOD_RANGE, maxRange, this);
 
-	// xinef: dont check max_range to strictly after cast
-	if (range_type != SPELL_RANGE_MELEE && !strict)
-		max_range += std::min(3.0f, max_range*0.1f); // 10% but no more than 3yd
+    maxRange += rangeMod;
+
+    minRange *= minRange;
+    maxRange *= maxRange;
 
     if (target)
     {
 		if (target != m_caster)
 		{
-			// Xinef: WHAT DA FUCK IS THIS SHIT? Spells with 5yd range can hit target 9yd away? >.>
-			if (range_type == SPELL_RANGE_MELEE)
-			{
-				// Because of lag, we can not check too strictly here.
-				float real_max_range = m_caster->GetTypeId() == TYPEID_UNIT ? max_range - 2*MIN_MELEE_REACH : max_range - MIN_MELEE_REACH;
-				if (!m_caster->IsWithinMeleeRange(target, std::max(real_max_range, 0.0f)))
-					return SPELL_FAILED_OUT_OF_RANGE;
-			}
-			else if (!m_caster->IsWithinCombatRange(target, max_range))
-				return SPELL_FAILED_OUT_OF_RANGE; //0x5A;
+            if (m_caster->GetExactDistSq(target) > maxRange)
+                return !(_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_OUT_OF_RANGE : SPELL_FAILED_DONT_REPORT;
 
-			if (m_spellInfo->DmgClass == SPELL_DAMAGE_CLASS_RANGED && range_type == SPELL_RANGE_RANGED)
-			{
-				if (m_caster->IsWithinMeleeRange(target))
-					return SPELL_FAILED_TOO_CLOSE;
-			}
+            if (minRange > 0.0f && m_caster->GetExactDistSq(target) < minRange)
+                return !(_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_OUT_OF_RANGE : SPELL_FAILED_DONT_REPORT;
 
 			if (m_caster->GetTypeId() == TYPEID_PLAYER && (m_spellInfo->FacingCasterFlags & SPELL_FACING_FLAG_INFRONT) && !m_caster->HasInArc(static_cast<float>(M_PI), target))
 				return SPELL_FAILED_UNIT_NOT_INFRONT;
 		}
 
 		// Xinef: check min range for self casts
-		if (min_range && range_type != SPELL_RANGE_RANGED && m_caster->IsWithinCombatRange(target, min_range)) // skip this check if min_range = 0
+		if (minRange && rangeType != SPELL_RANGE_RANGED && m_caster->IsWithinCombatRange(target, minRange)) // skip this check if minRange = 0
 			return SPELL_FAILED_TOO_CLOSE;
     }
 
     if (m_targets.HasDst() && !m_targets.HasTraj())
     {
-        if (!m_caster->IsWithinDist3d(m_targets.GetDstPos(), max_range))
-            return SPELL_FAILED_OUT_OF_RANGE;
-        if (min_range && m_caster->IsWithinDist3d(m_targets.GetDstPos(), min_range))
-            return SPELL_FAILED_TOO_CLOSE;
+        if (m_caster->GetExactDistSq(m_targets.GetDstPos()) > maxRange)
+            return !(_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_OUT_OF_RANGE : SPELL_FAILED_DONT_REPORT;
+        if (minRange > 0.0f && m_caster->GetExactDistSq(m_targets.GetDstPos()) < minRange)
+            return !(_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_OUT_OF_RANGE : SPELL_FAILED_DONT_REPORT;
     }
 
     return SPELL_CAST_OK;
