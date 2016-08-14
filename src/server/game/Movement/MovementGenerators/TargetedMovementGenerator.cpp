@@ -86,8 +86,8 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
         //   doing a "dance" while fighting
         if (owner->IsPet() && i_target->GetTypeId() == TYPEID_PLAYER)
         {
-            dist = i_target->GetCombatReach();
-            size = i_target->GetCombatReach() - i_target->GetObjectSize();
+            dist = 1.0f; //i_target->GetCombatReach();
+            size = 1.0f; //i_target->GetCombatReach() - i_target->GetObjectSize();
         }
         else
         {
@@ -254,17 +254,23 @@ bool TargetedMovementGeneratorMedium<T,D>::DoUpdate(T* owner, uint32 time_diff)
     if (i_recheckDistance.Passed())
     {
         i_recheckDistance.Reset(50);
+
         //More distance let have better performance, less distance let have more sensitive reaction at target move.
-        float allowed_dist_sq = i_target->GetObjectSize() + owner->GetObjectSize() + MELEE_RANGE - 0.5f;
+        float allowed_dist = 0.0f;
+
+        if (owner->IsPet() && (owner->GetCharmerOrOwnerGUID() == i_target->GetGUID()))
+            allowed_dist = 1.0f; // pet following owner
+        else
+            allowed_dist = owner->GetCombatReach() + sWorld->getRate(RATE_TARGET_POS_RECALCULATION_RANGE);
 
 		// xinef: if offset is negative (follow distance is smaller than just object sizes), reduce minimum allowed distance which is based purely on object sizes
 		if (i_offset < 0.0f)
 		{
-			allowed_dist_sq += i_offset;
-			allowed_dist_sq = std::max<float>(0.0f, allowed_dist_sq);
+			allowed_dist += i_offset;
+			allowed_dist = std::max<float>(0.0f, allowed_dist);
 		}
 
-		allowed_dist_sq *= allowed_dist_sq;
+		allowed_dist *= allowed_dist;
 
         G3D::Vector3 dest = owner->movespline->FinalDestination();
         if (owner->movespline->onTransport)
@@ -273,7 +279,7 @@ bool TargetedMovementGeneratorMedium<T,D>::DoUpdate(T* owner, uint32 time_diff)
 
         float dist = (dest - G3D::Vector3(i_target->GetPositionX(),i_target->GetPositionY(),i_target->GetPositionZ())).squaredLength();
         float targetMoveDistSq = i_target->GetExactDistSq(&lastTargetXYZ);
-        if (dist >= allowed_dist_sq || (!i_offset && targetMoveDistSq >= 1.5f*1.5f))
+        if (dist >= allowed_dist || (!i_offset && targetMoveDistSq >= 1.5f*1.5f))
             if (targetMoveDistSq >= 0.1f*0.1f || owner->GetExactDistSq(&lastOwnerXYZ) >= 0.1f*0.1f)
                 _setTargetLocation(owner, false);
     }

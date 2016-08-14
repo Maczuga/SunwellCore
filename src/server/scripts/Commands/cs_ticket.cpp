@@ -129,7 +129,12 @@ public:
         ticket->SaveToDB(trans);
         sTicketMgr->UpdateLastChange();
 
-        std::string msg = ticket->FormatMessageString(*handler, NULL, target.c_str(), NULL, NULL);
+        std::string msg = [&] {
+            std::string const assignedName = ticket->GetAssignedToName();
+            return ticket->FormatMessageString(*handler, nullptr,
+                assignedName.empty() ? nullptr : assignedName.c_str(), nullptr, nullptr);
+        }();
+
         handler->SendGlobalGMSysMessage(msg.c_str());
         return true;
     }

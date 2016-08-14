@@ -3282,220 +3282,220 @@ void SpellMgr::LoadDbcDataCorrections()
             case 36350: //They Must Burn Bomb Aura (self)
                 spellInfo->EffectTriggerSpell[0] = 36325; // They Must Burn Bomb Drop (DND)
                 break;
-        case 8494: // Mana Shield (rank 2)
-            // because of bug in dbc
-            spellInfo->procChance = 0;
-            break;
-        case 63320: // Glyph of Life Tap
-        // Entries were not updated after spell effect change, we have to do that manually :/
-            spellInfo->AttributesEx3 |= SPELL_ATTR3_CAN_PROC_WITH_TRIGGERED;
-            break;
-        case 31347: // Doom
-        case 41635: // Prayer of Mending
-        case 39365: // Thundering Storm
-        case 52124: // Sky Darkener Assault
-        case 42442: // Vengeance Landing Cannonfire
-        case 45863: // Cosmetic - Incinerate to Random Target
-        case 25425: // Shoot
-        case 45761: // Shoot
-        case 42611: // Shoot
-        case 61588: // Blazing Harpoon
-        case 36327: // Shoot Arcane Explosion Arrow
-            spellInfo->MaxAffectedTargets = 1;
-            break;
-		case 36384: // Skartax Purple Beam
-            spellInfo->MaxAffectedTargets = 2;
-            break;
-        case 37790: // Spread Shot
-        case 54172: // Divine Storm (heal)
-        case 66588: // Flaming Spear
-        case 54171: // Divine Storm
-            spellInfo->MaxAffectedTargets = 3;
-            break;
-        case 53385: // Divine Storm (Damage)
-            spellInfo->MaxAffectedTargets = 4;
-            break;
-        case 38296: // Spitfire Totem
-            spellInfo->MaxAffectedTargets = 5;
-            break;
-        case 40827: // Sinful Beam
-        case 40859: // Sinister Beam
-        case 40860: // Vile Beam
-        case 40861: // Wicked Beam
-            spellInfo->MaxAffectedTargets = 10;
-            break;
-        case 50312: // Unholy Frenzy
-            spellInfo->MaxAffectedTargets = 15;
-            break;
-        case 17941: // Shadow Trance
-        case 22008: // Netherwind Focus
-        case 31834: // Light's Grace
-        case 34754: // Clearcasting
-        case 34936: // Backlash
-        case 48108: // Hot Streak
-        case 51124: // Killing Machine
-        case 54741: // Firestarter
-        case 57761: // Fireball!
-        case 39805: // Lightning Overload
-        case 64823: // Item - Druid T8 Balance 4P Bonus
-        case 34477: // Misdirection
-        case 44401: // Missile Barrage
-        case 18820: // Insight
-            spellInfo->procCharges = 1;
-            break;
-		case 53390: // Tidal Wave
-			spellInfo->procCharges = 2;
-			break;
-        case 37408: // Oscillation Field
-            spellInfo->AttributesEx3 |= SPELL_ATTR3_STACK_FOR_DIFF_CASTERS;
-            break;
-        case 28200: // Ascendance (Talisman of Ascendance trinket)
-            spellInfo->procCharges = 6;
-            break;
-        case 51852: // The Eye of Acherus (no spawn in phase 2 in db)
-            spellInfo->EffectMiscValue[0] |= 1;
-            break;
-		case 51912: // Crafty's Ultra-Advanced Proto-Typical Shortening Blaster
-            spellInfo->EffectAmplitude[0] = 3000;
-            break;
-        case 29809: // Desecration Arm - 36 instead of 37 - typo? :/
-            spellInfo->EffectRadiusIndex[0] = 37;
-            break;
-        // Master Shapeshifter: missing stance data for forms other than bear - bear version has correct data
-        // To prevent aura staying on target after talent unlearned
-        case 48420:
-            spellInfo->Stances = 1 << (FORM_CAT - 1);
-            break;
-        case 48421:
-            spellInfo->Stances = 1 << (FORM_MOONKIN - 1);
-            break;
-        case 48422:
-            spellInfo->Stances = 1 << (FORM_TREE - 1);
-            break;
-		case 51466: // Elemental Oath (Rank 1)
-        case 51470: // Elemental Oath (Rank 2)
-            spellInfo->Effect[EFFECT_1] = SPELL_EFFECT_APPLY_AURA;
-            spellInfo->EffectApplyAuraName[EFFECT_1] = SPELL_AURA_ADD_FLAT_MODIFIER;
-            spellInfo->EffectMiscValue[EFFECT_1] = SPELLMOD_EFFECT2;
-            spellInfo->EffectSpellClassMask[EFFECT_1] = flag96(0x00000000, 0x00004000, 0x00000000);
-            break;
-        case 47569: // Improved Shadowform (Rank 1)
-            // with this spell atrribute aura can be stacked several times
-            spellInfo->Attributes &= ~SPELL_ATTR0_NOT_SHAPESHIFT;
-            break;
-        case 30421: // Nether Portal - Perseverence
-            spellInfo->EffectBasePoints[2] += 30000;
-            break;
-        case 16834: // Natural shapeshifter
-        case 16835:
-            spellInfo->DurationIndex = 21;
-            break;
-        case 51735: // Ebon Plague
-        case 51734:
-        case 51726:
-            spellInfo->SpellFamilyFlags[2] = 0x10;
-            spellInfo->EffectApplyAuraName[1] = SPELL_AURA_MOD_DAMAGE_PERCENT_TAKEN;
-			spellInfo->AttributesEx3 |= SPELL_ATTR3_STACK_FOR_DIFF_CASTERS;
-            break;
-        case 41013: // Parasitic Shadowfiend Passive
-            spellInfo->EffectApplyAuraName[0] = SPELL_AURA_DUMMY; // proc debuff, and summon infinite fiends
-            break;
-        case 27892: // To Anchor 1
-        case 27928: // To Anchor 1
-        case 27935: // To Anchor 1
-        case 27915: // Anchor to Skulls
-        case 27931: // Anchor to Skulls
-        case 27937: // Anchor to Skulls
-            spellInfo->rangeIndex = 13;
-            break;
-        // target allys instead of enemies, target A is src_caster, spells with effect like that have ally target
-        // this is the only known exception, probably just wrong data
-        case 29214: // Wrath of the Plaguebringer
-        case 54836: // Wrath of the Plaguebringer
-            spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_SRC_AREA_ALLY;
-            spellInfo->EffectImplicitTargetB[1] = TARGET_UNIT_SRC_AREA_ALLY;
-            break;
-        case 57994: // Wind Shear - improper data for EFFECT_1 in 3.3.5 DBC, but is correct in 4.x
-            spellInfo->Effect[EFFECT_1] = SPELL_EFFECT_MODIFY_THREAT_PERCENT;
-            spellInfo->EffectBasePoints[EFFECT_1] = -6; // -5%
-            break;
-        case 63675: // Improved Devouring Plague
-			spellInfo->EffectBonusMultiplier[0] = 0;
-            spellInfo->AttributesEx3 |= SPELL_ATTR3_NO_DONE_BONUS;
-            break;
-        case 8145: // Tremor Totem (instant pulse)
-        case 6474: // Earthbind Totem (instant pulse)
-            spellInfo->AttributesEx5 |= SPELL_ATTR5_START_PERIODIC_AT_APPLY;
-            break;
-        case 53241: // Marked for Death (Rank 1)
-        case 53243: // Marked for Death (Rank 2)
-        case 53244: // Marked for Death (Rank 3)
-        case 53245: // Marked for Death (Rank 4)
-        case 53246: // Marked for Death (Rank 5)
-            spellInfo->EffectSpellClassMask[0] = flag96(423937, 276955137, 2049);
-            break;
-        case 70728: // Exploit Weakness
-        case 70840: // Devious Minds
-            spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_CASTER;
-            spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_PET;
-            break;
-        case 70893: // Culling The Herd
-            spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_CASTER;
-            spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_MASTER;
-            break;
-        case 54800: // Sigil of the Frozen Conscience - change class mask to custom extended flags of Icy Touch
-                        // this is done because another spell also uses the same SpellFamilyFlags as Icy Touch
-                        // SpellFamilyFlags[0] & 0x00000040 in SPELLFAMILY_DEATHKNIGHT is currently unused (3.3.5a)
-                        // this needs research on modifier applying rules, does not seem to be in Attributes fields
-            spellInfo->EffectSpellClassMask[0] = flag96(0x00000040, 0x00000000, 0x00000000);
-            break;
-        case 64949: // Idol of the Flourishing Life
-            spellInfo->EffectSpellClassMask[EFFECT_0] = flag96(0x00000000, 0x02000000, 0x00000000);
-            spellInfo->EffectApplyAuraName[EFFECT_0] = SPELL_AURA_ADD_FLAT_MODIFIER;
-            break;
-        case 34231: // Libram of the Lightbringer
-        case 60792: // Libram of Tolerance
-        case 64956: // Libram of the Resolute
-            spellInfo->EffectSpellClassMask[EFFECT_0] = flag96(0x80000000, 0x00000000, 0x00000000);
-            spellInfo->EffectApplyAuraName[EFFECT_0] = SPELL_AURA_ADD_FLAT_MODIFIER;
-            break;
-        case 28851: // Libram of Light
-        case 28853: // Libram of Divinity
-        case 32403: // Blessed Book of Nagrand
-            spellInfo->EffectSpellClassMask[EFFECT_0] = flag96(0x40000000, 0x00000000, 0x00000000);
-            spellInfo->EffectApplyAuraName[EFFECT_0] = SPELL_AURA_ADD_FLAT_MODIFIER;
-            break;
-        case 45602: // Ride Carpet
-            spellInfo->EffectBasePoints[EFFECT_0] = 0; // force seat 0, vehicle doesn't have the required seat flags for "no seat specified (-1)"
-            break;
-		case 64745: // Item - Death Knight T8 Tank 4P Bonus
-        case 64936: // Item - Warrior T8 Protection 4P Bonus
-			spellInfo->EffectBasePoints[EFFECT_0] = 100; // 100% chance of procc'ing, not -10% (chance calculated in PrepareTriggersExecutedOnHit)
-            break;
-        case 61719: // Easter Lay Noblegarden Egg Aura - Interrupt flags copied from aura which this aura is linked with
-            spellInfo->AuraInterruptFlags = AURA_INTERRUPT_FLAG_HITBYSPELL | AURA_INTERRUPT_FLAG_TAKE_DAMAGE;
-            break;
-		case 51640: // spell for item The Flag of Ownership (38578)
-			spellInfo->AttributesEx3 |= SPELL_ATTR3_ONLY_TARGET_PLAYERS;
-			spellInfo->AttributesEx2 |= SPELL_ATTR2_CAN_TARGET_DEAD;
-			spellInfo->MaxAffectedTargets = 1;
-			break;
-        case 34471: // The Beast Within
-            spellInfo->AttributesEx5 |= SPELL_ATTR5_USABLE_WHILE_CONFUSED | SPELL_ATTR5_USABLE_WHILE_FEARED | SPELL_ATTR5_USABLE_WHILE_STUNNED;
-            break;
-        case 40055: // Introspection
-        case 40165: // Introspection
-        case 40166: // Introspection
-        case 40167: // Introspection
-            spellInfo->Attributes |= SPELL_ATTR0_NEGATIVE_1;
-            break;
-        case 2378: // Minor Fortitude
-            spellInfo->manaCost = 0;
-            spellInfo->manaPerSecond = 0;
-            break;
-        case 24314: // Threatening Gaze
-            spellInfo->AuraInterruptFlags |= AURA_INTERRUPT_FLAG_CAST | AURA_INTERRUPT_FLAG_MOVE | AURA_INTERRUPT_FLAG_JUMP;
-			break;
+            case 8494: // Mana Shield (rank 2)
+                // because of bug in dbc
+                spellInfo->procChance = 0;
+                break;
+            case 63320: // Glyph of Life Tap
+            // Entries were not updated after spell effect change, we have to do that manually :/
+                spellInfo->AttributesEx3 |= SPELL_ATTR3_CAN_PROC_WITH_TRIGGERED;
+                break;
+            case 31347: // Doom
+            case 41635: // Prayer of Mending
+            case 39365: // Thundering Storm
+            case 52124: // Sky Darkener Assault
+            case 42442: // Vengeance Landing Cannonfire
+            case 45863: // Cosmetic - Incinerate to Random Target
+            case 25425: // Shoot
+            case 45761: // Shoot
+            case 42611: // Shoot
+            case 61588: // Blazing Harpoon
+            case 36327: // Shoot Arcane Explosion Arrow
+                spellInfo->MaxAffectedTargets = 1;
+                break;
+		    case 36384: // Skartax Purple Beam
+                spellInfo->MaxAffectedTargets = 2;
+                break;
+            case 37790: // Spread Shot
+            case 54172: // Divine Storm (heal)
+            case 66588: // Flaming Spear
+            case 54171: // Divine Storm
+                spellInfo->MaxAffectedTargets = 3;
+                break;
+            case 53385: // Divine Storm (Damage)
+                spellInfo->MaxAffectedTargets = 4;
+                break;
+            case 38296: // Spitfire Totem
+                spellInfo->MaxAffectedTargets = 5;
+                break;
+            case 40827: // Sinful Beam
+            case 40859: // Sinister Beam
+            case 40860: // Vile Beam
+            case 40861: // Wicked Beam
+                spellInfo->MaxAffectedTargets = 10;
+                break;
+            case 50312: // Unholy Frenzy
+                spellInfo->MaxAffectedTargets = 15;
+                break;
+            case 17941: // Shadow Trance
+            case 22008: // Netherwind Focus
+            case 31834: // Light's Grace
+            case 34754: // Clearcasting
+            case 34936: // Backlash
+            case 48108: // Hot Streak
+            case 51124: // Killing Machine
+            case 54741: // Firestarter
+            case 57761: // Fireball!
+            case 39805: // Lightning Overload
+            case 64823: // Item - Druid T8 Balance 4P Bonus
+            case 34477: // Misdirection
+            case 44401: // Missile Barrage
+            case 18820: // Insight
+                spellInfo->procCharges = 1;
+                break;
+		    case 53390: // Tidal Wave
+			    spellInfo->procCharges = 2;
+			    break;
+            case 37408: // Oscillation Field
+                spellInfo->AttributesEx3 |= SPELL_ATTR3_STACK_FOR_DIFF_CASTERS;
+                break;
+            case 28200: // Ascendance (Talisman of Ascendance trinket)
+                spellInfo->procCharges = 6;
+                break;
+            case 51852: // The Eye of Acherus (no spawn in phase 2 in db)
+                spellInfo->EffectMiscValue[0] |= 1;
+                break;
+		    case 51912: // Crafty's Ultra-Advanced Proto-Typical Shortening Blaster
+                spellInfo->EffectAmplitude[0] = 3000;
+                break;
+            case 29809: // Desecration Arm - 36 instead of 37 - typo? :/
+                spellInfo->EffectRadiusIndex[0] = 37;
+                break;
+            // Master Shapeshifter: missing stance data for forms other than bear - bear version has correct data
+            // To prevent aura staying on target after talent unlearned
+            case 48420:
+                spellInfo->Stances = 1 << (FORM_CAT - 1);
+                break;
+            case 48421:
+                spellInfo->Stances = 1 << (FORM_MOONKIN - 1);
+                break;
+            case 48422:
+                spellInfo->Stances = 1 << (FORM_TREE - 1);
+                break;
+		    case 51466: // Elemental Oath (Rank 1)
+            case 51470: // Elemental Oath (Rank 2)
+                spellInfo->Effect[EFFECT_1] = SPELL_EFFECT_APPLY_AURA;
+                spellInfo->EffectApplyAuraName[EFFECT_1] = SPELL_AURA_ADD_FLAT_MODIFIER;
+                spellInfo->EffectMiscValue[EFFECT_1] = SPELLMOD_EFFECT2;
+                spellInfo->EffectSpellClassMask[EFFECT_1] = flag96(0x00000000, 0x00004000, 0x00000000);
+                break;
+            case 47569: // Improved Shadowform (Rank 1)
+                // with this spell atrribute aura can be stacked several times
+                spellInfo->Attributes &= ~SPELL_ATTR0_NOT_SHAPESHIFT;
+                break;
+            case 30421: // Nether Portal - Perseverence
+                spellInfo->EffectBasePoints[2] += 30000;
+                break;
+            case 16834: // Natural shapeshifter
+            case 16835:
+                spellInfo->DurationIndex = 21;
+                break;
+            case 51735: // Ebon Plague
+            case 51734:
+            case 51726:
+                spellInfo->SpellFamilyFlags[2] = 0x10;
+                spellInfo->EffectApplyAuraName[1] = SPELL_AURA_MOD_DAMAGE_PERCENT_TAKEN;
+			    spellInfo->AttributesEx3 |= SPELL_ATTR3_STACK_FOR_DIFF_CASTERS;
+                break;
+            case 41013: // Parasitic Shadowfiend Passive
+                spellInfo->EffectApplyAuraName[0] = SPELL_AURA_DUMMY; // proc debuff, and summon infinite fiends
+                break;
+            case 27892: // To Anchor 1
+            case 27928: // To Anchor 1
+            case 27935: // To Anchor 1
+            case 27915: // Anchor to Skulls
+            case 27931: // Anchor to Skulls
+            case 27937: // Anchor to Skulls
+                spellInfo->rangeIndex = 13;
+                break;
+            // target allys instead of enemies, target A is src_caster, spells with effect like that have ally target
+            // this is the only known exception, probably just wrong data
+            case 29214: // Wrath of the Plaguebringer
+            case 54836: // Wrath of the Plaguebringer
+                spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_SRC_AREA_ALLY;
+                spellInfo->EffectImplicitTargetB[1] = TARGET_UNIT_SRC_AREA_ALLY;
+                break;
+            case 57994: // Wind Shear - improper data for EFFECT_1 in 3.3.5 DBC, but is correct in 4.x
+                spellInfo->Effect[EFFECT_1] = SPELL_EFFECT_MODIFY_THREAT_PERCENT;
+                spellInfo->EffectBasePoints[EFFECT_1] = -6; // -5%
+                break;
+            case 63675: // Improved Devouring Plague
+			    spellInfo->EffectBonusMultiplier[0] = 0;
+                spellInfo->AttributesEx3 |= SPELL_ATTR3_NO_DONE_BONUS;
+                break;
+            case 8145: // Tremor Totem (instant pulse)
+            case 6474: // Earthbind Totem (instant pulse)
+                spellInfo->AttributesEx5 |= SPELL_ATTR5_START_PERIODIC_AT_APPLY;
+                break;
+            case 53241: // Marked for Death (Rank 1)
+            case 53243: // Marked for Death (Rank 2)
+            case 53244: // Marked for Death (Rank 3)
+            case 53245: // Marked for Death (Rank 4)
+            case 53246: // Marked for Death (Rank 5)
+                spellInfo->EffectSpellClassMask[0] = flag96(423937, 276955137, 2049);
+                break;
+            case 70728: // Exploit Weakness
+            case 70840: // Devious Minds
+                spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_CASTER;
+                spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_PET;
+                break;
+            case 70893: // Culling The Herd
+                spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_CASTER;
+                spellInfo->EffectImplicitTargetB[0] = TARGET_UNIT_MASTER;
+                break;
+            case 54800: // Sigil of the Frozen Conscience - change class mask to custom extended flags of Icy Touch
+                            // this is done because another spell also uses the same SpellFamilyFlags as Icy Touch
+                            // SpellFamilyFlags[0] & 0x00000040 in SPELLFAMILY_DEATHKNIGHT is currently unused (3.3.5a)
+                            // this needs research on modifier applying rules, does not seem to be in Attributes fields
+                spellInfo->EffectSpellClassMask[0] = flag96(0x00000040, 0x00000000, 0x00000000);
+                break;
+            case 64949: // Idol of the Flourishing Life
+                spellInfo->EffectSpellClassMask[EFFECT_0] = flag96(0x00000000, 0x02000000, 0x00000000);
+                spellInfo->EffectApplyAuraName[EFFECT_0] = SPELL_AURA_ADD_FLAT_MODIFIER;
+                break;
+            case 34231: // Libram of the Lightbringer
+            case 60792: // Libram of Tolerance
+            case 64956: // Libram of the Resolute
+                spellInfo->EffectSpellClassMask[EFFECT_0] = flag96(0x80000000, 0x00000000, 0x00000000);
+                spellInfo->EffectApplyAuraName[EFFECT_0] = SPELL_AURA_ADD_FLAT_MODIFIER;
+                break;
+            case 28851: // Libram of Light
+            case 28853: // Libram of Divinity
+            case 32403: // Blessed Book of Nagrand
+                spellInfo->EffectSpellClassMask[EFFECT_0] = flag96(0x40000000, 0x00000000, 0x00000000);
+                spellInfo->EffectApplyAuraName[EFFECT_0] = SPELL_AURA_ADD_FLAT_MODIFIER;
+                break;
+            case 45602: // Ride Carpet
+                spellInfo->EffectBasePoints[EFFECT_0] = 0; // force seat 0, vehicle doesn't have the required seat flags for "no seat specified (-1)"
+                break;
+		    case 64745: // Item - Death Knight T8 Tank 4P Bonus
+            case 64936: // Item - Warrior T8 Protection 4P Bonus
+			    spellInfo->EffectBasePoints[EFFECT_0] = 100; // 100% chance of procc'ing, not -10% (chance calculated in PrepareTriggersExecutedOnHit)
+                break;
+            case 61719: // Easter Lay Noblegarden Egg Aura - Interrupt flags copied from aura which this aura is linked with
+                spellInfo->AuraInterruptFlags = AURA_INTERRUPT_FLAG_HITBYSPELL | AURA_INTERRUPT_FLAG_TAKE_DAMAGE;
+                break;
+		    case 51640: // spell for item The Flag of Ownership (38578)
+			    spellInfo->AttributesEx3 |= SPELL_ATTR3_ONLY_TARGET_PLAYERS;
+			    spellInfo->AttributesEx2 |= SPELL_ATTR2_CAN_TARGET_DEAD;
+			    spellInfo->MaxAffectedTargets = 1;
+			    break;
+            case 34471: // The Beast Within
+                spellInfo->AttributesEx5 |= SPELL_ATTR5_USABLE_WHILE_CONFUSED | SPELL_ATTR5_USABLE_WHILE_FEARED | SPELL_ATTR5_USABLE_WHILE_STUNNED;
+                break;
+            case 40055: // Introspection
+            case 40165: // Introspection
+            case 40166: // Introspection
+            case 40167: // Introspection
+                spellInfo->Attributes |= SPELL_ATTR0_NEGATIVE_1;
+                break;
+            case 2378: // Minor Fortitude
+                spellInfo->manaCost = 0;
+                spellInfo->manaPerSecond = 0;
+                break;
+            case 24314: // Threatening Gaze
+                spellInfo->AuraInterruptFlags |= AURA_INTERRUPT_FLAG_CAST | AURA_INTERRUPT_FLAG_MOVE | AURA_INTERRUPT_FLAG_JUMP;
+			    break;
 
 
 		/////////////////////////////////////////////
@@ -4306,6 +4306,18 @@ void SpellMgr::LoadDbcDataCorrections()
 		case 50990: // Flame Breath (Catapult)
 			spellInfo->EffectRadiusIndex[EFFECT_0] = 19; // 18yd
 			break;
+
+		/////////////////////////////////
+		///// SPELL_ATTR7_INTERRUPT_ONLY_NONPLAYER
+		/////////////////////////////////
+
+            case 47476: // Deathknight - Strangulate
+            case 15487: // Priest - Silence
+            case 5211:  // Druid - Bash  - R1
+            case 6798:  // Druid - Bash  - R2
+            case 8983:  // Druid - Bash  - R3
+                spellInfo->AttributesEx7 |= SPELL_ATTR7_INTERRUPT_ONLY_NONPLAYER;
+                break;
 
 		/////////////////////////////////
 		///// Generic NPC Spells

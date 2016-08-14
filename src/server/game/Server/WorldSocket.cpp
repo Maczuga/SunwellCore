@@ -678,6 +678,17 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
         switch (opcode)
         {
             case CMSG_PING:
+            {
+                try
+                {
+                    return HandlePing(*new_pct);
+                }
+                catch (ByteBufferPositionException const&)
+                {
+                }
+                sLog->outError("WorldSocket::ReadDataHandler(): client sent malformed CMSG_PING");
+                return -1;
+            }
                 return HandlePing (*new_pct);
             case CMSG_AUTH_SESSION:
                 if (m_Session)
