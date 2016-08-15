@@ -152,6 +152,10 @@ bool MapManager::CanPlayerEnter(uint32 mapid, Player* player, bool loginCheck)
     if (player->IsGameMaster())
         return true;
 
+    // Maczuga: Crash fix
+    if (player->GetSession() != nullptr)
+        return true;
+
     char const* mapName = entry->name[player->GetSession()->GetSessionDbcLocale()];
 
     Group* group = player->GetGroup();

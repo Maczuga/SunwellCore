@@ -512,8 +512,8 @@ void Vehicle::RelocatePassengers()
             CalculatePassengerPosition(px, py, pz, &po);
             Position pos;
             pos.m_positionX = px;
-            pos.m_positionY = px;
-            pos.m_positionZ = px;
+            pos.m_positionY = py;
+            pos.m_positionZ = pz;
             pos.m_orientation = po;
             seatRelocation.emplace_back(passenger, pos);
         }
