@@ -7,6 +7,7 @@ REWRITTEN FROM SCRATCH BY XINEF, IT OWNS NOW!
 #include "nexus.h"
 #include "Player.h"
 #include "SpellInfo.h"
+#include "World.h"
 
 enum Spells
 {

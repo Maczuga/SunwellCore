@@ -9,6 +9,7 @@ REWRITTEN FROM SCRATCH BY XINEF, IT OWNS NOW!
 #include "CombatAI.h"
 #include "Player.h"
 #include "SpellInfo.h"
+#include "World.h"
 
 enum Misc
 {

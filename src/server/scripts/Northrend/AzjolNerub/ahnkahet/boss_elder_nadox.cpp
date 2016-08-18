@@ -7,6 +7,7 @@ REWRITTEN FROM SCRATCH BY XINEF, IT OWNS NOW!
 #include "ahnkahet.h"
 #include "SpellAuras.h"
 #include "SpellScript.h"
+#include "World.h"
 
 enum misc
 {

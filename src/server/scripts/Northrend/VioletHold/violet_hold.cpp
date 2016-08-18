@@ -10,6 +10,7 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "PassiveAI.h"
 #include "SpellScript.h"
 #include "Player.h"
+#include "World.h"
 
 /***********
 ** DEFENSE SYSTEM CRYSTAL
