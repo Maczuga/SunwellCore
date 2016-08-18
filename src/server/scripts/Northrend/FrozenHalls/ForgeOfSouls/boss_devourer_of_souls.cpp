@@ -77,13 +77,14 @@ public:
 		boss_devourer_of_soulsAI(Creature* creature) : ScriptedAI(creature), summons(me)
 		{
 			pInstance = creature->GetInstanceScript();
+            preNerf = sWorld->IsInCurrentContent(PATCH_MIN, PATCH_332);
 		}
 
 		InstanceScript* pInstance;
 		EventMap events;
 		SummonList summons;
 		bool bAchiev;
-        bool preNerf = sWorld->IsInCurrentContent(PATCH_MIN, PATCH_332);
+        bool preNerf;
         
 		void Reset()
 		{

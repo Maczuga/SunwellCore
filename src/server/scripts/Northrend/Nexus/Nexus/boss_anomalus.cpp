@@ -67,11 +67,12 @@ class boss_anomalus : public CreatureScript
 		{
 			boss_anomalusAI(Creature* creature) : BossAI(creature, DATA_ANOMALUS_EVENT)
 			{
+                preNerf = sWorld->IsInCurrentContent(PATCH_MIN, PATCH_332);
 			}
 
 			bool achievement;
             uint8 riftCount;
-            bool preNerf = sWorld->IsInCurrentContent(PATCH_MIN, PATCH_332);
+            bool preNerf;
 
 			void Reset()
 			{
