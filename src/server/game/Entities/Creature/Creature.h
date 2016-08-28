@@ -103,13 +103,11 @@ struct CreatureTemplate
     float   speed_run;
     float   scale;
     uint32  rank;
-    float   mindmg;
-    float   maxdmg;
     uint32  dmgschool;
-    uint32  attackpower;
-    float   dmg_multiplier;
-    uint32  baseattacktime;
-    uint32  rangeattacktime;
+    uint32  BaseAttackTime;
+    uint32  RangeAttackTime;
+    float   BaseVariance;
+    float   RangeVariance;
     uint32  unit_class;                                     // enum Classes. Note only 4 classes are known for creatures.
     uint32  unit_flags;                                     // enum UnitFlags mask values
     uint32  unit_flags2;                                    // enum UnitFlags2 mask values
@@ -119,16 +117,13 @@ struct CreatureTemplate
     uint32  trainer_spell;
     uint32  trainer_class;
     uint32  trainer_race;
-    float   minrangedmg;
-    float   maxrangedmg;
-    uint32  rangedattackpower;
     uint32  type;                                           // enum CreatureType values
     uint32  type_flags;                                     // enum CreatureTypeFlags mask values
     uint32  lootid;
     uint32  pickpocketLootId;
     uint32  SkinLootId;
     int32   resistance[MAX_SPELL_SCHOOL];
-    uint32  spells[CREATURE_MAX_SPELLS];
+    uint32  spells[MAX_CREATURE_SPELLS];
     uint32  PetSpellDataId;
     uint32  VehicleId;
     uint32  mingold;
@@ -140,6 +135,8 @@ struct CreatureTemplate
     float   ModHealth;
     float   ModMana;
     float   ModArmor;
+    float   ModDamage;
+    float   ModExperience;
     bool    RacialLeader;
     uint32  questItems[MAX_CREATURE_QUEST_ITEMS];
     uint32  movementId;
@@ -604,7 +601,7 @@ class Creature : public Unit, public GridObject<Creature>, public MovableMapObje
         SpellInfo const* reachWithSpellAttack(Unit* victim);
         SpellInfo const* reachWithSpellCure(Unit* victim);
 
-        uint32 m_spells[CREATURE_MAX_SPELLS];
+        uint32 m_spells[MAX_CREATURE_SPELLS];
         CreatureSpellCooldowns m_CreatureSpellCooldowns;
 		uint32 m_ProhibitSchoolTime[7];
 

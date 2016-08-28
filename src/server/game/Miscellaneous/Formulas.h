@@ -161,38 +161,42 @@ namespace Trinity
 
         inline uint32 Gain(Player* player, Unit* u)
         {
-            uint32 gain;
+            Creature* creature = u->ToCreature();
+            uint32 gain = 0;
 
-            if (u->GetTypeId() == TYPEID_UNIT &&
-                (((Creature*)u)->IsTotem() || ((Creature*)u)->IsPet() ||
-                (((Creature*)u)->GetCreatureTemplate()->flags_extra & CREATURE_FLAG_EXTRA_NO_XP_AT_KILL) ||
-                u->IsCritter()))
-                gain = 0;
-            else
+            if (!creature || (!creature->IsTotem() && !creature->IsPet() && !creature->IsCritter() &&
+                !(creature->GetCreatureTemplate()->flags_extra & CREATURE_FLAG_EXTRA_NO_XP_AT_KILL)))
             {
+                float xpMod = 1.0f;
+
                 gain = BaseGain(player->getLevel(), u->getLevel(), GetContentLevelsForMapAndZone(u->GetMapId(), u->GetZoneId()));
 
-                if (gain != 0 && u->GetTypeId() == TYPEID_UNIT && ((Creature*)u)->isElite())
+                if (gain && creature)
                 {
-                    // Elites in instances have a 2.75x XP bonus instead of the regular 2x world bonus.
-                    if (u->GetMap()->IsDungeon())
-                       gain = uint32(gain * 2.75);
-                    else
-                        gain *= 2;
+                    if (creature->isElite())
+                    {
+                        // Elites in instances have a 2.75x XP bonus instead of the regular 2x world bonus.
+                        if (u->GetMap() && u->GetMap()->IsDungeon())
+                            xpMod *= 2.75f;
+                        else
+                            xpMod *= 2.0f;
+                    }
+
+                    xpMod *= creature->GetCreatureTemplate()->ModExperience;
                 }
 
-                float bonusXpRate = sWorld->getRate(RATE_XP_KILL);
+                xpMod *= sWorld->getRate(RATE_XP_KILL);
 
                 // Maczuga - premium service
                 if (player->GetSession()->IsPremiumServiceActive(PREMIUM_EXP_BOOST))
-                    bonusXpRate *= sWorld->getRate(RATE_VIP_XP_KILL);
+                    xpMod *= sWorld->getRate(RATE_VIP_XP_KILL);
 
 //                char buff[20];
 //                time_t now = player->GetSession()->GetPremiumService(PREMIUM_EXP_BOOST);
 //                strftime(buff, 20, "%Y-%m-%d %H:%M:%S", localtime(&now));
 //                sLog->outString("Boost expires at: %s", buff);
 
-                gain = uint32(gain * bonusXpRate);
+                gain = uint32(gain * xpMod);
             }
 
             //sScriptMgr->OnGainCalculation(gain, player, u); // pussywizard: optimization

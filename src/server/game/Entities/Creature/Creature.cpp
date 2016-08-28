@@ -186,7 +186,7 @@ m_originalEntry(0), m_homePosition(), m_transportHomePosition(), m_creatureInfo(
     m_regenTimer = CREATURE_REGEN_INTERVAL;
     m_valuesCount = UNIT_END;
 
-    for (uint8 i = 0; i < CREATURE_MAX_SPELLS; ++i)
+    for (uint8 i = 0; i < MAX_CREATURE_SPELLS; ++i)
         m_spells[i] = 0;
 
 	for (uint8 i = SPELL_SCHOOL_NORMAL; i < MAX_SPELL_SCHOOL; ++i)
@@ -401,7 +401,7 @@ bool Creature::InitEntry(uint32 Entry, const CreatureData* data)
     if (!m_respawnradius && m_defaultMovementType == RANDOM_MOTION_TYPE)
         m_defaultMovementType = IDLE_MOTION_TYPE;
 
-    for (uint8 i=0; i < CREATURE_MAX_SPELLS; ++i)
+    for (uint8 i=0; i < MAX_CREATURE_SPELLS; ++i)
         m_spells[i] = GetCreatureTemplate()->spells[i];
 
     return true;
@@ -440,9 +440,9 @@ bool Creature::UpdateEntry(uint32 Entry, const CreatureData* data, bool changele
 
     SetUInt32Value(UNIT_DYNAMIC_FLAGS, dynamicflags);
 
-    SetAttackTime(BASE_ATTACK,   cInfo->baseattacktime);
-    SetAttackTime(OFF_ATTACK,    cInfo->baseattacktime);
-    SetAttackTime(RANGED_ATTACK, cInfo->rangeattacktime);
+    SetAttackTime(BASE_ATTACK,   cInfo->BaseAttackTime);
+    SetAttackTime(OFF_ATTACK,    cInfo->BaseAttackTime);
+    SetAttackTime(RANGED_ATTACK, cInfo->RangeAttackTime);
 
     SelectLevel(changelevel);
 
@@ -1162,11 +1162,10 @@ void Creature::SelectLevel(bool changelevel)
 
     // damage
 
-	// pussywizard: disabled until it's fixed
-    /*float basedamage = stats->GenerateBaseDamage(cInfo);
+    float basedamage = stats->GenerateBaseDamage(cInfo);
 
     float weaponBaseMinDamage = basedamage;
-    float weaponBaseMaxDamage = basedamage * 1.5;
+    float weaponBaseMaxDamage = basedamage * 1.5f;
 
     SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, weaponBaseMinDamage);
     SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, weaponBaseMaxDamage);
@@ -1178,19 +1177,19 @@ void Creature::SelectLevel(bool changelevel)
     SetBaseWeaponDamage(RANGED_ATTACK, MAXDAMAGE, weaponBaseMaxDamage);
 
     SetModifierValue(UNIT_MOD_ATTACK_POWER, BASE_VALUE, stats->AttackPower);
-    SetModifierValue(UNIT_MOD_ATTACK_POWER_RANGED, BASE_VALUE, stats->RangedAttackPower);*/
+    SetModifierValue(UNIT_MOD_ATTACK_POWER_RANGED, BASE_VALUE, stats->RangedAttackPower);
 
-    SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, cInfo->mindmg);
-    SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, cInfo->maxdmg);
-
-	SetBaseWeaponDamage(OFF_ATTACK, MINDAMAGE, cInfo->mindmg);
-    SetBaseWeaponDamage(OFF_ATTACK, MAXDAMAGE, cInfo->maxdmg);
-
-	SetBaseWeaponDamage(RANGED_ATTACK, MINDAMAGE, cInfo->minrangedmg);
-	SetBaseWeaponDamage(RANGED_ATTACK, MAXDAMAGE, cInfo->maxrangedmg);
-
-    SetModifierValue(UNIT_MOD_ATTACK_POWER, BASE_VALUE, cInfo->attackpower);
-	SetModifierValue(UNIT_MOD_ATTACK_POWER_RANGED, BASE_VALUE, cInfo->rangedattackpower);
+//    SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, cInfo->mindmg);
+//    SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, cInfo->maxdmg);
+//
+//	SetBaseWeaponDamage(OFF_ATTACK, MINDAMAGE, cInfo->mindmg);
+//    SetBaseWeaponDamage(OFF_ATTACK, MAXDAMAGE, cInfo->maxdmg);
+//
+//	SetBaseWeaponDamage(RANGED_ATTACK, MINDAMAGE, cInfo->minrangedmg);
+//	SetBaseWeaponDamage(RANGED_ATTACK, MAXDAMAGE, cInfo->maxrangedmg);
+//
+//    SetModifierValue(UNIT_MOD_ATTACK_POWER, BASE_VALUE, cInfo->attackpower);
+//	SetModifierValue(UNIT_MOD_ATTACK_POWER_RANGED, BASE_VALUE, cInfo->rangedattackpower);
 }
 
 float Creature::_GetHealthMod(int32 Rank)
@@ -1764,7 +1763,7 @@ SpellInfo const* Creature::reachWithSpellAttack(Unit* victim)
     if (!victim)
         return NULL;
 
-    for (uint32 i=0; i < CREATURE_MAX_SPELLS; ++i)
+    for (uint32 i=0; i < MAX_CREATURE_SPELLS; ++i)
     {
         if (!m_spells[i])
             continue;
@@ -1812,7 +1811,7 @@ SpellInfo const* Creature::reachWithSpellCure(Unit* victim)
     if (!victim)
         return NULL;
 
-    for (uint32 i=0; i < CREATURE_MAX_SPELLS; ++i)
+    for (uint32 i=0; i < MAX_CREATURE_SPELLS; ++i)
     {
         if (!m_spells[i])
             continue;
@@ -2380,10 +2379,10 @@ bool Creature::HasSpellCooldown(uint32 spell_id) const
 bool Creature::HasSpell(uint32 spellID) const
 { 
     uint8 i;
-    for (i = 0; i < CREATURE_MAX_SPELLS; ++i)
+    for (i = 0; i < MAX_CREATURE_SPELLS; ++i)
         if (spellID == m_spells[i])
             break;
-    return i < CREATURE_MAX_SPELLS;                         //broke before end of iteration of known spells
+    return i < MAX_CREATURE_SPELLS;                         //broke before end of iteration of known spells
 }
 
 time_t Creature::GetRespawnTimeEx() const

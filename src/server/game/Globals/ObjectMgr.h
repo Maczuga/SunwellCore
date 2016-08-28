@@ -917,6 +917,7 @@ class ObjectMgr
         void LoadCreatureLocales();
         void LoadCreatureTemplates();
         void LoadCreatureTemplateAddons();
+        void LoadCreatureTemplate(Field* fields);
         void CheckCreatureTemplate(CreatureTemplate const* cInfo);
         void LoadGameObjectQuestItems();
         void LoadCreatureQuestItems();
