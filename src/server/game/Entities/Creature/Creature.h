@@ -176,6 +176,9 @@ struct CreatureTemplate
     void InitializeQueryData();
 };
 
+typedef std::vector<uint32> CreatureQuestItemList;
+typedef std::unordered_map<uint32, CreatureQuestItemList> CreatureQuestItemMap;
+
 // Benchmarked: Faster than std::map (insert/find)
 typedef std::unordered_map<uint32, CreatureTemplate> CreatureTemplateContainer;
 
