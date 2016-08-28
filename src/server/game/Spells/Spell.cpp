@@ -6296,100 +6296,69 @@ SpellCastResult Spell::CheckRange(bool strict)
     if (!strict && m_casttime == 0)
         return SPELL_CAST_OK;
 
-    uint32 rangeType = m_spellInfo->RangeEntry->type;
-    Unit* target = m_targets.GetUnitTarget();
-    float minRange = 0.0f;
-    float maxRange = 0.0f;
-    float rangeMod = 0.0f;
+    uint32 rangeType = 0;
 
-    // xinef: hack for npc shooters
-    if (minRange && GetCaster()->GetTypeId() == TYPEID_UNIT && !IS_PLAYER_GUID(GetCaster()->GetOwnerGUID()) && minRange <= 6.0f)
-        rangeType = SPELL_RANGE_RANGED;
-
-    if (strict && IsNextMeleeSwingSpell())
-        maxRange = 100.0f;
-    else if (m_spellInfo->RangeEntry)
+    if (m_spellInfo->RangeEntry)
     {
-        if (rangeType & SPELL_RANGE_MELEE)
-        {
-            rangeMod = m_caster->GetCombatReach() + 4.0f / 3.0f;
-            if (target)
-                rangeMod += target->GetCombatReach();
-            else
-                rangeMod += m_caster->GetCombatReach();
+        // check needed by 68766 51693 - both spells are cast on enemies and have 0 max range
+        // these are triggered by other spells - possibly we should omit range check in that case?
+        if (m_spellInfo->RangeEntry->ID == 1)
+            return SPELL_CAST_OK;
 
-            rangeMod = std::max(rangeMod, NOMINAL_MELEE_RANGE);
-        }
-        else
-        {
-            float meleeRange = 0.0f;
-            if (rangeType & SPELL_RANGE_RANGED)
-            {
-                meleeRange = m_caster->GetCombatReach() + 4.0f / 3.0f;
-                if (target)
-                    meleeRange += target->GetCombatReach();
-                else
-                    meleeRange += m_caster->GetCombatReach();
-
-                meleeRange = std::max(meleeRange, NOMINAL_MELEE_RANGE);
-            }
-
-            minRange = m_caster->GetSpellMinRangeForTarget(target, m_spellInfo) + meleeRange;
-            maxRange = m_caster->GetSpellMaxRangeForTarget(target, m_spellInfo);
-
-            if (target || m_targets.GetCorpseTarget())
-            {
-                rangeMod = m_caster->GetCombatReach();
-                if (target)
-                    rangeMod += target->GetCombatReach();
-
-                if (minRange > 0.0f && !(rangeType & SPELL_RANGE_RANGED))
-                    minRange += rangeMod;
-            }
-        }
-
-        if (target && m_caster->isMoving() && target->isMoving() && !m_caster->IsWalking() && !target->IsWalking() &&
-            (rangeType & SPELL_RANGE_MELEE || target->GetTypeId() == TYPEID_PLAYER))
-            rangeMod += 5.0f / 3.0f;
+        rangeType = m_spellInfo->RangeEntry->type;
     }
 
-    if (m_spellInfo->HasAttribute(SPELL_ATTR0_REQ_AMMO) && m_caster->GetTypeId() == TYPEID_PLAYER)
-        if (Item* ranged = m_caster->ToPlayer()->GetWeaponForAttack(RANGED_ATTACK, true))
-            maxRange *= ranged->GetTemplate()->RangedModRange * 0.01f;
+    Unit* target = m_targets.GetUnitTarget();
+    float maxRange = m_caster->GetSpellMaxRangeForTarget(target, m_spellInfo);
+    float minRange = m_caster->GetSpellMinRangeForTarget(target, m_spellInfo);
+
+	// xinef: hack for npc shooters
+	if (minRange && GetCaster()->GetTypeId() == TYPEID_UNIT && !IS_PLAYER_GUID(GetCaster()->GetOwnerGUID()) && minRange <= 6.0f)
+		rangeType = SPELL_RANGE_RANGED;
 
     if (Player* modOwner = m_caster->GetSpellModOwner())
         modOwner->ApplySpellMod(m_spellInfo->Id, SPELLMOD_RANGE, maxRange, this);
 
-    maxRange += rangeMod;
-
-    minRange *= minRange;
-    maxRange *= maxRange;
+	// xinef: dont check max_range to strictly after cast
+	if (rangeType != SPELL_RANGE_MELEE && !strict)
+		maxRange += std::min(3.0f, maxRange*0.1f); // 10% but no more than 3yd
 
     if (target)
     {
 		if (target != m_caster)
 		{
-            if (m_caster->GetExactDistSq(target) > maxRange)
-                return !(_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_OUT_OF_RANGE : SPELL_FAILED_DONT_REPORT;
+			// Xinef: WHAT DA FUCK IS THIS SHIT? Spells with 5yd range can hit target 9yd away? >.>
+			if (rangeType == SPELL_RANGE_MELEE)
+			{
+				// Because of lag, we can not check too strictly here.
+				float real_max_range = m_caster->GetTypeId() == TYPEID_UNIT ? maxRange - 2*MIN_MELEE_REACH : maxRange - MIN_MELEE_REACH;
+				if (!m_caster->IsWithinMeleeRange(target, std::max(real_max_range, 0.0f)))
+					return SPELL_FAILED_OUT_OF_RANGE;
+			}
+			else if (!m_caster->IsWithinCombatRange(target, maxRange))
+				return SPELL_FAILED_OUT_OF_RANGE; //0x5A;
 
-            if (minRange > 0.0f && m_caster->GetExactDistSq(target) < minRange)
-                return !(_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_OUT_OF_RANGE : SPELL_FAILED_DONT_REPORT;
+			if (m_spellInfo->DmgClass == SPELL_DAMAGE_CLASS_RANGED && rangeType == SPELL_RANGE_RANGED)
+			{
+				if (m_caster->IsWithinMeleeRange(target))
+					return SPELL_FAILED_TOO_CLOSE;
+			}
 
 			if (m_caster->GetTypeId() == TYPEID_PLAYER && (m_spellInfo->FacingCasterFlags & SPELL_FACING_FLAG_INFRONT) && !m_caster->HasInArc(static_cast<float>(M_PI), target))
 				return SPELL_FAILED_UNIT_NOT_INFRONT;
 		}
 
 		// Xinef: check min range for self casts
-		if (minRange && rangeType != SPELL_RANGE_RANGED && m_caster->IsWithinCombatRange(target, minRange)) // skip this check if minRange = 0
+        if (minRange && rangeType != SPELL_RANGE_RANGED && m_caster->IsWithinCombatRange(target, minRange)) // skip this check if min_range = 0
 			return SPELL_FAILED_TOO_CLOSE;
     }
 
     if (m_targets.HasDst() && !m_targets.HasTraj())
     {
-        if (m_caster->GetExactDistSq(m_targets.GetDstPos()) > maxRange)
-            return !(_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_OUT_OF_RANGE : SPELL_FAILED_DONT_REPORT;
-        if (minRange > 0.0f && m_caster->GetExactDistSq(m_targets.GetDstPos()) < minRange)
-            return !(_triggeredCastFlags & TRIGGERED_DONT_REPORT_CAST_ERROR) ? SPELL_FAILED_OUT_OF_RANGE : SPELL_FAILED_DONT_REPORT;
+        if (!m_caster->IsWithinDist3d(m_targets.GetDstPos(), maxRange))
+            return SPELL_FAILED_OUT_OF_RANGE;
+        if (minRange && m_caster->IsWithinDist3d(m_targets.GetDstPos(), minRange))
+            return SPELL_FAILED_TOO_CLOSE;
     }
 
     return SPELL_CAST_OK;
