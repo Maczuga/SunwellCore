@@ -116,7 +116,7 @@ void CreatureTemplate::InitializeQueryData()
 	queryData << uint32(Entry);                              // creature entry
 	queryData << Name;
 	queryData << uint8(0) << uint8(0) << uint8(0);           // name2, name3, name4, always empty
-	queryData << SubName;
+	queryData << Title;
 	queryData << IconName;                               // "Directions" for guard, string for Icons 2.3.0
 	queryData << uint32(type_flags);                     // flags
 	queryData << uint32(type);                           // CreatureType.dbc
