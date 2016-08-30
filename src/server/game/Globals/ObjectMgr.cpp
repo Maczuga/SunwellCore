@@ -7683,7 +7683,7 @@ void ObjectMgr::LoadQuestRelationsHelper(QuestRelations& map, std::string const&
 
     uint32 count = 0;
     
-    std::string templateTable = (table.c_str() == "gameobject_queststarter" || table.c_str() == "gameobject_questender") ? "gameobject_template" : "creature_template";
+    std::string templateTable = (table == "gameobject_queststarter" || table == "gameobject_questender") ? "gameobject_template" : "creature_template";
 
     uint32 currentBuild = sWorld->getIntConfig(CONFIG_CURRENT_BUILD);
 
