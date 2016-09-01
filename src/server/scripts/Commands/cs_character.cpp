@@ -633,6 +633,11 @@ public:
         uint32 newlevel = charTemplate->level;
         HandleCharacterLevel(target, targetGuid, oldlevel, newlevel, handler);
 
+        PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_ADD_AT_LOGIN_FLAG);
+        stmt->setUInt16(0, uint16(AT_LOGIN_CHECK_ACHIEVS | AT_LOGIN_RESET_TALENTS | AT_LOGIN_RESET_PET_TALENTS | AT_LOGIN_APPLY_TEMPLATE));
+        stmt->setUInt32(1, GUID_LOPART(targetGuid));
+        CharacterDatabase.Execute(stmt);
+
         // Modify Money
         uint32 money = charTemplate->money;
         if (money > 0)
@@ -689,7 +694,6 @@ public:
         // Spells
         CharacterTemplateSpellStore spellStore = sCharacterMgr->GetCharacterTemplateSpells(templateId);
 
-        PreparedStatement* stmt = nullptr;
         for (CharacterTemplateSpellStore::const_iterator itr = spellStore.begin(); itr != spellStore.end(); ++itr)
         {
             stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_CHAR_SPELL_BY_SPELL);
