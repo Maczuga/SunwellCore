@@ -87,6 +87,7 @@
 #include "WhoListCache.h"
 #include "AsyncAuctionListing.h"
 #include "SavingSystem.h"
+#include "CharacterMgr.h"
 
 ACE_Atomic_Op<ACE_Thread_Mutex, bool> World::m_stopEvent = false;
 uint8 World::m_ExitCode = SHUTDOWN_EXIT_CODE;
@@ -1551,6 +1552,9 @@ void World::SetInitialWorldSettings()
     sLog->outString("Loading Pet Name Parts...");
     sObjectMgr->LoadPetNames();
 
+    sLog->outString("Loading Character Templates...");                         // must be after LoadItemTemplate
+    sCharacterMgr->LoadFromDB();
+
     CharacterDatabaseCleaner::CleanDatabase();
 
     sLog->outString("Loading the max pet number...");
@@ -1573,6 +1577,9 @@ void World::SetInitialWorldSettings()
 
     sLog->outString("Loading Skill Extra Item Table...");
     LoadSkillExtraItemTable();
+
+    sLog->outString("server.loading", "Loading Skill Perfection Data Table...");
+    LoadSkillPerfectItemTable();
 
     sLog->outString("Loading Skill Fishing base level requirements...");
     sObjectMgr->LoadFishingBaseSkillLevel();
