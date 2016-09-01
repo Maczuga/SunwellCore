@@ -7503,7 +7503,7 @@ void ObjectMgr::LoadQuestPOI()
 
     uint32 currentBuild = sWorld->getIntConfig(CONFIG_CURRENT_BUILD);
     //                                                0        1          2          3           4          5       6        7
-    QueryResult result = WorldDatabase.PQuery("SELECT QuestID, id, ObjectiveIndex, MapID, WorldMapAreaId, Floor, Priority, Flags FROM quest_poi qp "
+    QueryResult result = WorldDatabase.PQuery("SELECT QuestID, qp.id, ObjectiveIndex, MapID, WorldMapAreaId, Floor, Priority, qp.Flags FROM quest_poi qp  "
     "LEFT OUTER JOIN quest_template qt ON qt.Id = qp.QuestID "
     "WHERE qt.AddedInBuild <= '%u' "
     "order by QuestID", currentBuild);
