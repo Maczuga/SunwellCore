@@ -123,7 +123,7 @@ struct SkillExtraItemEntry
     // the chance to create one additional item
     float additionalCreateChance;
     // maximum number of extra items created per crafting
-    int32 additionalMaxNum;
+    uint8 additionalMaxNum;
 
     SkillExtraItemEntry()
         : requiredSpecialization(0), additionalCreateChance(0.0f), additionalMaxNum(0) {}
@@ -145,7 +145,7 @@ void LoadSkillExtraItemTable()
     SkillExtraItemStore.clear();                            // need for reload
 
     //                                                  0               1                       2                    3
-    QueryResult result = WorldDatabase.Query("SELECT spellId, requiredSpecialization, additionalCreateChance, newMaxOrEntry FROM skill_extra_item_template");
+    QueryResult result = WorldDatabase.Query("SELECT spellId, requiredSpecialization, additionalCreateChance, additionalMaxNum FROM skill_extra_item_template");
 
     if (!result)
     {
@@ -182,8 +182,8 @@ void LoadSkillExtraItemTable()
             continue;
         }
 
-        int32 newMaxOrEntry = fields[3].GetInt32();
-        if (!newMaxOrEntry)
+        uint8 additionalMaxNum = fields[3].GetInt32();
+        if (!additionalMaxNum)
         {
             sLog->outError("Skill specialization %u has 0 max number of extra items in `skill_extra_item_template`!", spellId);
             continue;
@@ -193,7 +193,7 @@ void LoadSkillExtraItemTable()
 
         skillExtraItemEntry.requiredSpecialization = requiredSpecialization;
         skillExtraItemEntry.additionalCreateChance = additionalCreateChance;
-        skillExtraItemEntry.additionalMaxNum          = newMaxOrEntry;
+        skillExtraItemEntry.additionalMaxNum       = additionalMaxNum;
 
         ++count;
     }
