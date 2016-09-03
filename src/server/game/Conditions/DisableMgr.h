@@ -22,6 +22,7 @@
 #include "Define.h"
 
 class Unit;
+class Map;
 
 enum DisableType
 {

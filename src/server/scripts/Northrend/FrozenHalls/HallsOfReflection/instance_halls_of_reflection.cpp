@@ -3,8 +3,14 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 */
 
 #include "halls_of_reflection.h"
+
+#include "ScriptMgr.h"
+#include "ScriptedCreature.h"
+#include "InstanceScript.h"
 #include "Transport.h"
 #include "MapManager.h"
+#include "Player.h"
+#include "SpellAuras.h"
 
 class UtherBatteredHiltEvent : public BasicEvent
 {
