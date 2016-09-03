@@ -23,7 +23,7 @@
 #include "Common.h"
 #include "DatabaseEnv.h"
 #include "Config.h"
-#include "SystemConfig.h"
+#include "GitRevision.h"
 #include "Log.h"
 #include "Opcodes.h"
 #include "WorldSession.h"
@@ -88,6 +88,7 @@
 #include "AsyncAuctionListing.h"
 #include "SavingSystem.h"
 #include "CharacterMgr.h"
+#include <VMapManager2.h>
 
 ACE_Atomic_Op<ACE_Thread_Mutex, bool> World::m_stopEvent = false;
 uint8 World::m_ExitCode = SHUTDOWN_EXIT_CODE;
@@ -1213,7 +1214,6 @@ void World::LoadConfigSettings(bool reload)
     m_bool_configs[CONFIG_PDUMP_NO_OVERWRITE] = sConfigMgr->GetBoolDefault("PlayerDump.DisallowOverwrite", true);
     m_bool_configs[CONFIG_FREE_DUAL_SPEC] = sConfigMgr->GetBoolDefault("FreeDualTalentSpecialization", false);
     m_bool_configs[CONFIG_ENABLE_MMAPS] = sConfigMgr->GetBoolDefault("MoveMaps.Enable", true);
-    MMAP::MMapFactory::InitializeDisabledMaps();
 
     // Wintergrasp
     m_bool_configs[CONFIG_WINTERGRASP_ENABLE] = sConfigMgr->GetBoolDefault("Wintergrasp.Enable", false);
@@ -1236,7 +1236,7 @@ void World::LoadConfigSettings(bool reload)
         sScriptMgr->OnConfigLoad(reload);
 }
 
-extern void LoadGameObjectModelList();
+extern void LoadGameObjectModelList(std::string const& dataPath);
 
 /// Initialize the World
 void World::SetInitialWorldSettings()
@@ -1249,6 +1249,12 @@ void World::SetInitialWorldSettings()
 
 	///- Initialize detour memory management
 	dtAllocSetCustom(dtCustomAlloc, dtCustomFree);
+
+    ///- Initialize VMapManager function pointers (to untangle game/collision circular deps)
+    if (VMAP::VMapManager2* vmmgr2 = dynamic_cast<VMAP::VMapManager2*>(VMAP::VMapFactory::createOrGetVMapManager()))
+    {
+        vmmgr2->GetLiquidFlagsPtr = &GetLiquidFlags;
+    }
 
     ///- Initialize config settings
     LoadConfigSettings();
@@ -1328,7 +1334,7 @@ void World::SetInitialWorldSettings()
     sSpellMgr->LoadSpellCustomAttr();
 
     sLog->outString("Loading GameObject models...");
-    LoadGameObjectModelList();
+    LoadGameObjectModelList(m_dataPath);
 
     sLog->outString("Loading Script Names...");
     sObjectMgr->LoadScriptNames();
@@ -1726,7 +1732,7 @@ void World::SetInitialWorldSettings()
     m_startTime = m_gameTime;
 
     LoginDatabase.PExecute("INSERT INTO uptime (realmid, starttime, uptime, revision) VALUES(%u, %u, 0, '%s')",
-        realmID, uint32(m_startTime), _REVISION);       // One-time query
+        realmID, uint32(m_startTime), GitRevision::GetFullVersion());       // One-time query
 
     m_timers[WUPDATE_WEATHERS].SetInterval(1*IN_MILLISECONDS);
     m_timers[WUPDATE_AUCTIONS].SetInterval(MINUTE*IN_MILLISECONDS);

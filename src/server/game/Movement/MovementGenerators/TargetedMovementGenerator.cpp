@@ -32,6 +32,7 @@
 #include "MapManager.h"
 
 #include <cmath>
+#include <DisableMgr.h>
 
 template<class T, typename D>
 void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool initial)
@@ -47,7 +48,7 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
     bool sameTransport = owner->GetTransport() && owner->GetTransport() ==  i_target->GetTransport();
 	if (owner->GetMapId() == 631 && owner->GetTransport() && owner->GetTransport()->IsMotionTransport() && i_target->GetTransport() && i_target->GetTransport()->IsMotionTransport()) // for ICC, if both on a motion transport => don't use mmaps
 		sameTransport = owner->GetTypeId() == TYPEID_UNIT && i_target->isInAccessiblePlaceFor(owner->ToCreature());
-    bool useMMaps = MMAP::MMapFactory::IsPathfindingEnabled(owner->FindMap()) && !sameTransport;
+    bool useMMaps = DisableMgr::IsPathfindingEnabled(owner->FindMap()->GetId()) && !sameTransport;
     bool forceDest = (owner->FindMap() && owner->FindMap()->IsDungeon() && !isPlayerPet) || // force in instances to prevent exploiting
                      (owner->GetTypeId() == TYPEID_UNIT && ((owner->IsPet() && owner->HasUnitState(UNIT_STATE_FOLLOW)) || // allow pets following their master to cheat while generating paths
                      ((Creature*)owner)->isWorldBoss() || ((Creature*)owner)->IsDungeonBoss())) || // force for all bosses, even not in instances

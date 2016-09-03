@@ -42,7 +42,7 @@ namespace
 
     DisableMap m_DisableMap;
 
-    uint8 MAX_DISABLE_TYPES = 8;
+    uint8 MAX_DISABLE_TYPES = 9;
 }
 
 void LoadDisables()
@@ -237,6 +237,34 @@ void LoadDisables()
                 }
                 break;
             }
+            case DISABLE_TYPE_MMAP:
+            {
+                MapEntry const* mapEntry = sMapStore.LookupEntry(entry);
+                if (!mapEntry)
+                {
+                    sLog->outError("Map entry %u from `disables` doesn't exist in dbc, skipped.", entry);
+                    continue;
+                }
+                switch (mapEntry->map_type)
+                {
+                    case MAP_COMMON:
+                        sLog->outString("Pathfinding disabled for world map %u.", entry);
+                        break;
+                    case MAP_INSTANCE:
+                    case MAP_RAID:
+                        sLog->outString("Pathfinding disabled for instance map %u.", entry);
+                        break;
+                    case MAP_BATTLEGROUND:
+                        sLog->outString("Pathfinding disabled for battleground map %u.", entry);
+                        break;
+                    case MAP_ARENA:
+                        sLog->outString("Pathfinding disabled for arena map %u.", entry);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            }
             default:
                 break;
         }
@@ -361,6 +389,7 @@ bool IsDisabledFor(DisableType type, uint32 entry, Unit const* unit, uint8 flags
         case DISABLE_TYPE_BATTLEGROUND:
         case DISABLE_TYPE_OUTDOORPVP:
         case DISABLE_TYPE_ACHIEVEMENT_CRITERIA:
+        case DISABLE_TYPE_MMAP:
             return true;
         case DISABLE_TYPE_VMAP:
             return flags & itr->second.flags;
@@ -369,6 +398,23 @@ bool IsDisabledFor(DisableType type, uint32 entry, Unit const* unit, uint8 flags
     }
 
     return false;
+}
+
+bool IsVMAPDisabledFor(uint32 entry, uint8 flags)
+{
+    return IsDisabledFor(DISABLE_TYPE_VMAP, entry, NULL, flags);
+}
+
+bool IsPathfindingEnabled(uint32 mapId)
+{
+    return sWorld->getBoolConfig(CONFIG_ENABLE_MMAPS)
+        && !IsDisabledFor(DISABLE_TYPE_MMAP, mapId, NULL, MMAP_DISABLE_PATHFINDING);
+}
+
+bool IsPathfindingEnabled(const Map* map, bool force)
+{
+    return sWorld->getBoolConfig(CONFIG_ENABLE_MMAPS)
+        && !IsDisabledFor(DISABLE_TYPE_MMAP, map->GetId(), NULL, MMAP_DISABLE_PATHFINDING) ? true : map->IsBattlegroundOrArena();
 }
 
 } // Namespace

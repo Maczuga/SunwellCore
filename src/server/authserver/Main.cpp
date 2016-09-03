@@ -35,7 +35,7 @@
 #include "Database/DatabaseEnv.h"
 #include "Configuration/Config.h"
 #include "Log.h"
-#include "SystemConfig.h"
+#include "GitRevision.h"
 #include "Util.h"
 #include "SignalHandler.h"
 #include "RealmList.h"
@@ -111,7 +111,7 @@ extern int main(int argc, char** argv)
         return 1;
     }
 
-    sLog->outString("%s (authserver)", _FULLVERSION);
+    sLog->outString("%s (authserver)", GitRevision::GetFullVersion());
     sLog->outString("<Ctrl-C> to stop.\n");
     sLog->outString("Using configuration file %s.", configFile);
 

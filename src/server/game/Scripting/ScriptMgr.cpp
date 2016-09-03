@@ -22,10 +22,10 @@
 #include "DBCStores.h"
 #include "ObjectMgr.h"
 #include "OutdoorPvPMgr.h"
-#include "ScriptLoader.h"
 #include "ScriptSystem.h"
 #include "Transport.h"
 #include "Vehicle.h"
+#include "SmartAI.h"
 #include "SpellInfo.h"
 #include "SpellScript.h"
 #include "GossipDef.h"
@@ -161,7 +161,7 @@ class ScriptRegistry
         return R;
 
 ScriptMgr::ScriptMgr()
-    : _scriptCount(0), _scheduledScripts(0)
+  : _scriptCount(0), _scheduledScripts(0), _script_loader_callback(nullptr)
 {
 }
 
@@ -178,8 +178,49 @@ void ScriptMgr::Initialize()
     sLog->outString("Loading C++ scripts");
 
     FillSpellSummary();
-    AddScripts();
-    CheckIfScriptsInDatabaseExist();
+
+    // SmartAI
+    AddSC_SmartScripts();
+
+    ASSERT(_script_loader_callback);
+
+    _script_loader_callback();
+
+    // Print unused script names.
+    ObjectMgr::ScriptNameContainer& sn = sObjectMgr->GetScriptNames();
+
+    // Remove the used scripts from the given container.
+    for (ObjectMgr::ScriptNameContainer::iterator itr = sn.begin(); itr != sn.end(); ++itr)
+    {
+        if (uint32 sid = sObjectMgr->GetScriptId((*itr).c_str()))
+        {
+            if (!ScriptRegistry<SpellScriptLoader>::GetScriptById(sid) &&
+                !ScriptRegistry<ServerScript>::GetScriptById(sid) &&
+                !ScriptRegistry<WorldScript>::GetScriptById(sid) &&
+                !ScriptRegistry<FormulaScript>::GetScriptById(sid) &&
+                !ScriptRegistry<WorldMapScript>::GetScriptById(sid) &&
+                !ScriptRegistry<InstanceMapScript>::GetScriptById(sid) &&
+                !ScriptRegistry<BattlegroundMapScript>::GetScriptById(sid) &&
+                !ScriptRegistry<ItemScript>::GetScriptById(sid) &&
+                !ScriptRegistry<CreatureScript>::GetScriptById(sid) &&
+                !ScriptRegistry<GameObjectScript>::GetScriptById(sid) &&
+                !ScriptRegistry<AreaTriggerScript>::GetScriptById(sid) &&
+                !ScriptRegistry<BattlegroundScript>::GetScriptById(sid) &&
+                !ScriptRegistry<OutdoorPvPScript>::GetScriptById(sid) &&
+                !ScriptRegistry<CommandScript>::GetScriptById(sid) &&
+                !ScriptRegistry<WeatherScript>::GetScriptById(sid) &&
+                !ScriptRegistry<AuctionHouseScript>::GetScriptById(sid) &&
+                !ScriptRegistry<ConditionScript>::GetScriptById(sid) &&
+                !ScriptRegistry<VehicleScript>::GetScriptById(sid) &&
+                !ScriptRegistry<DynamicObjectScript>::GetScriptById(sid) &&
+                !ScriptRegistry<TransportScript>::GetScriptById(sid) &&
+                !ScriptRegistry<AchievementCriteriaScript>::GetScriptById(sid) &&
+                !ScriptRegistry<PlayerScript>::GetScriptById(sid) &&
+                !ScriptRegistry<GuildScript>::GetScriptById(sid) &&
+                !ScriptRegistry<GroupScript>::GetScriptById(sid))
+                sLog->outErrorDb("Script named '%s' is assigned in database, but has no code!", (*itr).c_str());
+        }
+    }
 
     sLog->outString(">> Loaded %u C++ scripts in %u ms", GetScriptCount(), GetMSTimeDiffToNow(oldMSTime));
     sLog->outString();

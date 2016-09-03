@@ -36,11 +36,10 @@ PathGenerator::PathGenerator(const Unit* owner) :
     memset(_pathPolyRefs, 0, sizeof(_pathPolyRefs));
 
 	uint32 mapId = _sourceUnit->GetMapId();
-	//if (MMAP::MMapFactory::IsPathfindingEnabled(_sourceUnit->FindMap())) // pussywizard: checked before creating new PathGenerator
+	//if (DisableMgr::IsPathfindingEnabled(_sourceUnit->FindMap())) // pussywizard: checked before creating new PathGenerator
 	{
 		MMAP::MMapManager* mmap = MMAP::MMapFactory::createOrGetMMapManager();
 
-		TRINITY_READ_GUARD(ACE_RW_Thread_Mutex, mmap->GetManagerLock());
 		_navMesh = mmap->GetNavMesh(mapId);
 		_navMeshQuery = mmap->GetNavMeshQuery(mapId, _sourceUnit->GetInstanceId());
 	}
@@ -86,7 +85,7 @@ bool PathGenerator::CalculatePath(float destX, float destY, float destZ, bool fo
 
 	// pussywizard: mutex with new that can be release at any moment, DON'T FORGET TO RELEASE ON EVERY RETURN !!!
 	const Map* base = _sourceUnit->GetBaseMap();
-	ACE_RW_Thread_Mutex& mmapLock = (base ? base->GetMMapLock() : MMAP::MMapFactory::createOrGetMMapManager()->GetMMapGeneralLock());
+	ACE_RW_Thread_Mutex& mmapLock = base->GetMMapLock();
 	mmapLock.acquire_read();
 
 	// make sure navMesh works - we can run on map w/o mmap

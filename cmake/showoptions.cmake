@@ -70,6 +70,12 @@ if( WIN32 )
   endif()
 endif( WIN32 )
 
+if( NOT WITH_SOURCE_TREE STREQUAL "no" )
+  message("* Show source tree       : Yes - \"${WITH_SOURCE_TREE}\"")
+else()
+  message("* Show source tree       : No")
+endif()
+
 if ( WITHOUT_GIT )
   message("* Use GIT revision hash  : No")
   message("")

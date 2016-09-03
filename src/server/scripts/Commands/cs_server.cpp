@@ -28,7 +28,7 @@ EndScriptData */
 #include "ObjectAccessor.h"
 #include "Player.h"
 #include "ScriptMgr.h"
-#include "SystemConfig.h"
+#include "GitRevision.h"
 #include "AvgDiffTracker.h"
 
 class server_commandscript : public CommandScript
@@ -117,7 +117,7 @@ public:
         uint32 updateTime = sWorld->GetUpdateTime();
         uint32 avgUpdateTime = avgDiffTracker.getAverage();
 
-		handler->PSendSysMessage("%s Realm, revision: %s.", realmName.c_str(), _REVISION);
+		handler->PSendSysMessage("%s Realm, revision: %s.", realmName.c_str(), GitRevision::GetFullVersion());
 		handler->PSendSysMessage("This server runs on SunwellCore.");
 		if (!queuedSessionCount)
 			handler->PSendSysMessage("Connected players: %u. Characters in world: %u.", activeSessionCount, playerCount);

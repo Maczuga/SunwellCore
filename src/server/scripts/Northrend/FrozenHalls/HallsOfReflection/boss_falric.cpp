@@ -2,7 +2,6 @@
 REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 */
 
-#include "ScriptPCH.h"
 #include "halls_of_reflection.h"
 
 enum Yells

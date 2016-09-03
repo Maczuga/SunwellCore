@@ -20,12 +20,17 @@ set(Recast_STAT_SRCS
     RecastRegion.cpp 
 )
 
-if(WIN32)
-  include_directories(
-    ${CMAKE_SOURCE_DIR}/dep/zlib
-  )
-endif()
-
 add_library(Recast STATIC ${Recast_STAT_SRCS})
 
-target_link_libraries(Recast ${ZLIB_LIBRARIES})
+target_include_directories(Recast
+  PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(Recast
+  PUBLIC
+    zlib)
+
+set_target_properties(Recast
+    PROPERTIES
+      FOLDER
+        "dep")
