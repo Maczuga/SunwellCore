@@ -7,7 +7,6 @@ REWRITTEN FROM SCRATCH BY XINEF, IT OWNS NOW!
 #include "CreatureTextMgr.h"
 #include "culling_of_stratholme.h"
 #include "Player.h"
-#include "TemporarySummon.h"
 #include "SpellInfo.h"
 
 class instance_culling_of_stratholme : public InstanceMapScript

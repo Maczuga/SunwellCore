@@ -5,6 +5,7 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "Player.h"
+
 #include "halls_of_reflection.h"
 
 enum Yells

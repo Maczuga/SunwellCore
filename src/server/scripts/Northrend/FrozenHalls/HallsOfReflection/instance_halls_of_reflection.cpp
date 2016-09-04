@@ -2,8 +2,6 @@
 REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 */
 
-#include "halls_of_reflection.h"
-
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "InstanceScript.h"
@@ -11,6 +9,8 @@ REWRITTEN FROM SCRATCH BY PUSSYWIZARD, IT OWNS NOW!
 #include "MapManager.h"
 #include "Player.h"
 #include "SpellAuras.h"
+
+#include "halls_of_reflection.h"
 
 class UtherBatteredHiltEvent : public BasicEvent
 {
