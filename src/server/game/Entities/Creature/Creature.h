@@ -455,7 +455,7 @@ class Creature : public Unit, public GridObject<Creature>, public MovableMapObje
         void Update(uint32 time);                         // overwrited Unit::Update
         void GetRespawnPosition(float &x, float &y, float &z, float* ori = NULL, float* dist =NULL) const;
 
-        void SetCorpseDelay(uint32 delay) { m_corpseDelay = delay; }
+        void SetCorpseDelay(uint32 delay) { m_baseCorpseDelay = m_corpseDelay = delay; }
         uint32 GetCorpseDelay() const { return m_corpseDelay; }
         bool IsRacialLeader() const { return GetCreatureTemplate()->RacialLeader; }
         bool IsCivilian() const { return GetCreatureTemplate()->flags_extra & CREATURE_FLAG_EXTRA_CIVILIAN; }
@@ -738,7 +738,9 @@ class Creature : public Unit, public GridObject<Creature>, public MovableMapObje
         time_t m_corpseRemoveTime;                          // (msecs)timer for death or corpse disappearance
         time_t m_respawnTime;                               // (secs) time of next respawn
         uint32 m_respawnDelay;                              // (secs) delay between corpse disappearance and respawning
+        uint32 m_baseRespawnDelay;                          // (secs) base delay between corpse disappearance and respawning
         uint32 m_corpseDelay;                               // (secs) delay between death and corpse disappearance
+        uint32 m_baseCorpseDelay;                           // (secs) base delay between death and corpse disappearance
         float m_respawnradius;
 		uint16 m_transportCheckTimer;
         uint32 lootPickPocketRestoreTime;

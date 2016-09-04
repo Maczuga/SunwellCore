@@ -226,6 +226,7 @@ _instanceResetPeriod(0), i_scriptLock(false), _defaultLight(GetDefaultMapLight(i
             setNGrid(NULL, idx, j);
         }
     }
+    _areaPlayerCountMap.clear();
 
     //lets initialize visibility distance for map
     Map::InitVisibilityDistance();
@@ -643,6 +644,48 @@ void Map::VisitNearbyCellsOf(WorldObject* obj, TypeContainerVisitor<Trinity::Obj
     }
 }
 
+void Map::UpdatePlayerAreaStats(uint32 oldArea, uint32 newArea)
+{
+    // Nothing to do if no change
+    if (oldArea == newArea)
+        return;
+
+    uint32 oldAreaCount = 0;
+    uint32 newAreaCount = 0;
+
+    // Get old area if exist, without creating element if not
+    auto oldItr = _areaPlayerCountMap.find(oldArea);
+    if (oldItr != _areaPlayerCountMap.end())
+        oldAreaCount = oldItr->second;
+
+    // Sanity check, we're leaving an area (that isn't the default) and there's no players there (should be at least one)
+    if (oldArea && oldAreaCount == 0)
+    {
+        sLog->outMisc("Player left area %u, when no players in area!", oldArea);
+        return;
+    }
+
+    // If there is already a count then the iterator will exist, use it to subtract one.
+    // If there was only one (us) delete the element entirely.
+    if (oldArea && oldAreaCount > 1)
+        oldItr->second--;
+    else if (oldArea && oldAreaCount == 1)
+        _areaPlayerCountMap.erase(oldItr);
+
+    if (newArea == 0) return;
+
+    // Get new area if exist, without creating element if not
+    auto newItr = _areaPlayerCountMap.find(newArea);
+    if (newItr != _areaPlayerCountMap.end())
+        newAreaCount = newItr->second;
+
+    // If we already have an iterator (already players in the area) increment. Otherwise, add to map
+    if (newArea && newAreaCount > 0)
+        newItr->second++;
+    else if (newArea)
+        _areaPlayerCountMap[newArea]++;
+}
+
 void Map::Update(const uint32 t_diff, const uint32 s_diff, bool thread)
 {
 	uint32 mapId = GetId(); // pussywizard: for crashlogs
@@ -792,6 +835,9 @@ struct ResetNotifier
 
 void Map::RemovePlayerFromMap(Player* player, bool remove)
 { 
+    // Before leaving map, update zone/area for stats
+    player->UpdateZone(0xFFFFFFFF, 0);
+
     player->getHostileRefManager().deleteReferences(); // pussywizard: multithreading crashfix
 
     bool inWorld = player->IsInWorld();
@@ -2861,7 +2907,7 @@ void Map::UpdateIteratorBack(Player* player)
         m_mapRefIter = m_mapRefIter->nocheck_prev();
 }
 
-void Map::SaveCreatureRespawnTime(uint32 dbGuid, time_t& respawnTime)
+void Map::SaveCreatureRespawnTime(uint32 dbGuid, time_t& respawnTime, uint32 areaId)
 { 
     if (!respawnTime)
     {
@@ -2870,8 +2916,12 @@ void Map::SaveCreatureRespawnTime(uint32 dbGuid, time_t& respawnTime)
         return;
     }
 
-	time_t now = time(NULL);
-	if (GetInstanceResetPeriod() > 0 && respawnTime-now+5 >= GetInstanceResetPeriod())
+    time_t now = time(NULL);
+    time_t diff = respawnTime - now;
+
+    uint8 respawnSpeedup = 0;
+
+	if (GetInstanceResetPeriod() > 0 && diff + 5 >= GetInstanceResetPeriod())
 		respawnTime = now+YEAR;
 
     _creatureRespawnTimes[dbGuid] = respawnTime;

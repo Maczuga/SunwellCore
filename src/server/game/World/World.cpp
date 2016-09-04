@@ -1231,6 +1231,14 @@ void World::LoadConfigSettings(bool reload)
 
     m_int_configs[CONFIG_CURRENT_BUILD] = sConfigMgr->GetIntDefault("CurrentBuild", 12340); // Maczuga
 
+    m_bool_configs[CONFIG_DYNAMIC_SPAWN_ENABLED] = sConfigMgr->GetBoolDefault("DynamicRespawn.Enabled", true);
+    m_int_configs[CONFIG_DYNAMIC_SPAWN_PLAYERS_TO_DECREASE] = sConfigMgr->GetIntDefault("DynamicRespawn.PlayersToDecrease", 6); // Maczuga
+    m_float_configs[CONFIG_DYNAMIC_SPAWN_RESPAWN_DECREASE] = sConfigMgr->GetFloatDefault("DynamicRespawn.RespawnPctDecrease", 25.0f); // Maczuga
+    m_int_configs[CONFIG_DYNAMIC_SPAWN_CREATURE_MIN_RESPAWN_TIME] = sConfigMgr->GetIntDefault("DynamicRespawn.CreatureMinRespawn", 60); // Maczuga
+    m_int_configs[CONFIG_DYNAMIC_SPAWN_GAMEOBJECT_MIN_RESPAWN_TIME] = sConfigMgr->GetIntDefault("DynamicRespawn.GameObjectMinRespawn", 60); // Maczuga
+    m_int_configs[CONFIG_DYNAMIC_SPAWN_CREATURE_MAX_MIN_RESPAWN_TIME] = sConfigMgr->GetIntDefault("DynamicRespawn.CreatureMaxMinRespawn", 15); // Maczuga
+    m_int_configs[CONFIG_DYNAMIC_SPAWN_GAMEOBJECT_MAX_MIN_RESPAWN_TIME] = sConfigMgr->GetIntDefault("DynamicRespawn.GameObjectMaxMinRespawn", 15); // Maczuga
+
     // call ScriptMgr if we're reloading the configuration
     if (reload)
         sScriptMgr->OnConfigLoad(reload);
