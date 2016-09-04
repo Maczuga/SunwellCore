@@ -8,4 +8,29 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-add_subdirectory(ace)
+set(ACE_EXPECTED_VERSION 5.8.3)
+
+if(UNIX)
+  # Look for an installed bzip2 on unix
+  find_package(ACE REQUIRED)
+
+
+  add_library(ace SHARED
+    ${ace_STAT_SRCS}
+    ${ace_PCH_SRC}
+  )
+
+  target_include_directories(ace
+  PUBLIC
+    zlib
+    ${ACE_INCLUDE_DIR})
+
+  set_target_properties(ace
+    PROPERTIES
+      FOLDER
+        "dep")
+      
+else()
+    add_subdirectory(ace)
+endif()
+
