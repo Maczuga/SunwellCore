@@ -14,13 +14,10 @@ elseif( MSVC )
   add_definitions(/W0)
 endif()
 
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-  add_subdirectory(acelite)
-endif()
-
 add_subdirectory(threads)
 
 if(SERVERS OR TOOLS)
+  add_subdirectory(acelite)
   add_subdirectory(zlib)
   add_subdirectory(g3dlite)
   add_subdirectory(recastnavigation)
