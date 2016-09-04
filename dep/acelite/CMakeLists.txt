@@ -9,27 +9,18 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 set(ACE_EXPECTED_VERSION 5.8.3)
+find_package(ACE REQUIRED)
 
 if(UNIX)
-  # Look for an installed bzip2 on unix
-  find_package(ACE REQUIRED)
-
-
-  add_library(ace SHARED
-    ${ace_STAT_SRCS}
-    ${ace_PCH_SRC}
-  )
-
-  target_include_directories(ace
-  PUBLIC
-    zlib
-    ${ACE_INCLUDE_DIR})
+  # Look for an installed ace on unix
+  add_library(ace SHARED IMPORTED GLOBAL)
 
   set_target_properties(ace
     PROPERTIES
-      FOLDER
-        "dep")
-      
+      IMPORTED_LOCATION
+        "${ACE_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES
+        "${ACE_INCLUDE_DIR}")
 else()
     add_subdirectory(ace)
 endif()

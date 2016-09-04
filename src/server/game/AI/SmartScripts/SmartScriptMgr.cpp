@@ -982,14 +982,14 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
             GameEventMgr::GameEventDataMap const& events = sGameEventMgr->GetEventMap();
             if (eventId < 1 || eventId >= events.size())
             {
-                sLog->outError("SmartAIMgr: Entry %u SourceType %u Event %u Action %u uses non-existent event, eventId %u, skipped.", e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType(), e.action.gameEventStop);
+                sLog->outError("SmartAIMgr: Entry %u SourceType %u Event %u Action %u uses non-existent event, eventId %u, skipped.", e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType(), eventId);
                 return false;
             }
 
             GameEventData const& eventData = events[eventId];
             if (!eventData.isValid())
             {
-                sLog->outError("SmartAIMgr: Entry %u SourceType %u Event %u Action %u uses non-existent event, eventId %u, skipped.", e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType(), e.action.gameEventStop);
+                sLog->outError("SmartAIMgr: Entry %u SourceType %u Event %u Action %u uses non-existent event, eventId %u, skipped.", e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType(), eventId);
                 return false;
             }
             break;
@@ -1002,14 +1002,14 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
             GameEventMgr::GameEventDataMap const& events = sGameEventMgr->GetEventMap();
             if (eventId < 1 || eventId >= events.size())
             {
-                sLog->outError("SmartAIMgr: Entry %u SourceType %u Event %u Action %u uses non-existent event, eventId %u, skipped.", e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType(), e.action.gameEventStart);
+                sLog->outError("SmartAIMgr: Entry %u SourceType %u Event %u Action %u uses non-existent event, eventId %u, skipped.", e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType(), eventId);
                 return false;
             }
 
             GameEventData const& eventData = events[eventId];
             if (!eventData.isValid())
             {
-                sLog->outError("SmartAIMgr: Entry %u SourceType %u Event %u Action %u uses non-existent event, eventId %u, skipped.", e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType(), e.action.gameEventStart);
+                sLog->outError("SmartAIMgr: Entry %u SourceType %u Event %u Action %u uses non-existent event, eventId %u, skipped.", e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType(), eventId);
                 return false;
             }
             break;

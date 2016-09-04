@@ -1584,7 +1584,7 @@ void World::SetInitialWorldSettings()
     sLog->outString("Loading Skill Extra Item Table...");
     LoadSkillExtraItemTable();
 
-    sLog->outString("server.loading", "Loading Skill Perfection Data Table...");
+    sLog->outString("Loading Skill Perfection Data Table...");
     LoadSkillPerfectItemTable();
 
     sLog->outString("Loading Skill Fishing base level requirements...");

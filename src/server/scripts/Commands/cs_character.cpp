@@ -711,7 +711,7 @@ public:
         // Submit the transaction
         CharacterDatabase.CommitTransaction(trans);
 
-        handler->PSendSysMessage("Template '%s' applied!", charTemplate->name);
+        handler->PSendSysMessage("Template '%s' applied!", charTemplate->name.c_str());
         return true;
     }
 };

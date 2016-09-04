@@ -202,20 +202,20 @@ extern int main(int argc, char** argv)
             ULONG_PTR currentAffinity = affinity & appAff;
             
             if (!currentAffinity)
-                sLog->outError("server.authserver", "Processors marked in UseProcessors bitmask (hex) %x are not accessible for the authserver. Accessible processors bitmask (hex): %x", affinity, appAff);
+                sLog->outError("Processors marked in UseProcessors bitmask (hex) %x are not accessible for the authserver. Accessible processors bitmask (hex): %x", affinity, appAff);
             else if (SetProcessAffinityMask(hProcess, currentAffinity))
-                sLog->outString("server.authserver", "Using processors (bitmask, hex): %x", currentAffinity);
+                sLog->outString("Using processors (bitmask, hex): %x", currentAffinity);
             else
-                sLog->outError("server.authserver", "Can't set used processors (hex): %x", currentAffinity);
+                sLog->outError("Can't set used processors (hex): %x", currentAffinity);
         }
     }
     
     if (highPriority)
     {
         if (SetPriorityClass(hProcess, HIGH_PRIORITY_CLASS))
-            sLog->outString("server.authserver", "authserver process priority class set to HIGH");
+            sLog->outString("authserver process priority class set to HIGH");
         else
-            sLog->outError("server.authserver", "Can't set authserver process priority class.");
+            sLog->outError("Can't set authserver process priority class.");
     }
     
 #else // Linux
@@ -230,21 +230,21 @@ extern int main(int argc, char** argv)
                 CPU_SET(i, &mask);
 
         if (sched_setaffinity(0, sizeof(mask), &mask))
-            sLog->outError("server.authserver", "Can't set used processors (hex): %x, error: %s", affinity, strerror(errno));
+            sLog->outError("Can't set used processors (hex): %x, error: %s", affinity, strerror(errno));
         else
         {
             CPU_ZERO(&mask);
             sched_getaffinity(0, sizeof(mask), &mask);
-            sLog->outString("server.authserver", "Using processors (bitmask, hex): %lx", *(__cpu_mask*)(&mask));
+            sLog->outString("Using processors (bitmask, hex): %lx", *(__cpu_mask*)(&mask));
         }
     }
 
     if (highPriority)
     {
         if (setpriority(PRIO_PROCESS, 0, PROCESS_HIGH_PRIORITY))
-            sLog->outError("server.authserver", "Can't set authserver process priority class, error: %s", strerror(errno));
+            sLog->outError("Can't set authserver process priority class, error: %s", strerror(errno));
         else
-            sLog->outString("server.authserver", "authserver process priority class set to %i", getpriority(PRIO_PROCESS, 0));
+            sLog->outString("authserver process priority class set to %i", getpriority(PRIO_PROCESS, 0));
     }
     
 #endif
