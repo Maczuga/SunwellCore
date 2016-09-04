@@ -132,5 +132,75 @@ REPLACE INTO `spell_area` (`spell`, `area`, `autocast`) VALUES
 (61831, 4676, 1),
 (61831, 4677, 1);
 
-# =============================================================================================
+# Call to Arms quests
 
+DELETE FROM `disables` WHERE `entry` IN (11335,11336,11337,11338,11339,11340,11341,11342,13405,13407,14163,14164);
+DELETE FROM `game_event_seasonal_questrelation` WHERE `questId` IN (11335,11336,11337,11338,11339,11340,11341,11342,13405,13407,14163,14164);
+DELETE FROM `game_event_creature_quest` WHERE `quest` IN (11335,11336,11337,11338,11339,11340,11341,11342,13405,13407,14163,14164);
+DELETE FROM `creature_queststarter` WHERE `quest` IN (11335,11336,11337,11338,11339,11340,11341,11342,13405,13407,14163,14164);
+DELETE FROM `creature_questender` WHERE `quest` IN (11335,11336,11337,11338,11339,11340,11341,11342,13405,13407,14163,14164);
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `ConditionTypeOrReference` = 12 AND `SourceEntry` IN (11335,11336,11337,11338,11339,11340,11341,11342,13405,13407,14163,14164);
+-- Alliance
+-- Call to Arms: WSG - Event 19
+INSERT INTO `creature_queststarter` VALUES (15351, 11338);
+INSERT INTO `creature_questender`   VALUES (15351, 11338);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (11338, 19);
+INSERT INTO `conditions` VALUES (19, 0, 11338, 0, 0, 12, 0, 19, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: WSG');
+-- Call to Arms: AB - Event 20
+INSERT INTO `creature_queststarter` VALUES (15351, 11335);
+INSERT INTO `creature_questender`   VALUES (15351, 11335);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (11335, 20);
+INSERT INTO `conditions` VALUES (19, 0, 11335, 0, 0, 12, 0, 20, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: AB');
+-- Call to Arms: AV - Event 18
+INSERT INTO `creature_queststarter` VALUES (15351, 11336);
+INSERT INTO `creature_questender`   VALUES (15351, 11336);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (11336, 18);
+INSERT INTO `conditions` VALUES (19, 0, 11336, 0, 0, 12, 0, 18, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: AV');
+-- Call to Arms: EotS - Event 21
+INSERT INTO `creature_queststarter` VALUES (15351, 11337);
+INSERT INTO `creature_questender`   VALUES (15351, 11337);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (11337, 21);
+INSERT INTO `conditions` VALUES (19, 0, 11337, 0, 0, 12, 0, 21, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: EotS');
+-- Call to Arms: SotA - Event 53
+INSERT INTO `creature_queststarter` VALUES (15351, 13405);
+INSERT INTO `creature_questender`   VALUES (15351, 13405);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (13405, 53);
+INSERT INTO `conditions` VALUES (19, 0, 13405, 0, 0, 12, 0, 53, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: SotA');
+-- Call to Arms: IoC - Event 54
+INSERT INTO `creature_queststarter` VALUES (15351, 14163);
+INSERT INTO `creature_questender`   VALUES (15351, 14163);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (14163, 54);
+INSERT INTO `conditions` VALUES (19, 0, 14163, 0, 0, 12, 0, 54, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: IoC');
+-- Horde
+-- Call to Arms: WSG - Event 19
+INSERT INTO `creature_queststarter` VALUES (15350, 11342);
+INSERT INTO `creature_questender`   VALUES (15350, 11342);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (11342, 19);
+INSERT INTO `conditions` VALUES (19, 0, 11342, 0, 0, 12, 0, 19, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: WSG');
+-- Call to Arms: AB - Event 20
+INSERT INTO `creature_queststarter` VALUES (15350, 11339);
+INSERT INTO `creature_questender`   VALUES (15350, 11339);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (11339, 20);
+INSERT INTO `conditions` VALUES (19, 0, 11339, 0, 0, 12, 0, 20, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: AB');
+-- Call to Arms: AV - Event 18
+INSERT INTO `creature_queststarter` VALUES (15350, 11340);
+INSERT INTO `creature_questender`   VALUES (15350, 11340);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (11340, 18);
+INSERT INTO `conditions` VALUES (19, 0, 11340, 0, 0, 12, 0, 18, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: AV');
+-- Call to Arms: EotS - Event 21
+INSERT INTO `creature_queststarter` VALUES (15350, 11341);
+INSERT INTO `creature_questender`   VALUES (15350, 11341);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (11341, 21);
+INSERT INTO `conditions` VALUES (19, 0, 11341, 0, 0, 12, 0, 21, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: EotS');
+-- Call to Arms: SotA - Event 53
+INSERT INTO `creature_queststarter` VALUES (15350, 13407);
+INSERT INTO `creature_questender`   VALUES (15350, 13407);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (13407, 53);
+INSERT INTO `conditions` VALUES (19, 0, 13407, 0, 0, 12, 0, 53, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: SotA');
+-- Call to Arms: IoC - Event 54
+INSERT INTO `creature_queststarter` VALUES (15350, 14164);
+INSERT INTO `creature_questender`   VALUES (15350, 14164);
+INSERT INTO `game_event_seasonal_questrelation` VALUES (14164, 54);
+INSERT INTO `conditions` VALUES (19, 0, 14164, 0, 0, 12, 0, 54, 0, 0, 0, 0, 0, '', 'Quest avialable only during Call to Arms: IoC');
+
+# =============================================================================================

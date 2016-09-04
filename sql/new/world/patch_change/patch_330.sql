@@ -46,6 +46,19 @@ DELETE FROM `creature_queststarter` WHERE `quest IN (13240, 13241, 13243, 13244)
 DELETE FROM `creature_questender` WHERE `quest IN (13240, 13241, 13243, 13244);
 UPDATE `creature_template` SET `ScriptName`='' WHERE `entry`=31439;
 
+INSERT INTO `disables` VALUES (1, 11335, 0, '', '', 'Deprecated quest: Call to Arms: Arathi Basin');
+INSERT INTO `disables` VALUES (1, 11336, 0, '', '', 'Deprecated quest: Call to Arms: Alterac Valley');
+INSERT INTO `disables` VALUES (1, 11337, 0, '', '', 'Deprecated quest: Call to Arms: Eye of the Storm');
+INSERT INTO `disables` VALUES (1, 11338, 0, '', '', 'Deprecated quest: Call to Arms: Warsong Gulch');
+INSERT INTO `disables` VALUES (1, 11339, 0, '', '', 'Deprecated quest: Call to Arms: Arathi Basin');
+INSERT INTO `disables` VALUES (1, 11340, 0, '', '', 'Deprecated quest: Call to Arms: Alterac Valley');
+INSERT INTO `disables` VALUES (1, 11341, 0, '', '', 'Deprecated quest: Call to Arms: Eye of the Storm');
+INSERT INTO `disables` VALUES (1, 11342, 0, '', '', 'Deprecated quest: Call to Arms: Warsong Gulch');
+INSERT INTO `disables` VALUES (1, 13405, 0, '', '', 'Deprecated quest: Call to Arms: Strand of the Ancients');
+INSERT INTO `disables` VALUES (1, 13407, 0, '', '', 'Deprecated quest: Call to Arms: Strand of the Ancients');
+INSERT INTO `disables` VALUES (1, 14163, 0, '', '', 'Deprecated quest: Call to Arms: Isle of Conquest');
+INSERT INTO `disables` VALUES (1, 14164, 0, '', '', 'Deprecated quest: Call to Arms: Isle of Conquest');
+
 
 # =============================================================================================
 
