@@ -1092,7 +1092,7 @@ void WorldSession::InitializeQueryCallbackParameters()
     // Callback parameters that have pointers in them should be properly
     // initialized to NULL here.
     _charCreateCallback.SetParam(NULL);
-	_loadPetFromDBFirstCallback.SetFirstParam(NULL);
+	_loadPetFromDBFirstCallback.SetFirstParam(0);
 	_loadPetFromDBFirstCallback.SetSecondParam(NULL);
 }
 

@@ -102,6 +102,12 @@ void LFGMgr::LoadRewards()
 {
     uint32 oldMSTime = getMSTime();
 
+    if (!sWorld->IsInCurrentContent(PATCH_330))
+    {
+        sLog->outString(">> Loaded 0 lfg dungeon rewards. LFG was not implemented in current patch!");
+        return;
+    }
+
     for (LfgRewardContainer::iterator itr = RewardMapStore.begin(); itr != RewardMapStore.end(); ++itr)
         delete itr->second;
     RewardMapStore.clear();
@@ -2043,11 +2049,14 @@ void LFGMgr::FinishDungeon(uint64 gguid, const uint32 dungeonId, const Map* curr
             sLog->outDebug(LOG_FILTER_LFG, "LFGMgr::FinishDungeon: [" UI64FMTD "] is in map %u and should be in %u to get reward", guid, player->GetMapId(), mapId);
             continue;
         }
+        
+        if (!sWorld->IsInCurrentContent(PATCH_330))
+            continue;
 
         // Xinef: Update achievements, set correct amount of randomly grouped players
         if (dungeon->difficulty == DUNGEON_DIFFICULTY_HEROIC)
 			if (uint8 count = GetRandomPlayersCount(player->GetGUID()))
-				player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_USE_LFD_TO_GROUP_WITH_PLAYERS, count);
+				  player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_USE_LFD_TO_GROUP_WITH_PLAYERS, count);
 
         LfgReward const* reward = GetRandomDungeonReward(rDungeonId, player->getLevel());
         if (!reward)
