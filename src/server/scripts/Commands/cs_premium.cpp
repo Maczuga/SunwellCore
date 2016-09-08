@@ -93,7 +93,7 @@ public:
         {
             handler->PSendSysMessage("To teleport, please fix the following:");
             for (std::list<std::string>::const_iterator itr = errors.begin(); itr != errors.end(); ++itr)
-                handler->PSendSysMessage(("- " + (*itr)).c_str());
+                handler->PSendSysMessage("- %s", (*itr).c_str());
 
             handler->SetSentErrorMessage(true);
             return false;
