@@ -504,8 +504,10 @@ inline void KillRewarder::_InitXP(Player* player)
     // * on battlegrounds;
     // * otherwise, not in PvP;
     // * not if killer is on vehicle.
-    if (_isBattleGround || (!_isPvP && !_killer->GetVehicle()))
-        _xp = Trinity::XP::Gain(player, _victim);
+    if (_isBattleGround && !sWorld->IsInCurrentContent(PATCH_320))
+        _xp = 0;
+    else if (!_isPvP && !_killer->GetVehicle())
+            _xp = Trinity::XP::Gain(player, _victim);
 
 	if (_xp && !_isBattleGround && _victim) // pussywizard: npcs with relatively low hp give lower exp
 		if (_victim->GetTypeId() == TYPEID_UNIT)
@@ -543,6 +545,9 @@ inline void KillRewarder::_RewardXP(Player* player, float rate)
         Unit::AuraEffectList const& auras = player->GetAuraEffectsByType(SPELL_AURA_MOD_XP_PCT);
         for (Unit::AuraEffectList::const_iterator i = auras.begin(); i != auras.end(); ++i)
             AddPct(xp, (*i)->GetAmount());
+
+        if (!sWorld->IsInCurrentContent(PATCH_320))
+            return;
 
         // 4.2.3. Give XP to player.
         player->GiveXP(xp, _victim, _groupRate);
