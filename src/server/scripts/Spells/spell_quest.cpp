@@ -3027,6 +3027,63 @@ class spell_q12919_gymers_throw : public SpellScriptLoader
         }
 };
 
+#define QUEST_CROW_TRANSFORM 9718
+
+// spell 38776 
+class spell_q9718_crow_transform : public SpellScriptLoader
+{
+public:
+    spell_q9718_crow_transform() : SpellScriptLoader("spell_q9718_crow_transform") { }
+
+    class spell_q9718_crow_transform_AuraScript : public AuraScript
+    {
+        PrepareAuraScript(spell_q9718_crow_transform_AuraScript)
+
+        void HandleEffectRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
+        {
+            if(GetOwner())
+                if(Player* player = GetOwner()->ToPlayer())
+                    player->CompleteQuest(QUEST_CROW_TRANSFORM);
+        }
+
+        void Register()
+        {
+            OnEffectRemove += AuraEffectRemoveFn(spell_q9718_crow_transform_AuraScript::HandleEffectRemove, EFFECT_0, SPELL_AURA_TRANSFORM, AURA_EFFECT_HANDLE_REAL_OR_REAPPLY_MASK);
+        }
+    };
+
+    AuraScript* GetAuraScript() const
+    {
+        return new spell_q9718_crow_transform_AuraScript();
+    }
+};
+
+// herald of war and life without regret portal spells
+class spell_59064_59439_portals : public SpellScriptLoader
+{
+public:
+    spell_59064_59439_portals() : SpellScriptLoader("spell_59064_59439_portals") { }
+
+    class spell_59064_59439_portals_SpellScript : public SpellScript
+    {
+        PrepareSpellScript(spell_59064_59439_portals_SpellScript);
+
+        void HandleScript(SpellEffIndex /*effIndex*/)
+        {
+            GetHitUnit()->CastSpell(GetHitUnit(), uint32(GetEffectValue()));
+        }
+
+        void Register()
+        {
+            OnEffectHitTarget += SpellEffectFn(spell_59064_59439_portals_SpellScript::HandleScript, EFFECT_0, SPELL_EFFECT_SCRIPT_EFFECT);
+        }
+    };
+
+    SpellScript* GetSpellScript() const
+    {
+        return new spell_59064_59439_portals_SpellScript();
+    }
+};
 
 void AddSC_quest_spell_scripts()
 {
@@ -3051,6 +3108,7 @@ void AddSC_quest_spell_scripts()
 	new spell_q11198_take_down_tethyr();
 	new spell_q11653_youre_not_so_big_now();
 	new spell_q10985_light_of_the_naaru();
+    new spell_q9718_crow_transform();
 
 	// Theirs
     new spell_q55_sacred_cleansing();
@@ -3098,4 +3156,5 @@ void AddSC_quest_spell_scripts()
     new spell_q12619_emblazon_runeblade_effect();
     new spell_q12919_gymers_grab();
     new spell_q12919_gymers_throw();
+    new spell_59064_59439_portals();
 }

@@ -67,6 +67,7 @@ public:
 			_thaddiusGateGUID = 0;
 			_horsemanGateGUID = 0;
 			_kelthuzadfloorGUID = 0;
+            _kelthuzadgateGUID = 0;
 			_sapphironGateGUID = 0;
 			_horsemanPortalGUID = 0;
 			_loathebPortalGUID = 0;
@@ -120,6 +121,7 @@ public:
 		uint64 _gothikExitGateGUID;
 		uint64 _horsemanGateGUID;
 		uint64 _kelthuzadfloorGUID;
+        uint64 _kelthuzadgateGUID;
 		uint64 _sapphironGateGUID;
 		uint64 _horsemanPortalGUID;
 		uint64 _loathebPortalGUID;
@@ -298,6 +300,9 @@ public:
 				case GO_KELTHUZAD_FLOOR:
 					_kelthuzadfloorGUID = pGo->GetGUID();
 					break;
+                case GO_KELTHUZAD_GATE:
+                    _kelthuzadgateGUID = pGo->GetGUID();
+                    break;
 				case GO_SAPPHIRON_GATE:
 					_sapphironGateGUID = pGo->GetGUID();
 					if (Encounters[EVENT_SAPPHIRON] == DONE)
@@ -682,6 +687,8 @@ public:
 					return _gothikExitGateGUID;
 				case DATA_KELTHUZAD_FLOOR:
 					return _kelthuzadfloorGUID;
+                case DATA_KELTHUZAD_GATE:
+                    return _kelthuzadgateGUID;
 
 				// NPCs
 				case DATA_THADDIUS_BOSS:
@@ -799,6 +806,28 @@ public:
 			}
 		}
 	};
+};
+
+class at_naxxramas_frostwyrm_wing : public AreaTriggerScript
+{
+public:
+    at_naxxramas_frostwyrm_wing() : AreaTriggerScript("at_naxxramas_frostwyrm_wing") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*areaTrigger*/)
+    {
+        if (player->IsInCombat())
+            return true;
+
+        if (sWorld->IsInCurrentContent(PATCH_330))
+            return false;
+
+        if (InstanceScript* instance = player->GetInstanceScript())
+            for (uint32 i = EVENT_PATCHWERK; i < EVENT_SAPPHIRON; ++i)
+                if (instance->GetBossState(i) != DONE)
+                    return true;
+
+        return false;
+    }
 };
 
 void AddSC_instance_naxxramas()

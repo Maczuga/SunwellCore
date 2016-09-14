@@ -493,6 +493,13 @@ void SmartAI::CheckConditions(const uint32 diff)
 
 void SmartAI::UpdateAI(uint32 diff)
 {
+    // if creature has any fear effect stop casting the spell
+    if(me && me->HasUnitState(UNIT_STATE_FLEEING))
+    {
+        me->AttackStop();
+        return;
+    }
+
 	CheckConditions(diff);
     GetScript()->OnUpdate(diff);
     UpdatePath(diff);
