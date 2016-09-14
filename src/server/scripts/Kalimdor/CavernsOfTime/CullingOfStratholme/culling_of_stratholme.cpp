@@ -501,6 +501,7 @@ public:
 				if (data >= COS_PROGRESS_FINISHED_INTRO)
 					ReorderInstance(data);
 			}
+            me->SetReactState(REACT_DEFENSIVE);
         }
 
         void WaypointReached(uint32 uiPointId)
@@ -528,6 +529,7 @@ public:
                 case 8:
                     me->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
                     SetEscortPaused(true);
+                    //me->SetReactState(REACT_DEFENSIVE);
 					if (pInstance)
 						pInstance->SetData(DATA_ARTHAS_EVENT, COS_PROGRESS_FINISHED_INTRO);
 
@@ -552,7 +554,6 @@ public:
 						cityman->MonsterSay("Oh no...", LANG_UNIVERSAL, 0); // missing script_text
 						me->CastSpell(cityman, SPELL_ARTHAS_CRUSADER_STRIKE, true);
 					}
-					me->SetReactState(REACT_DEFENSIVE);
 					SetEscortPaused(true);
 					eventInRun = true;
 					break;
@@ -608,7 +609,7 @@ public:
                         if (GameObject* pGate = pInstance->instance->GetGameObject(pInstance->GetData64(DATA_SHKAF_GATE)))
                             pGate->SetGoState(GO_STATE_ACTIVE);
 					break;
-				// Behind secred passage
+				// Behind secret passage
 				case 45:
                     SetRun(true);
                     me->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
@@ -900,7 +901,7 @@ public:
 						summons.DespawnEntry(NPC_CITY_MAN);
 						summons.DespawnEntry(NPC_CITY_MAN2);
                         Talk(SAY_PHASE209);
-						me->SetReactState(REACT_DEFENSIVE);
+						//me->SetReactState(REACT_DEFENSIVE);
 						ScheduleNextEvent(currentEvent, 20000);
 						if (pInstance)
 							pInstance->SetData(DATA_ARTHAS_EVENT, COS_PROGRESS_FINISHED_CITY_INTRO);
@@ -923,7 +924,7 @@ public:
 						break;
 					// After waypoint 22
 					case EVENT_ACTION_PHASE3:
-						me->SetReactState(REACT_AGGRESSIVE);
+						////me->SetReactState(REACT_AGGRESSIVE);
 						if (Creature* cr = GetEventNpc(NPC_CITY_MAN3))
 							cr->SetTarget(me->GetGUID());
                         if (Creature* cr = GetEventNpc(NPC_CITY_MAN4))
@@ -933,7 +934,7 @@ public:
 						ScheduleNextEvent(currentEvent, 1000);
 						break;
 					case EVENT_ACTION_PHASE3+1:
-						me->SetReactState(REACT_AGGRESSIVE);
+						////me->SetReactState(REACT_AGGRESSIVE);
 						if (Creature* cr = GetEventNpc(NPC_CITY_MAN3))
 							cr->AI()->Talk(SAY_PHASE302);
 
@@ -1247,7 +1248,7 @@ void npc_arthas::npc_arthasAI::ReorderInstance(uint32 data)
 		case COS_PROGRESS_KILLED_MEATHOOK:
 		case COS_PROGRESS_KILLED_SALRAMM:
 			SetNextWaypoint(12, false);
-			me->SetReactState(REACT_DEFENSIVE);
+			//me->SetReactState(REACT_DEFENSIVE);
 			
 			if (data == COS_PROGRESS_FINISHED_CITY_INTRO)
 			{

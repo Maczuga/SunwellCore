@@ -834,4 +834,5 @@ void AddSC_instance_naxxramas()
 {
     new instance_naxxramas();
 	new boss_naxxramas_misc();
+    new at_naxxramas_frostwyrm_wing();
 }
