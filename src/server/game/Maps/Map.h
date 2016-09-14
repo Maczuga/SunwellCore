@@ -519,6 +519,7 @@ class Map : public GridRefManager<NGridType>
         void SendInitTransports(Player* player);
         void SendRemoveTransports(Player* player);
         void SendZoneDynamicInfo(Player* player);
+        void PlayDirectSoundToMap(uint32 soundId, uint32 zoneId = 0);
         void SendInitSelf(Player* player);
 
         void SetZoneMusic(uint32 zoneId, uint32 musicId);
