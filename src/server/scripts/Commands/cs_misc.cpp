@@ -1011,7 +1011,8 @@ public:
 
     static bool HandleCooldownCommand(ChatHandler* handler, char const* args)
     {
-        Player* target = handler->getSelectedPlayer();
+//        Player* target = handler->getSelectedPlayer();
+        Player* target = handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_PLAYER_NOT_FOUND);
@@ -1222,7 +1223,7 @@ public:
 
         std::string argStr = (char*)args;
 
-        Player* chr = handler->getSelectedPlayer();
+        Player* chr = handler->GetSession()->GetPlayer();
 
         if (!chr)
             chr = handler->GetSession()->GetPlayer();
@@ -1521,9 +1522,9 @@ public:
             count = 1;
 
         Player* player = handler->GetSession()->GetPlayer();
-        Player* playerTarget = handler->getSelectedPlayer();
-        if (!playerTarget)
-            playerTarget = player;
+//        Player* playerTarget = handler->getSelectedPlayer();
+//        if (!playerTarget)
+//            playerTarget = player;
 
         ;//sLog->outDetail(handler->GetTrinityString(LANG_ADDITEM), itemId, count);
 
@@ -1538,8 +1539,8 @@ public:
         // Subtract
         if (count < 0)
         {
-            playerTarget->DestroyItemCount(itemId, -count, true, false);
-            handler->PSendSysMessage(LANG_REMOVEITEM, itemId, -count, handler->GetNameLink(playerTarget).c_str());
+            player->DestroyItemCount(itemId, -count, true, false);
+            handler->PSendSysMessage(LANG_REMOVEITEM, itemId, -count, handler->GetNameLink(player).c_str());
             return true;
         }
 
@@ -1554,7 +1555,7 @@ public:
 
         // check space and find places
         ItemPosCountVec dest;
-        InventoryResult msg = playerTarget->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itemId, count, &noSpaceForCount);
+        InventoryResult msg = player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itemId, count, &noSpaceForCount);
         if (msg != EQUIP_ERR_OK)                               // convert to possible store amount
             count -= noSpaceForCount;
 
@@ -1565,19 +1566,19 @@ public:
             return false;
         }
 
-        Item* item = playerTarget->StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId));
+        Item* item = player->StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId));
 
         // remove binding (let GM give it to another player later)
-        if (player == playerTarget)
-            for (ItemPosCountVec::const_iterator itr = dest.begin(); itr != dest.end(); ++itr)
-                if (Item* item1 = player->GetItemByPos(itr->pos))
-                    item1->SetBinding(false);
+//        if (player == playerTarget)
+//            for (ItemPosCountVec::const_iterator itr = dest.begin(); itr != dest.end(); ++itr)
+//                if (Item* item1 = player->GetItemByPos(itr->pos))
+//                    item1->SetBinding(false);
 
         if (count > 0 && item)
         {
             player->SendNewItem(item, count, false, true);
-            if (player != playerTarget)
-                playerTarget->SendNewItem(item, count, true, false);
+//            if (player != playerTarget)
+//                playerTarget->SendNewItem(item, count, true, false);
         }
 
         if (noSpaceForCount > 0)
@@ -1606,9 +1607,7 @@ public:
         }
 
         Player* player = handler->GetSession()->GetPlayer();
-        Player* playerTarget = handler->getSelectedPlayer();
-        if (!playerTarget)
-            playerTarget = player;
+//        Player* playerTarget = handler->getSelectedPlayer();
 
         ;//sLog->outDetail(handler->GetTrinityString(LANG_ADDITEMSET), itemSetId);
 
@@ -1620,18 +1619,18 @@ public:
             {
                 found = true;
                 ItemPosCountVec dest;
-                InventoryResult msg = playerTarget->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itr->second.ItemId, 1);
+                InventoryResult msg = player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itr->second.ItemId, 1);
                 if (msg == EQUIP_ERR_OK)
                 {
-                    Item* item = playerTarget->StoreNewItem(dest, itr->second.ItemId, true);
+                    Item* item = player->StoreNewItem(dest, itr->second.ItemId, true);
 
                     // remove binding (let GM give it to another player later)
-                    if (player == playerTarget)
-                        item->SetBinding(false);
+//                    if (player == playerTarget)
+//                        item->SetBinding(false);
 
                     player->SendNewItem(item, 1, false, true);
-                    if (player != playerTarget)
-                        playerTarget->SendNewItem(item, 1, true, false);
+//                    if (player != playerTarget)
+//                        playerTarget->SendNewItem(item, 1, true, false);
                 }
                 else
                 {
@@ -1702,8 +1701,9 @@ public:
 
     static bool HandleMaxSkillCommand(ChatHandler* handler, char const* /*args*/)
     {
-        Player* SelectedPlayer = handler->getSelectedPlayer();
-        if (!SelectedPlayer)
+        //        Player* target = handler->getSelectedPlayer();
+        Player* target = handler->GetSession()->GetPlayer();
+        if (!target)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);
             handler->SetSentErrorMessage(true);
@@ -1711,7 +1711,7 @@ public:
         }
 
         // each skills that have max skill value dependent from level seted to current level max skill value
-        SelectedPlayer->UpdateSkillsToMaxSkillsForLevel();
+        target->UpdateSkillsToMaxSkillsForLevel();
         return true;
     }
 
@@ -1738,7 +1738,8 @@ public:
 
         int32 level = uint32(atol(levelStr));
 
-        Player* target = handler->getSelectedPlayer();
+        //        Player* target = handler->getSelectedPlayer();
+        Player* target = handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);
@@ -2431,7 +2432,8 @@ public:
         if (!*args)
             return false;
 
-        Player* player = handler->getSelectedPlayer();
+        //        Player* player = handler->getSelectedPlayer();
+        Player* player = handler->GetSession()->GetPlayer();
         if (!player)
         {
             handler->PSendSysMessage(LANG_NO_CHAR_SELECTED);

@@ -69,7 +69,8 @@ public:
 
     static bool HandleInstanceListBindsCommand(ChatHandler* handler, char const* /*args*/)
     {
-        Player* player = handler->getSelectedPlayer();
+//        Player* player = handler->getSelectedPlayer();
+        Player* player = handler->GetSession()->GetPlayer();
         if (!player)
             player = handler->GetSession()->GetPlayer();
 
@@ -97,7 +98,8 @@ public:
         if (!*args)
             return false;
 
-        Player* player = handler->getSelectedPlayer();
+//        Player* player = handler->getSelectedPlayer();
+        Player* player = handler->GetSession()->GetPlayer();
         if (!player)
             player = handler->GetSession()->GetPlayer();
 

@@ -62,7 +62,8 @@ public:
                 return false;
         }
 
-        Player* target = handler->getSelectedPlayer();
+//        Player* target = handler->getSelectedPlayer();
+        Player* target = handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);

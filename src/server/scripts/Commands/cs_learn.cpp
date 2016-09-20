@@ -76,7 +76,8 @@ public:
 
     static bool HandleLearnCommand(ChatHandler* handler, char const* args)
     {
-        Player* targetPlayer = handler->getSelectedPlayer();
+//        Player* targetPlayer = handler->getSelectedPlayer();
+        Player* targetPlayer = handler->GetSession()->GetPlayer();
 
         if (!targetPlayer)
         {
@@ -381,7 +382,8 @@ public:
         //  Learns all recipes of specified profession and sets skill to max
         //  Example: .learn all_recipes enchanting
 
-        Player* target = handler->getSelectedPlayer();
+//        Player* target = handler->getSelectedPlayer();
+        Player* target = handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_PLAYER_NOT_FOUND);
@@ -500,7 +502,8 @@ public:
         char const* allStr = strtok(NULL, " ");
         bool allRanks = allStr ? (strncmp(allStr, "all", strlen(allStr)) == 0) : false;
 
-        Player* target = handler->getSelectedPlayer();
+//        Player* target = handler->getSelectedPlayer();
+        Player* target = handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);

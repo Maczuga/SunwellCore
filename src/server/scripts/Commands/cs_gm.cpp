@@ -95,7 +95,8 @@ public:
         if (!*args)
             return false;
 
-        Player* target =  handler->getSelectedPlayer();
+//        Player* target =  handler->getSelectedPlayer();
+        Player* target = handler->GetSession()->GetPlayer();
         if (!target || handler->GetSession()->GetSecurity() < SEC_GAMEMASTER)
             target = handler->GetSession()->GetPlayer();
 
