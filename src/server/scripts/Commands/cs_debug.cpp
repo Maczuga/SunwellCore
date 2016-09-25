@@ -68,7 +68,7 @@ public:
         {
             { "setbit",         SEC_ADMINISTRATOR,  false, &HandleDebugSet32BitCommand,        "", NULL },
             { "threat",         SEC_ADMINISTRATOR,  false, &HandleDebugThreatListCommand,      "", NULL },
-            { "hostil",         SEC_ADMINISTRATOR,  false, &HandleDebugHostileRefListCommand,  "", NULL },
+            { "hostile",        SEC_ADMINISTRATOR,  false, &HandleDebugHostileRefListCommand,  "", NULL },
             { "anim",           SEC_GAMEMASTER,     false, &HandleDebugAnimCommand,            "", NULL },
             { "arena",          SEC_ADMINISTRATOR,  false, &HandleDebugArenaCommand,           "", NULL },
             { "bg",             SEC_ADMINISTRATOR,  false, &HandleDebugBattlegroundCommand,    "", NULL },
