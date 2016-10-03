@@ -138,12 +138,6 @@
 
 inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 
-#if COMPILER == COMPILER_MICROSOFT
-inline bool myisfinite(float f) { return _finite(f) && !_isnan(f); }
-#else
-inline bool myisfinite(float f) { return finite(f) && !isnan(f); }
-#endif
-
 #define atol(a) strtoul( a, NULL, 10)
 
 #define STRINGIZE(a) #a

@@ -240,7 +240,7 @@ class ByteBuffer
         ByteBuffer &operator>>(float &value)
         {
             value = read<float>();
-			if (!myisfinite(value))
+			if (!std::isfinite(value))
 			{
 				value = 0.0f;
                 //throw ByteBufferException();
@@ -251,7 +251,7 @@ class ByteBuffer
         ByteBuffer &operator>>(double &value)
         {
             value = read<double>();
-			if (!myisfinite(value))
+			if (!std::isfinite(value))
 			{
 				value = 0.0f;
                 //throw ByteBufferException();

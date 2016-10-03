@@ -5,8 +5,8 @@ sudo adduser <username>
 sudo su - <username>
 
 #3 - Get dependencies:
-sudo apt-get install git cmake make gcc g++ libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev
-sudo apt-get install libboost-dev libboost-thread-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev
+sudo apt-get install git cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev
+#sudo apt-get install libboost-dev libboost-thread-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev
 sudo apt-get install mysql-server p7zip
 
 # Comment: you might want to replace all mysql libs for mariadb ones.
