@@ -182,7 +182,7 @@ void LoadSkillExtraItemTable()
             continue;
         }
 
-        uint8 additionalMaxNum = fields[3].GetInt32();
+        uint8 additionalMaxNum = fields[3].GetInt8();
         if (!additionalMaxNum)
         {
             sLog->outError("Skill specialization %u has 0 max number of extra items in `skill_extra_item_template`!", spellId);

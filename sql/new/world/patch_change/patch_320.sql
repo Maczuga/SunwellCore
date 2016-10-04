@@ -1,3 +1,9 @@
+### CONFIG CHANGES REQUIRED
+# AllowTwoSide.Accounts = 1
+# AllowTwoSide.Interaction.Mail = 1
+# TalentsInspecting = 1
+#
+
 #
 # === Content 3.2.0 (Argent Tournament) ===
 #
