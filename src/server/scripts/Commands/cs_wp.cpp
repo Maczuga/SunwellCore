@@ -34,23 +34,21 @@ class wp_commandscript : public CommandScript
 public:
     wp_commandscript() : CommandScript("wp_commandscript") { }
 
-    ChatCommand* GetCommands() const
+    std::vector<ChatCommand> GetCommands() const
     {
-        static ChatCommand wpCommandTable[] =
+        static std::vector<ChatCommand> wpCommandTable =
         {
-            { "add",            SEC_GAMEMASTER,     false, &HandleWpAddCommand,                "", NULL },
-            { "event",          SEC_GAMEMASTER,     false, &HandleWpEventCommand,              "", NULL },
-            { "load",           SEC_GAMEMASTER,     false, &HandleWpLoadCommand,               "", NULL },
-            { "modify",         SEC_GAMEMASTER,     false, &HandleWpModifyCommand,             "", NULL },
-            { "unload",         SEC_GAMEMASTER,     false, &HandleWpUnLoadCommand,             "", NULL },
-            { "reload",         SEC_ADMINISTRATOR,  false, &HandleWpReloadCommand,             "", NULL },
-            { "show",           SEC_GAMEMASTER,     false, &HandleWpShowCommand,               "", NULL },
-            { NULL,             0,                  false, NULL,                               "", NULL }
+            { "add",            SEC_GAMEMASTER,     false, &HandleWpAddCommand,                "" },
+            { "event",          SEC_GAMEMASTER,     false, &HandleWpEventCommand,              "" },
+            { "load",           SEC_GAMEMASTER,     false, &HandleWpLoadCommand,               "" },
+            { "modify",         SEC_GAMEMASTER,     false, &HandleWpModifyCommand,             "" },
+            { "unload",         SEC_GAMEMASTER,     false, &HandleWpUnLoadCommand,             "" },
+            { "reload",         SEC_ADMINISTRATOR,  false, &HandleWpReloadCommand,             "" },
+            { "show",           SEC_GAMEMASTER,     false, &HandleWpShowCommand,               "" }
         };
-        static ChatCommand commandTable[] =
+        static std::vector<ChatCommand> commandTable =
         {
-            { "wp",             SEC_GAMEMASTER,     false, NULL,                     "", wpCommandTable },
-            { NULL,             0,                  false, NULL,                               "", NULL }
+            { "wp",             SEC_GAMEMASTER,     false, NULL,                     "", wpCommandTable }
         };
         return commandTable;
     }

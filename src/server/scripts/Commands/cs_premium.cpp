@@ -30,17 +30,15 @@ class premium_commandscript : public CommandScript
 public:
     premium_commandscript() : CommandScript("premium_commandscript") { }
 
-    ChatCommand* GetCommands() const
+    std::vector<ChatCommand> GetCommands() const
     {
-        static ChatCommand premiumCommandTable[] =
+        static std::vector<ChatCommand> premiumCommandTable =
         {
-            { "teleport",       SEC_PLAYER,         false, &HandlePremiumTeleportCommand,     "", NULL },
-            { NULL,             0,                  false, NULL,                              "", NULL }
+            { "teleport",       SEC_PLAYER,         false, &HandlePremiumTeleportCommand,     "" }
         };
-        static ChatCommand commandTable[] =
+        static std::vector<ChatCommand> commandTable =
         {
-            { "premium",        SEC_PLAYER,         false, NULL,                              "", premiumCommandTable },
-            { NULL,             0,                  false, NULL,                              "", NULL }
+            { "premium",        SEC_PLAYER,         false, NULL,                              "", premiumCommandTable }
         };
         return commandTable;
     }

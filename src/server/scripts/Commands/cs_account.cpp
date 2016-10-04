@@ -33,12 +33,11 @@ class account_commandscript : public CommandScript
 public:
     account_commandscript() : CommandScript("account_commandscript") { }
 
-    ChatCommand* GetCommands() const
+    std::vector<ChatCommand> GetCommands() const
     {
-        static ChatCommand commandTable[] =
+        static std::vector<ChatCommand> commandTable =
         {
-            { "account",               SEC_PLAYER,         false, &HandleAccountCommand,             "", NULL },
-            { NULL,                    0,                  false, NULL,                              "", NULL }
+            { "account",               SEC_PLAYER,         false, &HandleAccountCommand,             "" }
         };
         return commandTable;
     }

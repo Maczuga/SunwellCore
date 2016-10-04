@@ -38,48 +38,44 @@ class lookup_commandscript : public CommandScript
 public:
     lookup_commandscript() : CommandScript("lookup_commandscript") { }
 
-    ChatCommand* GetCommands() const
+    std::vector<ChatCommand> GetCommands() const
     {
-        static ChatCommand lookupPlayerCommandTable[] =
+        static std::vector<ChatCommand> lookupPlayerCommandTable =
         {
-            { "ip",             SEC_GAMEMASTER,     true,  &HandleLookupPlayerIpCommand,        "", NULL },
-            { "account",        SEC_GAMEMASTER,     true,  &HandleLookupPlayerAccountCommand,   "", NULL },
-            { "email",          SEC_GAMEMASTER,     true,  &HandleLookupPlayerEmailCommand,     "", NULL },
-            { NULL,             0,                  false, NULL,                                "", NULL }
+            { "ip",             SEC_GAMEMASTER,     true,  &HandleLookupPlayerIpCommand,        "" },
+            { "account",        SEC_GAMEMASTER,     true,  &HandleLookupPlayerAccountCommand,   "" },
+            { "email",          SEC_GAMEMASTER,     true,  &HandleLookupPlayerEmailCommand,     "" }
         };
 
-        static ChatCommand lookupSpellCommandTable[] =
+        static std::vector<ChatCommand> lookupSpellCommandTable =
         {
-            { "id",             SEC_ADMINISTRATOR,  true,  &HandleLookupSpellIdCommand,         "", NULL },
-            { "",               SEC_ADMINISTRATOR,  true,  &HandleLookupSpellCommand,           "", NULL },
-            { NULL,             0,                  false, NULL,                                "", NULL }
+            { "id",             SEC_ADMINISTRATOR,  true,  &HandleLookupSpellIdCommand,         "" },
+            { "",               SEC_ADMINISTRATOR,  true,  &HandleLookupSpellCommand,           "" }
         };
 
-        static ChatCommand lookupCommandTable[] =
+        static std::vector<ChatCommand> lookupCommandTable =
         {
-            { "area",           SEC_GAMEMASTER,      true,  &HandleLookupAreaCommand,            "", NULL },
-            { "creature",       SEC_ADMINISTRATOR,  true,  &HandleLookupCreatureCommand,        "", NULL },
-            { "event",          SEC_GAMEMASTER,     true,  &HandleLookupEventCommand,           "", NULL },
-            { "faction",        SEC_ADMINISTRATOR,  true,  &HandleLookupFactionCommand,         "", NULL },
-            { "item",           SEC_ADMINISTRATOR,  true,  &HandleLookupItemCommand,            "", NULL },
-            { "itemset",        SEC_ADMINISTRATOR,  true,  &HandleLookupItemSetCommand,         "", NULL },
-            { "object",         SEC_ADMINISTRATOR,  true,  &HandleLookupObjectCommand,          "", NULL },
-            { "quest",          SEC_ADMINISTRATOR,  true,  &HandleLookupQuestCommand,           "", NULL },
+            { "area",           SEC_GAMEMASTER,      true,  &HandleLookupAreaCommand,            "" },
+            { "creature",       SEC_ADMINISTRATOR,  true,  &HandleLookupCreatureCommand,        "" },
+            { "event",          SEC_GAMEMASTER,     true,  &HandleLookupEventCommand,           "" },
+            { "faction",        SEC_ADMINISTRATOR,  true,  &HandleLookupFactionCommand,         "" },
+            { "item",           SEC_ADMINISTRATOR,  true,  &HandleLookupItemCommand,            "" },
+            { "itemset",        SEC_ADMINISTRATOR,  true,  &HandleLookupItemSetCommand,         "" },
+            { "object",         SEC_ADMINISTRATOR,  true,  &HandleLookupObjectCommand,          "" },
+            { "quest",          SEC_ADMINISTRATOR,  true,  &HandleLookupQuestCommand,           "" },
             { "player",         SEC_GAMEMASTER,     true,  NULL,                                "", lookupPlayerCommandTable },
-            { "skill",          SEC_ADMINISTRATOR,  true,  &HandleLookupSkillCommand,           "", NULL },
+            { "skill",          SEC_ADMINISTRATOR,  true,  &HandleLookupSkillCommand,           "" },
             { "spell",          SEC_ADMINISTRATOR,  true,  NULL,                                "", lookupSpellCommandTable },
-            { "taxinode",       SEC_ADMINISTRATOR,  true,  &HandleLookupTaxiNodeCommand,        "", NULL },
-            { "tele",           SEC_GAMEMASTER,      true,  &HandleLookupTeleCommand,            "", NULL },
-            { "title",          SEC_GAMEMASTER,     true,  &HandleLookupTitleCommand,           "", NULL },
-            { "map",            SEC_ADMINISTRATOR,  true,  &HandleLookupMapCommand,             "", NULL },
-            { "char_template",  SEC_ADMINISTRATOR,  true,  &HandleLookupCharacterTemplateCommand, "", NULL },
-            { NULL,             0,                  false, NULL,                                "", NULL }
+            { "taxinode",       SEC_ADMINISTRATOR,  true,  &HandleLookupTaxiNodeCommand,        "" },
+            { "tele",           SEC_GAMEMASTER,      true,  &HandleLookupTeleCommand,            "" },
+            { "title",          SEC_GAMEMASTER,     true,  &HandleLookupTitleCommand,           "" },
+            { "map",            SEC_ADMINISTRATOR,  true,  &HandleLookupMapCommand,             "" },
+            { "char_template",  SEC_ADMINISTRATOR,  true,  &HandleLookupCharacterTemplateCommand, "" }
         };
 
-        static ChatCommand commandTable[] =
+        static std::vector<ChatCommand> commandTable =
         {
-            { "lookup",         SEC_ADMINISTRATOR,  true,  NULL,                                "", lookupCommandTable },
-            { NULL,             0,                  false, NULL,                                "", NULL }
+            { "lookup",         SEC_ADMINISTRATOR,  true,  NULL,                                "", lookupCommandTable }
         };
         return commandTable;
     }
