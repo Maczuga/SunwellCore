@@ -1701,6 +1701,9 @@ void World::SetInitialWorldSettings()
     sLog->outString("Returning old mails...");
     sObjectMgr->ReturnOrDeleteOldMails(false);
 
+    sLog->outString("Loading Autobroadcasts...");
+    LoadAutobroadcasts();
+
     ///- Load and initialize scripts
     sObjectMgr->LoadSpellScripts();                              // must be after load Creature/Gameobject(Template/Data)
     sObjectMgr->LoadEventScripts();                              // must be after load Creature/Gameobject(Template/Data)
@@ -1877,6 +1880,42 @@ void World::DetectDBCLang()
     }
 
     sLog->outString("Using %s DBC Locale as default. All available DBC locales: %s", localeNames[GetDefaultDbcLocale()], availableLocalsStr.empty() ? "<none>" : availableLocalsStr.c_str());
+    sLog->outString();
+}
+
+void World::LoadAutobroadcasts()
+{
+    uint32 oldMSTime = getMSTime();
+
+    m_Autobroadcasts.clear();
+    m_AutobroadcastsWeights.clear();
+
+    uint32 realmId = sConfigMgr->GetIntDefault("RealmID", 0);
+    PreparedStatement* stmt = LoginDatabase.GetPreparedStatement(LOGIN_SEL_AUTOBROADCAST);
+    stmt->setInt32(0, realmId);
+    PreparedQueryResult result = LoginDatabase.Query(stmt);
+
+    if (!result)
+    {
+        sLog->outString(">> Loaded 0 autobroadcasts definitions. DB table `autobroadcast` is empty for this realm!");
+        sLog->outString();
+        return;
+    }
+
+    uint32 count = 0;
+
+    do
+    {
+        Field* fields = result->Fetch();
+        uint8 id = fields[0].GetUInt8();
+
+        m_Autobroadcasts[id] = fields[2].GetString();
+        m_AutobroadcastsWeights[id] = fields[1].GetUInt8();
+
+        ++count;
+    } while (result->NextRow());
+
+    sLog->outString(">> Loaded %u autobroadcast definitions in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
     sLog->outString();
 }
 
@@ -2641,9 +2680,35 @@ void World::SendAutoBroadcast()
     if (m_Autobroadcasts.empty())
         return;
 
+    uint32 weight = 0;
+    AutobroadcastsWeightMap selectionWeights;
     std::string msg;
 
-    msg = Trinity::Containers::SelectRandomContainerElement(m_Autobroadcasts);
+    for (AutobroadcastsWeightMap::const_iterator it = m_AutobroadcastsWeights.begin(); it != m_AutobroadcastsWeights.end(); ++it)
+    {
+        if (it->second)
+        {
+            weight += it->second;
+            selectionWeights[it->first] = it->second;
+        }
+    }
+
+    if (weight)
+    {
+        uint32 selectedWeight = urand(0, weight - 1);
+        weight = 0;
+        for (AutobroadcastsWeightMap::const_iterator it = selectionWeights.begin(); it != selectionWeights.end(); ++it)
+        {
+            weight += it->second;
+            if (selectedWeight < weight)
+            {
+                msg = m_Autobroadcasts[it->first];
+                break;
+            }
+        }
+    }
+    else
+        msg = m_Autobroadcasts[urand(0, m_Autobroadcasts.size())];
 
     uint32 abcenter = sWorld->getIntConfig(CONFIG_AUTOBROADCAST_CENTER);
 
@@ -2666,7 +2731,7 @@ void World::SendAutoBroadcast()
         sWorld->SendGlobalMessage(&data);
     }
 
-    ;//sLog->outDetail("AutoBroadcast: '%s'", msg.c_str());
+    sLog->outDetail("AutoBroadcast: '%s'", msg.c_str());
 }
 
 void World::UpdateRealmCharCount(uint32 accountId)

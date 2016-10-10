@@ -769,6 +769,8 @@ class World
         void LoadDBVersion();
         char const* GetDBVersion() const { return m_DBVersion.c_str(); }
 
+        void LoadAutobroadcasts();
+
         void UpdateAreaDependentAuras();
 
         uint32 GetCleaningFlags() const { return m_CleaningFlags; }
@@ -871,7 +873,11 @@ protected:
         // used versions
         std::string m_DBVersion;
 
-        std::list<std::string> m_Autobroadcasts;
+        typedef std::map<uint8, std::string> AutobroadcastsMap;
+        AutobroadcastsMap m_Autobroadcasts;
+
+        typedef std::map<uint8, uint8> AutobroadcastsWeightMap;
+        AutobroadcastsWeightMap m_AutobroadcastsWeights;
 
         void ProcessQueryCallbacks();
         ACE_Future_Set<PreparedQueryResult> m_realmCharCallbacks;

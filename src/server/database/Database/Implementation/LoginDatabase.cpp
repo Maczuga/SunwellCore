@@ -86,4 +86,5 @@ void LoginDatabaseConnection::DoPrepareStatements()
     PrepareStatement(LOGIN_DEL_ACCOUNT, "DELETE FROM account WHERE id = ?", CONNECTION_ASYNC);
     PrepareStatement(LOGIN_SEL_PREMIUM, "SELECT premium_type, unset_date FROM account_premium WHERE id = ? AND unset_date > UNIX_TIMESTAMP()", CONNECTION_SYNCH);
     PrepareStatement(LOGIN_UPD_UPTIME_PLAYERS, "UPDATE uptime SET uptime = ?, maxplayers = ? WHERE realmid = ? AND starttime = ?", CONNECTION_ASYNC);
+    PrepareStatement(LOGIN_SEL_AUTOBROADCAST, "SELECT id, weight, text FROM autobroadcast WHERE realmid = ? OR realmid = -1", CONNECTION_SYNCH);
 }
