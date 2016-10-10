@@ -113,6 +113,10 @@ void CreatureTemplate::InitializeQueryData()
 {
 	queryData.Initialize(SMSG_CREATURE_QUERY_RESPONSE, 1);
 
+    if (Entry == 3183)
+    {
+        uint8 s = 0;
+    }
 	queryData << uint32(Entry);                              // creature entry
 	queryData << Name;
 	queryData << uint8(0) << uint8(0) << uint8(0);           // name2, name3, name4, always empty
@@ -131,15 +135,8 @@ void CreatureTemplate::InitializeQueryData()
 	queryData << float(ModHealth);                       // dmg/hp modifier
 	queryData << float(ModMana);                         // dmg/mana modifier
 	queryData << uint8(RacialLeader);
-
-    CreatureQuestItemList const* items = sObjectMgr->GetCreatureQuestItemList(Entry);
-    if (items)
-        for (size_t i = 0; i < MAX_CREATURE_QUEST_ITEMS; ++i)
-            queryData << (i < items->size() ? uint32((*items)[i]) : uint32(0));
-    else
-        for (size_t i = 0; i < MAX_CREATURE_QUEST_ITEMS; ++i)
-            queryData << uint32(0);
-
+    for (uint32 i = 0; i < MAX_CREATURE_QUEST_ITEMS; ++i)
+        queryData << uint32(questItems[i]);              // itemId[6], quest drop
 	queryData << uint32(movementId);                     // CreatureMovementInfo.dbc
 }
 

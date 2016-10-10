@@ -419,7 +419,9 @@ void ObjectMgr::LoadCreatureTemplates()
                                              "spell2, spell3, spell4, spell5, spell6, spell7, spell8, PetSpellDataId, VehicleId, mingold, maxgold, AIName, MovementType, "
     //                                        62           63           64              65            66             67              68                  69
                                              "InhabitType, HoverHeight, HealthModifier, ManaModifier, ArmorModifier, DamageModifier, ExperienceModifier, RacialLeader, "
-    //                                        70          71           72                    73           74
+    //                                        70          71          72          73          74          75
+                                             "questItem1, questItem2, questItem3, questItem4, questItem5, questItem6, "
+    //                                        76          77           78                    79           80
                                              "movementId, RegenHealth, mechanic_immune_mask, flags_extra, ScriptName "
                                              "FROM creature_template ");
 
@@ -537,11 +539,14 @@ void ObjectMgr::LoadCreatureTemplate(Field* fields)
     creatureTemplate.ModExperience  = fields[68].GetFloat();
     creatureTemplate.RacialLeader   = fields[69].GetBool();
 
-    creatureTemplate.movementId         = fields[70].GetUInt32();
-    creatureTemplate.RegenHealth        = fields[71].GetBool();
-    creatureTemplate.MechanicImmuneMask = fields[72].GetUInt32();
-    creatureTemplate.flags_extra        = fields[73].GetUInt32();
-    creatureTemplate.ScriptID           = GetScriptId(fields[74].GetCString());
+    for (uint8 i = 0; i < MAX_CREATURE_QUEST_ITEMS; ++i)
+        creatureTemplate.questItems[i] = fields[70 + i].GetUInt32();
+
+    creatureTemplate.movementId         = fields[76].GetUInt32();
+    creatureTemplate.RegenHealth        = fields[77].GetBool();
+    creatureTemplate.MechanicImmuneMask = fields[78].GetUInt32();
+    creatureTemplate.flags_extra        = fields[79].GetUInt32();
+    creatureTemplate.ScriptID           = GetScriptId(fields[80].GetCString());
 }
 
 void ObjectMgr::LoadCreatureTemplateAddons()
@@ -6844,9 +6849,11 @@ void ObjectMgr::LoadGameObjectTemplate()
 
     //                                                 0      1      2        3       4             5          6      7       8     9
     QueryResult result = WorldDatabase.Query("SELECT entry, type, displayId, name, IconName, castBarCaption, unk1, faction, flags, size, "
-    //                                          10     11     12     13     14     15     16     17     18     19     20      21      22
+    //                                          10          11          12          13          14          15
+                                             "questItem1, questItem2, questItem3, questItem4, questItem5, questItem6, "
+    //                                          16     17     18     19     20     21     22     23     24     25     26      27      28
                                              "Data0, Data1, Data2, Data3, Data4, Data5, Data6, Data7, Data8, Data9, Data10, Data11, Data12, "
-    //                                          23      24      25      26      27      28      29      30      31      32      33      34        35
+    //                                          29      30      31      32      33      34      35      36      37      38      39      40        41
                                              "Data13, Data14, Data15, Data16, Data17, Data18, Data19, Data20, Data21, Data22, Data23, AIName, ScriptName "
                                              "FROM gameobject_template ");
 
@@ -6878,11 +6885,14 @@ void ObjectMgr::LoadGameObjectTemplate()
         got.flags          = fields[8].GetUInt32();
         got.size           = fields[9].GetFloat();
 
-        for (uint8 i = 0; i < MAX_GAMEOBJECT_DATA; ++i)
-            got.raw.data[i] = fields[10 + i].GetInt32(); // data1 and data6 can be -1
+        for (uint8 i = 0; i < MAX_GAMEOBJECT_QUEST_ITEMS; ++i)
+            got.questItems[i] = fields[10 + i].GetUInt32();
 
-        got.AIName = fields[34].GetString();
-        got.ScriptId = GetScriptId(fields[35].GetCString());
+        for (uint8 i = 0; i < MAX_GAMEOBJECT_DATA; ++i)
+            got.raw.data[i] = fields[16 + i].GetInt32(); // data1 and data6 can be -1
+
+        got.AIName = fields[40].GetString();
+        got.ScriptId = GetScriptId(fields[41].GetCString());
         got.IsForQuests = false;
 
         // Checks
@@ -9440,94 +9450,4 @@ PlayerInfo const* ObjectMgr::GetPlayerInfo(uint32 race, uint32 class_) const
     if (!info)
         return NULL;
     return info;
-}
-
-void ObjectMgr::LoadGameObjectQuestItems()
-{
-    uint32 oldMSTime = getMSTime();
-
-    //                                               0                1       2
-    QueryResult result = WorldDatabase.Query("SELECT GameObjectEntry, ItemId, Idx FROM gameobject_questitem ORDER BY Idx ASC");
-
-    if (!result)
-    {
-        sLog->outString(">> Loaded 0 gameobject quest items. DB table `gameobject_questitem` is empty.");
-        return;
-    }
-
-    uint32 count = 0;
-    do
-    {
-        Field* fields = result->Fetch();
-
-        uint32 entry = fields[0].GetUInt32();
-        uint32 item = fields[1].GetUInt32();
-        uint32 idx = fields[2].GetUInt32();
-
-        GameObjectTemplate const* goInfo = GetGameObjectTemplate(entry);
-        if (!goInfo)
-        {
-            sLog->outError("Table `gameobject_questitem` has data for nonexistent gameobject (entry: %u, idx: %u), skipped", entry, idx);
-            continue;
-        };
-
-        ItemEntry const* db2Data = sItemStore.LookupEntry(item);
-        if (!db2Data)
-        {
-            sLog->outError("Table `gameobject_questitem` has nonexistent item (ID: %u) in gameobject (entry: %u, idx: %u), skipped", item, entry, idx);
-            continue;
-        };
-
-        _gameObjectQuestItemStore[entry].push_back(item);
-
-        ++count;
-    }
-    while (result->NextRow());
-
-    sLog->outString(">> Loaded %u gameobject quest items in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
-}
-
-void ObjectMgr::LoadCreatureQuestItems()
-{
-    uint32 oldMSTime = getMSTime();
-
-    //                                               0              1       2
-    QueryResult result = WorldDatabase.Query("SELECT CreatureEntry, ItemId, Idx FROM creature_questitem ORDER BY Idx ASC");
-
-    if (!result)
-    {
-        sLog->outString(">> Loaded 0 creature quest items. DB table `creature_questitem` is empty.");
-        return;
-    }
-
-    uint32 count = 0;
-    do
-    {
-        Field* fields = result->Fetch();
-
-        uint32 entry = fields[0].GetUInt32();
-        uint32 item = fields[1].GetUInt32();
-        uint32 idx = fields[2].GetUInt32();
-
-        CreatureTemplate const* creatureInfo = GetCreatureTemplate(entry);
-        if (!creatureInfo)
-        {
-            sLog->outError("Table `creature_questitem` has data for nonexistent creature (entry: %u, idx: %u), skipped", entry, idx);
-            continue;
-        };
-
-        ItemEntry const* db2Data = sItemStore.LookupEntry(item);
-        if (!db2Data)
-        {
-            sLog->outError("Table `creature_questitem` has nonexistent item (ID: %u) in creature (entry: %u, idx: %u), skipped", item, entry, idx);
-            continue;
-        };
-
-        _creatureQuestItemStore[entry].push_back(item);
-
-        ++count;
-    }
-    while (result->NextRow());
-
-    sLog->outString(">> Loaded %u creature quest items in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
 }
