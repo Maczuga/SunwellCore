@@ -546,9 +546,6 @@ inline void KillRewarder::_RewardXP(Player* player, float rate)
         for (Unit::AuraEffectList::const_iterator i = auras.begin(); i != auras.end(); ++i)
             AddPct(xp, (*i)->GetAmount());
 
-        if (!sWorld->IsInCurrentContent(PATCH_320))
-            return;
-
         // 4.2.3. Give XP to player.
         player->GiveXP(xp, _victim, _groupRate);
         if (Pet* pet = player->GetPet())
@@ -3158,6 +3155,9 @@ void Player::GiveXP(uint32 xp, Unit* victim, float group_rate)
         return;
 
     if (!IsAlive() && !GetBattlegroundId())
+        return;
+
+    if (!sWorld->IsInCurrentContent(PATCH_320) && GetBattleground())
         return;
 
     if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_NO_XP_GAIN))
