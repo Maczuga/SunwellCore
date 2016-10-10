@@ -94,7 +94,7 @@ public:
             if (RebuffTimer <= diff)
             {
                 DoCast(me, SPELL_BUFF_SLEEP);
-                RebuffTimer = 300000;                 //Rebuff agian in 5 minutes
+                RebuffTimer = urand(60 * IN_MILLISECONDS, 120 * IN_MILLISECONDS);                 //Rebuff agian in 60-120 seconds
             }
             else
                 RebuffTimer -= diff;
