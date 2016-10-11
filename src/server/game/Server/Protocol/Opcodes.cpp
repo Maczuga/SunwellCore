@@ -566,7 +566,7 @@ OpcodeHandler opcodeTable[NUM_MSG_TYPES] =
     /*0x219*/ { "SMSG_CHAT_WRONG_FACTION",                      STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               , false },
     /*0x21A*/ { "CMSG_GMTICKET_SYSTEMSTATUS",                   STATUS_LOGGEDIN, PROCESS_THREADUNSAFE, &WorldSession::HandleGMTicketSystemStatusOpcode, false },
     /*0x21B*/ { "SMSG_GMTICKET_SYSTEMSTATUS",                   STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               , false },
-    /*0x21C*/ { "CMSG_SPIRIT_HEALER_ACTIVATE",                  STATUS_LOGGEDIN, PROCESS_THREADUNSAFE, &WorldSession::HandleSpiritHealerActivateOpcode, false }, // pussywizard: corpse on other map, GetAreaFlag, this involved vmaps, grids and more
+    /*0x21C*/ { "CMSG_SPIRIT_HEALER_ACTIVATE",                  STATUS_LOGGEDIN, PROCESS_THREADUNSAFE, &WorldSession::HandleSpiritHealerActivateOpcode, false }, // pussywizard: corpse on other map, GetAreaId, this involved vmaps, grids and more
     /*0x21D*/ { "CMSG_SET_STAT_CHEAT",                          STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_NULL                     , false },
     /*0x21E*/ { "SMSG_QUEST_FORCE_REMOVE",                      STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_ServerSide               , false },
     /*0x21F*/ { "CMSG_SKILL_BUY_STEP",                          STATUS_NEVER,    PROCESS_INPLACE,      &WorldSession::Handle_NULL                     , false },

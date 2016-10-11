@@ -25,6 +25,7 @@ target_include_directories(mapextractor
 target_link_libraries(mapextractor
   PUBLIC
     common
+    g3dlib
     mpq)
 
 CollectIncludeDirectories(

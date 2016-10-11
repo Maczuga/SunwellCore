@@ -19,6 +19,8 @@
 #ifndef LOAD_LIB_H
 #define LOAD_LIB_H
 
+#include <string>
+
 #ifdef _WIN32
 typedef __int64            int64;
 typedef __int32            int32;
@@ -77,7 +79,7 @@ public:
     file_MVER *version;
     FileLoader();
     ~FileLoader();
-    bool loadFile(char *filename, bool log = true);
+    bool loadFile(std::string const& filename, bool log = true);
     virtual void free();
 };
 #endif
