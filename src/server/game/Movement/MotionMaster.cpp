@@ -449,7 +449,7 @@ void MotionMaster::MoveKnockbackFrom(float srcX, float srcY, float speedXY, floa
     // xinef: check LoS!
     if (!_owner->IsWithinLOS(pos.m_positionX, pos.m_positionY, pos.m_positionZ))
     {
-        _owner->GetPosition(&pos);
+        pos = _owner->GetPosition();
         _owner->MovePositionToFirstCollision(pos, dist, _owner->GetAngle(srcX, srcY) + M_PI);
     }
 

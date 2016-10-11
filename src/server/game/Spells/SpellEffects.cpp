@@ -2431,7 +2431,7 @@ void Spell::EffectSummonType(SpellEffIndex effIndex)
                             pos = *destTarget;
                         else
                             // randomize position for multiple summons
-                            m_caster->GetRandomPoint(*destTarget, radius, pos);
+                            pos = m_caster->GetRandomPoint(*destTarget, radius);
 
                         summon = m_originalCaster->SummonCreature(entry, pos, summonType, duration);
                         if (!summon)
@@ -2766,7 +2766,7 @@ void Spell::EffectLearnSkill(SpellEffIndex effIndex)
         return;
 
     uint16 skillval = unitTarget->ToPlayer()->GetPureSkillValue(skillid);
-    unitTarget->ToPlayer()->SetSkill(skillid, m_spellInfo->Effects[effIndex].CalcValue(), std::min<uint16>(skillval, 1), tier->MaxSkill[damage - 1]);
+    unitTarget->ToPlayer()->SetSkill(skillid, m_spellInfo->Effects[effIndex].CalcValue(), std::max<uint16>(skillval, 1), tier->MaxSkill[damage - 1]);
 }
 
 void Spell::EffectAddHonor(SpellEffIndex /*effIndex*/)
@@ -4739,8 +4739,7 @@ void Spell::EffectLeap(SpellEffIndex /*effIndex*/)
     if (!m_targets.HasDst())
         return;
 
-    Position dstpos;
-    destTarget->GetPosition(&dstpos);
+    Position dstpos = destTarget->GetPosition();
     unitTarget->NearTeleportTo(dstpos.GetPositionX(), dstpos.GetPositionY(), dstpos.GetPositionZ(), dstpos.GetOrientation(), unitTarget == m_caster);
 }
 
@@ -4955,7 +4954,7 @@ void Spell::EffectCharge(SpellEffIndex /*effIndex*/)
             {
                 float angle = m_caster->GetRelativeAngle(&pos);
                 float dist = m_caster->GetDistance(pos);
-                m_caster->GetFirstCollisionPosition(pos, dist, angle);
+                pos = m_caster->GetFirstCollisionPosition(dist, angle);
             }
 
             m_caster->GetMotionMaster()->MoveCharge(pos.m_positionX, pos.m_positionY, pos.m_positionZ+0.5f);
@@ -4980,14 +4979,13 @@ void Spell::EffectChargeDest(SpellEffIndex /*effIndex*/)
 
     if (m_targets.HasDst())
     {
-        Position pos;
-        destTarget->GetPosition(&pos);
+        Position pos = destTarget->GetPosition();
 		
 		if (!m_caster->IsWithinLOS(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ()))
 		{
 			float angle = m_caster->GetRelativeAngle(pos.GetPositionX(), pos.GetPositionY());
 			float dist = m_caster->GetDistance(pos);
-			m_caster->GetFirstCollisionPosition(pos, dist, angle);
+            pos = m_caster->GetFirstCollisionPosition(dist, angle);
 		}
 
         m_caster->GetMotionMaster()->MoveCharge(pos.m_positionX, pos.m_positionY, pos.m_positionZ);
@@ -5950,7 +5948,7 @@ void Spell::SummonGuardian(uint32 i, uint32 entry, SummonPropertiesEntry const* 
             pos = *destTarget;
         else
             // randomize position for multiple summons
-            m_caster->GetRandomPoint(*destTarget, radius, pos);
+            pos = m_caster->GetRandomPoint(*destTarget, radius);
 
         summon = map->SummonCreature(entry, pos, properties, duration, caster, m_spellInfo->Id);
         if (!summon)
@@ -6186,10 +6184,7 @@ void Spell::EffectBind(SpellEffIndex effIndex)
     if (m_targets.HasDst())
         homeLoc.WorldRelocate(*destTarget);
     else
-    {
-        player->GetPosition(&homeLoc);
-        homeLoc.m_mapId = player->GetMapId();
-    }
+        homeLoc = player->GetWorldLocation();
 
     player->SetHomebind(homeLoc, areaId);
 

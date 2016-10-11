@@ -296,8 +296,7 @@ class instance_culling_of_stratholme : public InstanceMapScript
 			if (!instance->GetPlayers().isEmpty())
 				if (Player* player = instance->GetPlayers().getFirst()->GetSource())
 				{
-					Position pos;
-					player->GetPosition(&pos);
+					Position pos = player->GetPosition();
 					if (Creature* cr = instance->SummonCreature(NPC_CHROMIE_MIDDLE, pos))
 					{
 						cr->SetVisible(false);

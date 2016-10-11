@@ -150,8 +150,7 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
 							}
 							if (pillar->GetGoState() == GO_STATE_ACTIVE || pillar->GetGoState() == GO_STATE_READY && pillar->ToTransport()->GetPathProgress() > 0)
 							{
-								Position pos;
-								owner->GetFirstCollisionPositionForTotem(pos, owner->GetExactDist2d(i_target.getTarget()), owner->GetAngle(i_target.getTarget())-owner->GetOrientation(), false);
+								Position pos = owner->GetFirstCollisionPositionForTotem(owner->GetExactDist2d(i_target.getTarget()), owner->GetAngle(i_target.getTarget())-owner->GetOrientation(), false);
 								x = pos.GetPositionX();
 								y = pos.GetPositionY();
 								z = 28.28f;

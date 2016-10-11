@@ -308,7 +308,7 @@ inline void Battleground::_CheckSafePositions(uint32 diff)
                 if (player->IsGameMaster())
                      continue;
 
-                player->GetPosition(&pos);
+                pos = player->GetPosition();
                 GetTeamStartLoc(player->GetBgTeamId(), x, y, z, o);
                 if (pos.GetExactDistSq(x, y, z) > maxDist)
                 {

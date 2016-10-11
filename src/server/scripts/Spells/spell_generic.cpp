@@ -1275,8 +1275,7 @@ class spell_gen_random_target32 : public SpellScriptLoader
                 float dist = GetSpellInfo()->Effects[EFFECT_0].CalcRadius(GetCaster());
                 float angle = frand(0.0f, 2*M_PI);
 
-                Position pos;
-                GetCaster()->GetNearPosition(pos, dist, angle);
+                Position pos = GetCaster()->GetNearPosition(dist, angle);
                 dest.Relocate(pos);
             }
 

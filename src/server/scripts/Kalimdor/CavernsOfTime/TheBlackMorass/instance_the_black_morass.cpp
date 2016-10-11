@@ -249,8 +249,7 @@ public:
 				default: entry = RAND(NPC_RIFT_KEEPER_WARLOCK, NPC_RIFT_KEEPER_MAGE, NPC_RIFT_LORD, NPC_RIFT_LORD_2); break;
 			}
 
-            Position pos;
-            rift->GetNearPosition(pos, 10.0f, 2*M_PI*rand_norm());
+            Position pos = rift->GetNearPosition(10.0f, 2*M_PI*rand_norm());
 
             if (TempSummon* summon = instance->SummonCreature(abs(entry), pos))
 			{

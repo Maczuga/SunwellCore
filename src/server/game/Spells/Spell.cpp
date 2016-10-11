@@ -1357,21 +1357,21 @@ void Spell::SelectImplicitCasterDestTargets(SpellEffIndex effIndex, SpellImplici
 				if (properties && (properties->Type == SUMMON_TYPE_TOTEM || properties->Type == SUMMON_TYPE_LIGHTWELL))
 				{
 					totemCollision = true;
-					m_caster->GetFirstCollisionPositionForTotem(pos, dist, angle, false);
+                    pos = m_caster->GetFirstCollisionPositionForTotem(dist, angle, false);
 				}
 			}
 			else if (m_spellInfo->Effects[effIndex].Effect >= SPELL_EFFECT_SUMMON_OBJECT_SLOT1 && m_spellInfo->Effects[effIndex].Effect <= SPELL_EFFECT_SUMMON_OBJECT_SLOT4)
 			{
 				totemCollision = true;
-				m_caster->GetFirstCollisionPositionForTotem(pos, dist, angle, true);
+                pos = m_caster->GetFirstCollisionPositionForTotem(dist, angle, true);
 			}
 
 			if (!totemCollision)
 			{
 				if (m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_LEAP || m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_TELEPORT_UNITS || m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_JUMP_DEST || (m_caster->GetTypeId() == TYPEID_PLAYER && m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_SUMMON))
-					m_caster->GetFirstCollisionPosition(pos, dist, angle);
+                    pos = m_caster->GetFirstCollisionPosition(dist, angle);
 				else
-					m_caster->GetNearPosition(pos, dist, angle);
+                    pos = m_caster->GetNearPosition(dist, angle);
 			}
 			dest.Relocate(pos);
 			break;
@@ -1405,9 +1405,9 @@ void Spell::SelectImplicitTargetDestTargets(SpellEffIndex effIndex, SpellImplici
 
 			Position pos;
 			if (m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_LEAP || m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_TELEPORT_UNITS || m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_JUMP_DEST || (m_caster->GetTypeId() == TYPEID_PLAYER && m_spellInfo->Effects[effIndex].Effect == SPELL_EFFECT_SUMMON))
-				target->GetFirstCollisionPosition(pos, dist, angle);
+                pos = target->GetFirstCollisionPosition(dist, angle);
 			else
-				target->GetNearPosition(pos, dist, angle);
+                pos = target->GetNearPosition(dist, angle);
 
 			dest.Relocate(pos);
             break;;
@@ -5237,8 +5237,15 @@ SpellCastResult Spell::CheckCast(bool strict)
                 return SPELL_FAILED_NOT_INFRONT;
 
 			if (m_caster->GetEntry() != WORLD_TRIGGER) // Ignore LOS for gameobjects casts (wrongly casted by a trigger)
-				if ((!m_caster->IsTotem() || !m_spellInfo->IsPositive()) && !m_spellInfo->HasAttribute(SPELL_ATTR2_CAN_TARGET_NOT_IN_LOS) && !m_spellInfo->HasAttribute(SPELL_ATTR5_SKIP_CHECKCAST_LOS_CHECK) && !m_caster->IsWithinLOSInMap(target))
-					return SPELL_FAILED_LINE_OF_SIGHT;
+			{
+                WorldObject* losTarget = m_caster;
+                if (IsTriggered() && m_triggeredByAuraSpell)
+                    if (DynamicObject* dynObj = m_caster->GetDynObject(m_triggeredByAuraSpell->Id))
+                        losTarget = dynObj;
+
+                if ((!m_caster->IsTotem() || !m_spellInfo->IsPositive()) && !m_spellInfo->HasAttribute(SPELL_ATTR2_CAN_TARGET_NOT_IN_LOS) && !m_spellInfo->HasAttribute(SPELL_ATTR5_SKIP_CHECKCAST_LOS_CHECK) && !target->IsWithinLOSInMap(losTarget))
+                    return SPELL_FAILED_LINE_OF_SIGHT;
+			}
         }
     }
 
