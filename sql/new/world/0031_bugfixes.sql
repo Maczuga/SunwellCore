@@ -39,3 +39,9 @@ INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `positio
 INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `position_z`, `orientation`, `delay`, `move_type`, `action`, `action_chance`, `wpguid`) VALUES (139900, 2, -1127, -2002.52, 91.3579, 0, 0, 0, 0, 100, 1977687);
 INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `position_z`, `orientation`, `delay`, `move_type`, `action`, `action_chance`, `wpguid`) VALUES (139900, 1, -1163.95, -2040.68, 92.2289, 0, 0, 0, 0, 100, 1977686);
 
+# Rotting Ancestor
+UPDATE `creature` SET `position_x`=3058.74, `position_y`=655.327, `position_z`=75.3524, `orientation`=3.28818 WHERE  `guid`=38246;
+# Pyrewood Ambush
+UPDATE `creature_template` SET `DamageModifier`=0.1 WHERE  `entry`=2058;
+
+UPDATE `waypoint_data` SET `delay`=80000, `action`=0 WHERE  `id`=297790 AND `point`=13;

@@ -37,10 +37,17 @@
 template<class T, typename D>
 void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool initial)
 {
+    if (owner->GetTypeId() == TYPEID_UNIT && ((Creature*)owner)->GetOriginalEntry() == 30888)
+    {
+        uint8 a = 1;
+    }
     if (!i_target.isValid() || !i_target->IsInWorld() || !owner->IsInMap(i_target.getTarget())) 
         return;
 
     if (owner->HasUnitState(UNIT_STATE_NOT_MOVE))
+        return;
+
+    if (owner->HasUnitState(UNIT_STATE_CASTING) && !owner->CanMoveDuringChannel())
         return;
 
     float x, y, z;
@@ -218,7 +225,7 @@ bool TargetedMovementGeneratorMedium<T,D>::DoUpdate(T* owner, uint32 time_diff)
     }
 
     // prevent movement while casting spells with cast time or channel time
-    if (owner->HasUnitState(UNIT_STATE_CASTING))
+    if (owner->HasUnitState(UNIT_STATE_CASTING) && !owner->CanMoveDuringChannel())
     {
 		bool stop = true;
 		if (Spell* spell = owner->GetCurrentSpell(CURRENT_CHANNELED_SPELL))
@@ -308,6 +315,7 @@ bool TargetedMovementGeneratorMedium<T,D>::DoUpdate(T* owner, uint32 time_diff)
 template<class T>
 void ChaseMovementGenerator<T>::_reachTarget(T* owner)
 {
+    _clearUnitStateMove(owner);
     if (owner->IsWithinMeleeRange(this->i_target.getTarget()))
         owner->Attack(this->i_target.getTarget(),true);
 }
