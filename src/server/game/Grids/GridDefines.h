@@ -225,7 +225,7 @@ namespace Trinity
 
     inline bool IsValidMapCoord(float x, float y, float z)
     {
-        return IsValidMapCoord(x, y) && finite(z);
+        return IsValidMapCoord(x, y) && IsValidMapCoord(z);
     }
 
     inline bool IsValidMapCoord(float x, float y, float z, float o)

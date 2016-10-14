@@ -778,6 +778,9 @@ void SmartAI::EnterCombat(Unit* enemy)
 	// Xinef: Interrupt channeled spells
 	me->InterruptSpell(CURRENT_CHANNELED_SPELL, true, true);
     GetScript()->ProcessEventsFor(SMART_EVENT_AGGRO, enemy);
+
+    if (Guardian* guard = me->GetGuardianPet())
+        guard->AI()->AttackStart(enemy);
 }
 
 void SmartAI::JustDied(Unit* killer)

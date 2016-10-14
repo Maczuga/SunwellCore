@@ -3908,6 +3908,12 @@ bool Player::_addSpell(uint32 spellId, uint8 addSpecMask, bool temporary)
 		if (!spellIsNew)
 			return true;
     }
+    // Primal Fury(feral) / Seal of Righteousness / Blood Frenzy Don't learn low ranks and remove low rank spell if present
+    //else if (spellId == 16954 || spellId == 16961 || spellId == 21084)
+    //{
+    //    if (uint32 prev_spell = sSpellMgr->GetPrevSpellInChain(spellId))
+    //        removeSpell(prev_spell, addSpecMask, temporary);
+    //}
 	else // pussywizard: not found in m_spells
     {
         PlayerSpell* newspell = new PlayerSpell;
@@ -6892,7 +6898,7 @@ void Player::CheckAreaExploreAndOutdoor()
     {
         SetUInt32Value(PLAYER_EXPLORED_ZONES_1 + offset, (uint32)(currFields | val));
 
-        UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EXPLORE_AREA, GetAreaId());
+        UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EXPLORE_AREA);
 
         if (areaEntry->area_level > 0)
         {

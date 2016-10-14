@@ -491,7 +491,11 @@ public:
 
         Player* target = handler->getSelectedPlayerOrSelf();
 		if (handler->GetSession()->GetSecurity() < SEC_GAMEMASTER)
-			target = handler->GetSession()->GetPlayer();
+		{
+            target = handler->GetSession()->GetPlayer();
+            if (ASpeed > 3.0f)
+                ASpeed = 3.0f;
+		}
         if (!target)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);

@@ -28,6 +28,7 @@ cd ~
 git clone https://bitbucket.org/maczuga/sunwellcore.git
 
 #6 - Create build directory
+cd sunwellcore
 mkdir build
 cd build
 

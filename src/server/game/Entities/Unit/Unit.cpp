@@ -6275,16 +6275,6 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
         }
         case SPELLFAMILY_WARRIOR:
         {
-            switch (dummySpell->Id)
-            {
-                // Victorious
-                case 32216:
-                {
-                    RemoveAura(dummySpell->Id);
-                    return false;
-                }
-            }
-
             // Second Wind
             if (dummySpell->SpellIconID == 1697)
             {
@@ -12330,7 +12320,6 @@ void Unit::Dismount()
 
 void Unit::SetInCombatWith(Unit* enemy, uint32 duration)
 { 
-	
 	// Xinef: Dont allow to start combat with triggers
 	if (enemy->GetTypeId() == TYPEID_UNIT && enemy->ToCreature()->IsTrigger())
 		return;

@@ -37,10 +37,6 @@
 template<class T, typename D>
 void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool initial)
 {
-    if (owner->GetTypeId() == TYPEID_UNIT && ((Creature*)owner)->GetOriginalEntry() == 30888)
-    {
-        uint8 a = 1;
-    }
     if (!i_target.isValid() || !i_target->IsInWorld() || !owner->IsInMap(i_target.getTarget())) 
         return;
 
@@ -69,6 +65,9 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
 
     if (!i_offset)
     {
+        if (i_target->IsWithinDistInMap(owner, CONTACT_DISTANCE))
+            return;
+
 		float allowedRange = MELEE_RANGE;
         if ((!initial || (owner->movespline->Finalized() && this->GetMovementGeneratorType() == CHASE_MOTION_TYPE)) && i_target->IsWithinMeleeRange(owner, allowedRange) && i_target->IsWithinLOS(owner->GetPositionX(), owner->GetPositionY(), owner->GetPositionZ()))
             return;

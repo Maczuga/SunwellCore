@@ -209,6 +209,8 @@ public:
         void WaypointReached(uint32 waypointId)
         {
 			me->CastSpell(me, SPELL_ANCESTRAL_WOLF_BUFF, false);
+            me->SetSpeed(MOVE_WALK, 1.0f);
+            me->SetSpeed(MOVE_RUN, 1.0f);
             switch (waypointId)
             {
                 case 0:

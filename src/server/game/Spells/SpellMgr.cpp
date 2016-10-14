@@ -3139,6 +3139,9 @@ void SpellMgr::LoadSpellCustomAttr()
             case 44535: // Spirit Heal, abilities also have no cost
                 spellInfo->Effects[EFFECT_0].MiscValue = 127;
                 break;
+            case 42767: // Sic'em
+                spellInfo->Effects[EFFECT_0].TargetA = SpellImplicitTargetInfo(TARGET_UNIT_NEARBY_ENTRY);
+                break;
         }
 
         switch (spellInfo->SpellFamilyName)
