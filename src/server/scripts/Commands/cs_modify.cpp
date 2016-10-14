@@ -493,8 +493,8 @@ public:
 		if (handler->GetSession()->GetSecurity() < SEC_GAMEMASTER)
 		{
             target = handler->GetSession()->GetPlayer();
-            if (ASpeed > 3.0f)
-                ASpeed = 3.0f;
+            if (ASpeed > 10.0f)
+                ASpeed = 10.0f;
 		}
         if (!target)
         {
