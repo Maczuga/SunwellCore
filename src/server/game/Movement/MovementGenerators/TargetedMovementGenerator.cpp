@@ -60,6 +60,9 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
                      (i_target->GetTypeId() == TYPEID_PLAYER && i_target->ToPlayer()->IsGameMaster()); // for .npc follow
     bool forcePoint = ((!isPlayerPet || owner->GetMapId() == 618) && (forceDest || !useMMaps)) || sameTransport;
 
+    if (owner->GetTypeId() == TYPEID_UNIT && !i_target->isInAccessiblePlaceFor(owner->ToCreature()) && !sameTransport && !forceDest && !forcePoint)
+        return;
+
     lastOwnerXYZ.Relocate(owner->GetPositionX(), owner->GetPositionY(), owner->GetPositionZ());
     lastTargetXYZ.Relocate(i_target->GetPositionX(), i_target->GetPositionY(), i_target->GetPositionZ());
 
@@ -79,6 +82,9 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
             owner->m_targetsNotAcceptable[i_target->GetGUID()] = MMapTargetData(sWorld->GetGameTime()+DISALLOW_TIME_AFTER_FAIL, owner, i_target.getTarget());
             return;
         }
+
+        // to nearest contact position
+        i_target->GetContactPoint(owner, x, y, z);
     }
     else
     {
@@ -124,6 +130,11 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
     i_recalculateTravel = false;
 
     Movement::MoveSplineInit init(owner);
+
+    if (owner->GetTypeId() == TYPEID_UNIT && ((Creature*)owner)->GetOriginalEntry() == 30888)
+    {
+        uint8 a = 1;
+    }
 
     if (useMMaps) // pussywizard
     {
@@ -185,6 +196,7 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
 			else
 			{
 				owner->m_targetsNotAcceptable.erase(i_target->GetGUID());
+                owner->AddUnitState(UNIT_STATE_CHASE);
 
 				init.MovebyPath(i_path->GetPath());
 				if (i_angle == 0.f)
@@ -197,6 +209,8 @@ void TargetedMovementGeneratorMedium<T,D>::_setTargetLocation(T* owner, bool ini
 
         // if failed to generate, just use normal MoveTo
     }
+
+    owner->AddUnitState(UNIT_STATE_CHASE);
 
     init.MoveTo(x,y,z);
     // Using the same condition for facing target as the one that is used for SetInFront on movement end

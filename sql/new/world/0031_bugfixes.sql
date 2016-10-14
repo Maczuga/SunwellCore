@@ -182,7 +182,7 @@ UPDATE `creature_template` SET `questItem1`=732 WHERE `entry`=115;
 UPDATE `creature_template` SET `questItem1`=732 WHERE `entry`=480;
 UPDATE `quest_template` SET `AddedInBuild`=11159 WHERE `Id`=14100;
 
-UPDATE `creature_template` SET `DamageModifier`=2 WHERE  `entry`=5809;
+UPDATE `creature_template` SET `DamageModifier`=2 WHERE `entry`=5809;
 
 -- Creature Bleeding Hollow Riding Worg 19640 SAI
 SET @ENTRY := 19640;
@@ -200,7 +200,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (@ENTRY, 0, 1, 0, 61, 0, 100, 0, 0, 0, 0, 0, 23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " Linked - Self: Increment phase by 1 and decrement by 0 // "),
 (@ENTRY, 0, 2, 0, 1, 4, 100, 0, 0, 0, 0, 0, 41, 1000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, "When out of combat and timer at the begining between 0 and 0 ms (and later repeats every 0 and 0 ms) - Self: Despawn in 1000 ms // ");
 
-UPDATE `gameobject_template` SET `faction`=5 WHERE  `entry`=20920;
-UPDATE `gameobject_template` SET `Data1`=50 WHERE  `entry`=20919;
-UPDATE `gameobject_template` SET `displayId`=327 WHERE  `entry`=20919;
-UPDATE `sunwell_world`.`creature_template` SET `speed_walk`=0.85, `speed_run`=0.95 WHERE  `entry`=17077;
+UPDATE `gameobject_template` SET `faction`=5 WHERE `entry`=20920;
+UPDATE `gameobject_template` SET `Data1`=50 WHERE `entry`=20919;
+UPDATE `gameobject_template` SET `displayId`=327 WHERE `entry`=20919;
+UPDATE `creature_template` SET `speed_walk`=0.85, `speed_run`=0.95 WHERE `entry`=17077;
