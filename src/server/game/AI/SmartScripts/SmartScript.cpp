@@ -803,7 +803,7 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
         case SMART_ACTION_FLEE_FOR_ASSIST:
         {
 			// Xinef: do not allow to flee without control (stun, fear etc)
-			if (!me || me->HasUnitState(UNIT_STATE_LOST_CONTROL) || me->GetSpeed(MOVE_RUN) < 0.1f)
+			if (!me || me->HasUnitState(UNIT_STATE_LOST_CONTROL) || me->HasUnitState(UNIT_STATE_ROOT) || me->GetSpeed(MOVE_RUN) < 0.1f)
                 break;
 
             me->DoFleeToGetAssistance();

@@ -626,6 +626,9 @@ namespace Trinity
                 if (go->GetGOInfo()->type != GAMEOBJECT_TYPE_SPELL_FOCUS)
                     return false;
 
+                if (!go->isSpawned()) // xinef: dont allow to count deactivated objects
+                    return false;
+
                 if (go->GetGOInfo()->spellFocus.focusId != i_focusId)
                     return false;
 

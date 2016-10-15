@@ -1401,23 +1401,21 @@ void Creature::LoadEquipment(int8 id, bool force /*= false*/)
 
 void Creature::SetSpawnHealth()
 {
+    if (!m_creatureData)
+        return;
+
     uint32 curhealth;
 
     if (!m_regenHealth)
     {
-        if (m_creatureData)
+        curhealth = m_creatureData->curhealth;
+        if (curhealth)
         {
-            curhealth = m_creatureData->curhealth;
-            if (curhealth)
-            {
-                curhealth = uint32(curhealth*_GetHealthMod(GetCreatureTemplate()->rank));
-                if (curhealth < 1)
-                    curhealth = 1;
-            }
-            SetPower(POWER_MANA, m_creatureData->curmana);
+            curhealth = uint32(curhealth*_GetHealthMod(GetCreatureTemplate()->rank));
+            if (curhealth < 1)
+                curhealth = 1;
         }
-        else
-            curhealth = GetHealth();
+        SetPower(POWER_MANA, m_creatureData->curmana);
     }
     else
     {
@@ -1686,6 +1684,9 @@ void Creature::Respawn(bool force)
 
         GetMotionMaster()->InitDefault();
 
+        //Re-initialize reactstate that could be altered by movementgenerators
+        InitializeReactState();
+
         //Call AI respawn virtual function
         if (IsAIEnabled)
         {
@@ -1697,9 +1698,6 @@ void Creature::Respawn(bool force)
         uint32 poolid = GetDBTableGUIDLow() ? sPoolMgr->IsPartOfAPool<Creature>(GetDBTableGUIDLow()) : 0;
         if (poolid)
             sPoolMgr->UpdatePool<Creature>(poolid, GetDBTableGUIDLow());
-
-        //Re-initialize reactstate that could be altered by movementgenerators
-        InitializeReactState();
     }
 
 	// xinef: relocate notifier, fixes npc appearing in corpse position after forced respawn (instead of spawn)

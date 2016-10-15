@@ -4592,6 +4592,16 @@ void SpellMgr::LoadDbcDataCorrections()
 		case 42796:
 			spellInfo->AttributesEx3 |= SPELL_ATTR3_DEATH_PERSISTENT;
 			break;
+        case 14621: // Polymorph (Six Demon Bag)
+            spellInfo->rangeIndex = 4; // Medium Range
+            break;
+        case 35101: // Concussive Barrage
+            spellInfo->rangeIndex = 155; // Hunter Range (Long)
+            break;
+        case 55741: // Desecration (Rank 1)
+        case 68766: // Desecration (Rank 2)
+            spellInfo->rangeIndex = 2; // Melee Range
+            break;
 
 		//////////////////////////////////////////
 		////////// VIOLET HOLD
@@ -5938,6 +5948,9 @@ void SpellMgr::LoadDbcDataCorrections()
 			break;
 		// Investigate the Blue Recluse (1920)
 		// Investigate the Alchemist Shop (1960)
+		case 9082:
+            spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_NEARBY_ENTRY;
+			break;
 		case 9095:
 			spellInfo->EffectApplyAuraName[0] = SPELL_AURA_DUMMY;
 			spellInfo->EffectRadiusIndex[0] = 13;
@@ -6256,13 +6269,14 @@ void SpellMgr::LoadDbcDataCorrections()
 				areaEntry->flags |= AREA_FLAG_REST_ZONE_ALLIANCE;
 		}
 
-
 	// Xinef: fix for something?
     SummonPropertiesEntry* properties = const_cast<SummonPropertiesEntry*>(sSummonPropertiesStore.LookupEntry(121));
     properties->Type = SUMMON_TYPE_TOTEM;
     properties = const_cast<SummonPropertiesEntry*>(sSummonPropertiesStore.LookupEntry(647)); // 52893
     properties->Type = SUMMON_TYPE_TOTEM;
-
+    properties = const_cast<SummonPropertiesEntry*>(sSummonPropertiesStore.LookupEntry(61)); // Snufflenose Gopher
+    properties->Type = SUMMON_TYPE_GUARDIAN;
+    properties->Category = SUMMON_CATEGORY_PET;
 
 	// Correct Pet Size
 	CreatureDisplayInfoEntry* displayEntry = const_cast<CreatureDisplayInfoEntry*>(sCreatureDisplayInfoStore.LookupEntry(17028)); // Kurken
