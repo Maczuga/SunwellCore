@@ -3859,6 +3859,9 @@ bool Player::_addSpell(uint32 spellId, uint8 addSpecMask, bool temporary)
     if (itr != m_spells.end() && itr->second->State == PLAYERSPELL_TEMPORARY)
         return false;
 
+    if (spellId == 20154)
+        return false;
+
 	// xinef: send packet so client can properly recognize this new spell
 	// xinef: ignore passive spells and spells with learn effect
 	// xinef: send spells with no aura effects (ie dual wield)
@@ -3908,12 +3911,6 @@ bool Player::_addSpell(uint32 spellId, uint8 addSpecMask, bool temporary)
 		if (!spellIsNew)
 			return true;
     }
-    // Primal Fury(feral) / Seal of Righteousness / Blood Frenzy Don't learn low ranks and remove low rank spell if present
-    //else if (spellId == 16954 || spellId == 16961 || spellId == 21084)
-    //{
-    //    if (uint32 prev_spell = sSpellMgr->GetPrevSpellInChain(spellId))
-    //        removeSpell(prev_spell, addSpecMask, temporary);
-    //}
 	else // pussywizard: not found in m_spells
     {
         PlayerSpell* newspell = new PlayerSpell;

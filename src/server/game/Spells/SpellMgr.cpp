@@ -3248,7 +3248,7 @@ void SpellMgr::LoadDbcDataCorrections()
         switch (spellInfo->Id)
         {
             case 38776: // Evergrove Druid Transform Crow
-                spellInfo->DurationIndex = 4; // 120 seconds
+                spellInfo->DurationIndex = 562; // 150 seconds
                 break;
             case 63026: // Force Cast (HACK: Target shouldn't be changed)
 			case 63137: // Force Cast (HACK: Target shouldn't be changed; summon position should be untied from spell destination)
@@ -6240,6 +6240,14 @@ void SpellMgr::LoadDbcDataCorrections()
 			spellInfo->EffectImplicitTargetA[EFFECT_0] = TARGET_DEST_TARGET_ANY;
 			spellInfo->EffectImplicitTargetA[EFFECT_1] = TARGET_UNIT_TARGET_ANY;
 			spellInfo->EffectImplicitTargetA[EFFECT_2] = TARGET_UNIT_TARGET_ANY;
+			break;
+		// Animal Blood
+		case 46222:
+            spellInfo->EffectImplicitTargetB[0] = 15;
+			break;
+		// Removing Dragonflayer Harpoon
+		case 42968:
+            spellInfo->rangeIndex = 7; // Combat range - 5 yards
 			break;
         }
 

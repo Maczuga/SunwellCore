@@ -629,6 +629,9 @@ namespace Trinity
                 if (!go->isSpawned()) // xinef: dont allow to count deactivated objects
                     return false;
 
+                if (go->IsInvisibleDueToDespawn()) // Maczuga: don't allow objects that are being despawned
+                    return false;
+
                 if (go->GetGOInfo()->spellFocus.focusId != i_focusId)
                     return false;
 

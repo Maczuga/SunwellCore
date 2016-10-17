@@ -600,7 +600,7 @@ public:
 		{
 			me->SetCorpseDelay(60);
 			CombatAI::Reset();
-			if (Unit* target = me->SelectNearestTarget(50.0f))
+			if (Unit* target = me->SelectNearestTargetInAttackDistance(50.0f))
 				AttackStart(target);
 		}
 

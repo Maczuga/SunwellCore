@@ -333,7 +333,8 @@ public:
 enum FelGuard
 {
     SPELL_SUMMON_POO            = 37688,
-    NPC_DERANGED_HELBOAR        = 16863
+    NPC_DERANGED_HELBOAR        = 16863,
+    QUEST_SHIZZ_WORK            = 10629,
 };
 
 class npc_fel_guard_hound : public CreatureScript
@@ -370,6 +371,11 @@ public:
         {
             if (checkTimer <= diff)
             {
+                if (me->GetOwner())
+                    if (Player* player = me->GetOwner()->ToPlayer())
+                        if (player->GetQuestStatus(QUEST_SHIZZ_WORK) != QUEST_STATUS_INCOMPLETE && player->GetQuestStatus(QUEST_SHIZZ_WORK) != QUEST_STATUS_COMPLETE)
+                            me->DespawnOrUnsummon();
+
                 if (Creature* helboar = me->FindNearestCreature(NPC_DERANGED_HELBOAR, 10.0f, false))
                 {
                     if (helboar->GetGUID() != helboarGUID && me->GetMotionMaster()->GetCurrentMovementGeneratorType() != POINT_MOTION_TYPE && !me->FindCurrentSpellBySpellId(SPELL_SUMMON_POO))

@@ -44,7 +44,7 @@ INSERT INTO `disables` (`sourceType`, `entry`, `flags`, `params_0`, `params_1`, 
 UPDATE gameobject SET animprogress = 0, spawntimesecs = ABS(spawntimesecs) WHERE id = 20919;
 
 UPDATE `quest_template` SET `AddedInBuild`=12340 WHERE  `Id`=26013;
-INSERT INTO `creature_addon` (`guid`, `bytes1`, `emote`) VALUES (129727, 7, 65);
+REPLACE INTO `creature_addon` (`guid`, `bytes1`, `emote`) VALUES (129727, 7, 65);
 
 UPDATE `creature_template` SET `DamageModifier`=1 WHERE  `entry`=28782;
 
@@ -67,7 +67,7 @@ DELETE FROM `smart_scripts` WHERE `entryorguid`=@ENTRY AND `source_type`=0;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
 (@ENTRY, 0, 0, 1, 8, 0, 100, 0, 33532, 0, 0, 0, 33, 19210, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, "On spell Fel Cannon: Fear (33532) hit  - Party invoker: Give kill credit Fel Cannon: Fear (19210) // "),
 (@ENTRY, 0, 1, 2, 61, 0, 100, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 19, 19211, 50, 0, 0, 0, 0, 0, " Linked - Self: Look at Closest alive creature Fel Cannon: Fear Target (19211) in 50 yards // "),
-(@ENTRY, 0, 2, 0, 61, 0, 100, 0, 0, 0, 0, 0, 22, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " Linked - Self: Set event phase to 2 // "),
+(@ENTRY, 0, 2, 0, 61, 0, 100, 0, 0, 0, 0, 0, 22, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " Linked - Self: Set event phase to 2 // "),
 (@ENTRY, 0, 3, 0, 1, 2, 100, 0, 3000, 3000, 10000, 10000, 11, 33535, 0, 0, 0, 0, 0, 19, 19211, 50, 0, 0, 0, 0, 0, "When out of combat and timer at the begining between 3000 and 3000 ms (and later repeats every 10000 and 10000 ms) - Self: Cast spell Fel Energy Beam (33535) on Closest alive creature Fel Cannon: Fear Target (19211) in 50 yards // "),
 (@ENTRY, 0, 4, 5, 1, 2, 100, 0, 8000, 8000, 10000, 10000, 92, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, "When out of combat and timer at the begining between 8000 and 8000 ms (and later repeats every 10000 and 10000 ms) - Self: Interrupt casted spell // "),
 (@ENTRY, 0, 5, 0, 61, 0, 100, 0, 0, 0, 0, 0, 22, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " Linked - Self: Set event phase to 1 // ");
@@ -95,7 +95,7 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 (22, 1, 25063, 0, 0, 31, 0, 4, 0, 0, 1, 0, 0, "", "Dawnblade Hawkrider's SAI id 1 does not execute if invoker is a player");
 
 -- fix race availability for four quests (that should be Human only).
-UPDATE `quest_template` SET `AllowableRaces`=1 WHERE `ID` IN (6181, 6281, 6261, 6285);
+UPDATE `quest_template` SET `RequiredRaces`=1 WHERE `ID` IN (6181, 6281, 6261, 6285);
 
 --
 UPDATE `quest_template_addon` SET `RewardMailTemplateId`=93, `RewardMailDelay`=7200 WHERE `Id`=8323;
@@ -195,7 +195,7 @@ INSERT INTO `mail_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 UPDATE `gameobject` SET `spawntimesecs` = 2 WHERE `id` IN (188518,188530,190208,188461,187022,187023,187026,187027,187032,187381,186885,186886,187033,186684,176189);
 
 --
-UPDATE `quest_template` SET `AllowableRaces`=8 WHERE `ID` IN (6344, 6341, 6342, 6343);
+UPDATE `quest_template` SET `RequiredRaces`=8 WHERE `ID` IN (6344, 6341, 6342, 6343);
 
 UPDATE `quest_offer_reward` SET `RewardText`="I bid you greetings, $N. Your name rings loudly in Darnassus, for you show promise. But we shall soon see if you possess the strength of will to follow the path of the $C." WHERE `ID`=1684;
 
@@ -204,7 +204,7 @@ UPDATE `creature_template` SET `faction`=189 WHERE `entry`=1986;
 UPDATE `smart_scripts` SET `action_param2`=2 WHERE `entryorguid`=16819 AND `id`=1;
 
 UPDATE `smart_scripts` SET `event_param2`=30000, `event_param4`=30000 WHERE `entryorguid`=2030 AND `id`=2;
-UPDATE `smart_scripts` SET `event_param2`=30000, `event_param4`=30000 WHERE `entryorguid`=2009 AND `id`=0;2009 AND `id`=0;
+UPDATE `smart_scripts` SET `event_param2`=30000, `event_param4`=30000 WHERE `entryorguid`=2009 AND `id`=0;
 
 -- 
 UPDATE `creature_template` SET `ScriptName`="" WHERE `entry` IN (27017);
