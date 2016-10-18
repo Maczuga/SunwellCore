@@ -6249,6 +6249,10 @@ void SpellMgr::LoadDbcDataCorrections()
 		case 42968:
             spellInfo->rangeIndex = 7; // Combat range - 5 yards
 			break;
+		// Removing Dragonflayer Harpoon
+		case 49214:
+            spellInfo->DurationIndex = 3; // 1 minute
+			break;
         }
 
         switch (spellInfo->SpellFamilyName)

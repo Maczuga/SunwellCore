@@ -505,6 +505,10 @@ void SmartAI::UpdateAI(uint32 diff)
     UpdatePath(diff);
     UpdateDespawn(diff);
 
+    //Silenced so we can't cast - start meele attack
+    if (me->IsInCombat() && me->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SILENCED) && me->GetVictim())
+        me->GetMotionMaster()->MoveChase(me->GetVictim());
+
     //TODO move to void
     if (mFollowGuid)
     {

@@ -1007,8 +1007,9 @@ public:
 
     static bool HandleCooldownCommand(ChatHandler* handler, char const* args)
     {
-//        Player* target = handler->getSelectedPlayer();
-        Player* target = handler->GetSession()->GetPlayer();
+        Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_PLAYER_NOT_FOUND);
@@ -1529,10 +1530,12 @@ public:
         if (count == 0)
             count = 1;
 
-        Player* player = handler->GetSession()->GetPlayer();
-//        Player* playerTarget = handler->getSelectedPlayer();
-//        if (!playerTarget)
-//            playerTarget = player;
+        Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
+        Player* playerTarget = handler->getSelectedPlayer();
+        if (!playerTarget)
+            playerTarget = player;
 
         ;//sLog->outDetail(handler->GetTrinityString(LANG_ADDITEM), itemId, count);
 
@@ -1577,16 +1580,16 @@ public:
         Item* item = player->StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId));
 
         // remove binding (let GM give it to another player later)
-//        if (player == playerTarget)
-//            for (ItemPosCountVec::const_iterator itr = dest.begin(); itr != dest.end(); ++itr)
-//                if (Item* item1 = player->GetItemByPos(itr->pos))
-//                    item1->SetBinding(false);
+        if (player == playerTarget)
+            for (ItemPosCountVec::const_iterator itr = dest.begin(); itr != dest.end(); ++itr)
+                if (Item* item1 = player->GetItemByPos(itr->pos))
+                    item1->SetBinding(false);
 
         if (count > 0 && item)
         {
             player->SendNewItem(item, count, false, true);
-//            if (player != playerTarget)
-//                playerTarget->SendNewItem(item, count, true, false);
+            if (player != playerTarget)
+                playerTarget->SendNewItem(item, count, true, false);
         }
 
         if (noSpaceForCount > 0)
@@ -1614,8 +1617,10 @@ public:
             return false;
         }
 
-        Player* player = handler->GetSession()->GetPlayer();
-//        Player* playerTarget = handler->getSelectedPlayer();
+        Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
+        Player* playerTarget = handler->getSelectedPlayer();
 
         ;//sLog->outDetail(handler->GetTrinityString(LANG_ADDITEMSET), itemSetId);
 
@@ -1633,12 +1638,12 @@ public:
                     Item* item = player->StoreNewItem(dest, itr->second.ItemId, true);
 
                     // remove binding (let GM give it to another player later)
-//                    if (player == playerTarget)
-//                        item->SetBinding(false);
+                    if (player == playerTarget)
+                        item->SetBinding(false);
 
                     player->SendNewItem(item, 1, false, true);
-//                    if (player != playerTarget)
-//                        playerTarget->SendNewItem(item, 1, true, false);
+                    if (player != playerTarget)
+                        playerTarget->SendNewItem(item, 1, true, false);
                 }
                 else
                 {
@@ -1709,7 +1714,10 @@ public:
 
     static bool HandleMaxSkillCommand(ChatHandler* handler, char const* /*args*/)
     {
-        //        Player* target = handler->getSelectedPlayer();
+        Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
+
         Player* target = handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -1746,7 +1754,9 @@ public:
 
         int32 level = uint32(atol(levelStr));
 
-        //        Player* target = handler->getSelectedPlayer();
+        Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         Player* target = handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -2440,8 +2450,9 @@ public:
         if (!*args)
             return false;
 
-        //        Player* player = handler->getSelectedPlayer();
-        Player* player = handler->GetSession()->GetPlayer();
+        Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!player)
         {
             handler->PSendSysMessage(LANG_NO_CHAR_SELECTED);

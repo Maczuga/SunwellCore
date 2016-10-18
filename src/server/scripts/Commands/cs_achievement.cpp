@@ -60,8 +60,9 @@ public:
                 return false;
         }
 
-//        Player* target = handler->getSelectedPlayer();
-        Player* target = handler->GetSession()->GetPlayer();
+        Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);

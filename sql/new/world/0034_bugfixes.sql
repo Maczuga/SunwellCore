@@ -44,8 +44,8 @@ UPDATE quest_template_addon SET SpecialFlags = 0 WHERE id between 339 and 342;
 UPDATE `quest_template` SET `RequiredRaces`=690 WHERE `Id`=9820;
 
 REPLACE INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES 
-(20, 0, 11585, 0, 0, 8, 0, 10172, 0, 0, 1, 0, 0, '', 'Hellscream's Vigil (11585) Only if player has not completed There Is No Hope'),
-(20, 0, 11586, 0, 0, 8, 0, 10172, 0, 0, 0, 0, 0, '', 'Hellscream's Vigil (11586) Only if player has completed There Is No Hope');
+(20, 0, 11585, 0, 0, 8, 0, 10172, 0, 0, 1, 0, 0, '', 'Hellscream\'s Vigil (11585) Only if player has not completed There Is No Hope'),
+(20, 0, 11586, 0, 0, 8, 0, 10172, 0, 0, 0, 0, 0, '', 'Hellscream\'s Vigil (11586) Only if player has completed There Is No Hope');
 
 DELETE FROM `creature` WHERE `guid`=143273;
 DELETE FROM `creature` WHERE `guid`=143245;
@@ -77,11 +77,6 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (@ENTRY, 0, 3, 0, 61, 0, 100, 0, 0, 0, 0, 0, 80, 2616703, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, " Linked - Start timed action list id #2616703 // ");
 
 DELETE FROM `creature_loot_template` WHERE `Entry`=118 AND `Item`=24078;
-
-
-REPLACE INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES 
-(20, 0, 11585, 0, 0, 8, 0, 10172, 0, 0, 1, 0, 0, '', 'Hellscream's Vigil (11585) Only if player has not completed There Is No Hope'),
-(20, 0, 11586, 0, 0, 8, 0, 10172, 0, 0, 0, 0, 0, '', 'Hellscream's Vigil (11586) Only if player has completed There Is No Hope');
 
 -- Creature Harvest Collector 25623 SAI
 SET @ENTRY := 25623;
@@ -170,7 +165,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (@ENTRY, 0, 2, 0, 9, 0, 100, 0, 0, 5, 7100, 15300, 11, 8646, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, "When victim in range 0 - 5 yards (check every 7100 - 15300 ms) - Self: Cast spell Snap Kick (8646) on Victim // "),
 (@ENTRY, 0, 3, 0, 25, 0, 100, 0, 0, 0, 0, 0, 11, 20540, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, "On reset (e.g. after reaching home) - Self: Cast spell Ashenvale Outrunner Sneak (20540) on Self // ");
 
-INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (46222, 'spell_animal_blood_dummy');
+REPLACE INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (46222, 'spell_animal_blood_dummy');
 DELETE FROM `spell_area` WHERE `spell`=57940 AND `area`=480 AND `quest_start`=0 AND `aura_spell`=0 AND `racemask`=0 AND `gender`=2;
 
 DELETE FROM `playercreateinfo_skills` WHERE `raceMask`=4 AND `classMask`=0 AND `skill`=111;
@@ -184,7 +179,7 @@ DELETE FROM `playercreateinfo_skills` WHERE `raceMask`=690 AND `classMask`=0 AND
 DELETE FROM `playercreateinfo_skills` WHERE `raceMask`=1024 AND `classMask`=0 AND `skill`=759;
 DELETE FROM `playercreateinfo_skills` WHERE `raceMask`=1101 AND `classMask`=0 AND `skill`=98;
 
-INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES 
+REPLACE INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES 
 (4, 0, 111, 0, 'Language: Dwarven'),
 (8, 0, 113, 0, 'Language: Darnassian'),
 (16, 0, 673, 0, 'Language: Forsaken'),

@@ -3842,11 +3842,12 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
                     if (Player* caster = m_caster->ToPlayer())
                     {
                         caster->RewardPlayerAndGroupAtEvent(18388, unitTarget);
-                        if (Creature* target = unitTarget->ToCreature())
-                        {
-                            target->setDeathState(CORPSE);
-                            target->RemoveCorpse();
-                        }
+                        if (unitTarget->isDead())
+                            if (Creature* target = unitTarget->ToCreature())
+                            {
+                                target->setDeathState(CORPSE);
+                                target->RemoveCorpse();
+                            }
                     }
                     break;
 				// SOTA defender teleport

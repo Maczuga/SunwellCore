@@ -97,8 +97,9 @@ public:
 
     static bool HandleQuestRemove(ChatHandler* handler, const char* args)
     {
-        //        Player* player = handler->getSelectedPlayer();
-        Player* player = handler->GetSession()->GetPlayer();
+        Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!player)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);
@@ -151,8 +152,9 @@ public:
 
     static bool HandleQuestComplete(ChatHandler* handler, const char* args)
     {
-        //        Player* player = handler->getSelectedPlayer();
-        Player* player = handler->GetSession()->GetPlayer();
+        Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!player)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);
@@ -245,8 +247,9 @@ public:
 
     static bool HandleQuestReward(ChatHandler* handler, char const* args)
     {
-        //        Player* player = handler->getSelectedPlayer();
-        Player* player = handler->GetSession()->GetPlayer();
+        Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR 
+        ? handler->GetSession()->GetPlayer() 
+        : handler->GetSession()->GetPlayer();
         if (!player)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);

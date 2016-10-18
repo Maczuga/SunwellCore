@@ -59,8 +59,9 @@ public:
         if (!*args)
             return false;
 
-        Player* target = handler->GetSession()->GetPlayer();
-//        Player* target = handler->getSelectedPlayer();
+        Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_PLAYER_NOT_FOUND);
@@ -97,8 +98,9 @@ public:
 
     static bool HandleHonorUpdateCommand(ChatHandler* handler, char const* /*args*/)
     {
-//        Player* target = handler->getSelectedPlayer();
-        Player* target = handler->GetSession()->GetPlayer();
+        Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_PLAYER_NOT_FOUND);

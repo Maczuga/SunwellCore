@@ -72,10 +72,11 @@ public:
 
     static bool HandleLearnCommand(ChatHandler* handler, char const* args)
     {
-//        Player* targetPlayer = handler->getSelectedPlayer();
-        Player* targetPlayer = handler->GetSession()->GetPlayer();
+        Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
 
-        if (!targetPlayer)
+        if (!target)
         {
             handler->SendSysMessage(LANG_PLAYER_NOT_FOUND);
             handler->SetSentErrorMessage(true);
@@ -114,24 +115,24 @@ public:
         char const* all = strtok(NULL, " ");
         bool allRanks = all ? (strncmp(all, "all", strlen(all)) == 0) : false;
 
-        if (!allRanks && targetPlayer->HasSpell(spell))
+        if (!allRanks && target->HasSpell(spell))
         {
-            if (targetPlayer == handler->GetSession()->GetPlayer())
+            if (target == handler->GetSession()->GetPlayer())
                 handler->SendSysMessage(LANG_YOU_KNOWN_SPELL);
             else
-                handler->PSendSysMessage(LANG_TARGET_KNOWN_SPELL, handler->GetNameLink(targetPlayer).c_str());
+                handler->PSendSysMessage(LANG_TARGET_KNOWN_SPELL, handler->GetNameLink(target).c_str());
             handler->SetSentErrorMessage(true);
             return false;
         }
 
         if (allRanks)
-            targetPlayer->learnSpellHighRank(spell);
+            target->learnSpellHighRank(spell);
         else
-            targetPlayer->learnSpell(spell);
+            target->learnSpell(spell);
 
         uint32 firstSpell = sSpellMgr->GetFirstSpellInChain(spell);
         if (GetTalentSpellCost(firstSpell))
-            targetPlayer->SendTalentsInfoData(false);
+            target->SendTalentsInfoData(false);
 
         return true;
     }
@@ -378,8 +379,9 @@ public:
         //  Learns all recipes of specified profession and sets skill to max
         //  Example: .learn all_recipes enchanting
 
-//        Player* target = handler->getSelectedPlayer();
-        Player* target = handler->GetSession()->GetPlayer();
+        Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_PLAYER_NOT_FOUND);
@@ -498,8 +500,9 @@ public:
         char const* allStr = strtok(NULL, " ");
         bool allRanks = allStr ? (strncmp(allStr, "all", strlen(allStr)) == 0) : false;
 
-//        Player* target = handler->getSelectedPlayer();
-        Player* target = handler->GetSession()->GetPlayer();
+        Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
+            ? handler->GetSession()->GetPlayer()
+            : handler->GetSession()->GetPlayer();
         if (!target)
         {
             handler->SendSysMessage(LANG_NO_CHAR_SELECTED);

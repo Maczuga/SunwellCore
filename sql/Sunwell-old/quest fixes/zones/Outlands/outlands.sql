@@ -435,10 +435,10 @@ INSERT INTO conditions VALUES (13, 3, 32307, 0, 3, 31, 0, 3, 17146, 0, 0, 0, 0, 
 INSERT INTO conditions VALUES (13, 3, 32307, 0, 4, 31, 0, 3, 18391, 0, 0, 0, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
 DELETE FROM conditions WHERE SourceTypeOrReferenceId=17 AND SourceEntry=32307;
 INSERT INTO conditions VALUES (17, 0, 32307, 0, 0, 29, 0, 17148, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
-INSERT INTO conditions VALUES (17, 0, 32307, 0, 1, 29, 0, 17148, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
-INSERT INTO conditions VALUES (17, 0, 32307, 0, 2, 29, 0, 17148, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
-INSERT INTO conditions VALUES (17, 0, 32307, 0, 3, 29, 0, 17148, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
-INSERT INTO conditions VALUES (17, 0, 32307, 0, 4, 29, 0, 17148, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
+INSERT INTO conditions VALUES (17, 0, 32307, 0, 1, 29, 0, 18658, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
+INSERT INTO conditions VALUES (17, 0, 32307, 0, 2, 29, 0, 17147, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
+INSERT INTO conditions VALUES (17, 0, 32307, 0, 3, 29, 0, 17146, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
+INSERT INTO conditions VALUES (17, 0, 32307, 0, 4, 29, 0, 18391, 5, 1, 0, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast on Kil'sorrow mobs");
 INSERT INTO conditions VALUES (17, 0, 32307, 0, 0, 30, 0, 182353, 10, 0, 1, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast if no banner is present");
 INSERT INTO conditions VALUES (17, 0, 32307, 0, 1, 30, 0, 182353, 10, 0, 1, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast if no banner is present");
 INSERT INTO conditions VALUES (17, 0, 32307, 0, 2, 30, 0, 182353, 10, 0, 1, 12, 0, '', "Spell Place Kil'sorrow Banner can only be cast if no banner is present");
