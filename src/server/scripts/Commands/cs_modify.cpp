@@ -96,7 +96,7 @@ public:
         }
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -135,7 +135,7 @@ public:
         }
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -186,7 +186,7 @@ public:
         }
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -239,7 +239,7 @@ public:
         }
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -279,7 +279,7 @@ public:
         }
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -407,7 +407,7 @@ public:
             mark = atoi(pmark);
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (target == NULL)
         {
@@ -978,7 +978,7 @@ public:
         }
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -1021,7 +1021,7 @@ public:
             return false;
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -1147,7 +1147,7 @@ public:
             return false;
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -1190,7 +1190,7 @@ public:
             return false;
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -1346,7 +1346,7 @@ public:
             return false;
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {

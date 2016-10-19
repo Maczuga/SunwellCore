@@ -73,7 +73,7 @@ public:
     static bool HandleLearnCommand(ChatHandler* handler, char const* args)
     {
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
 
         if (!target)
@@ -380,7 +380,7 @@ public:
         //  Example: .learn all_recipes enchanting
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -501,7 +501,7 @@ public:
         bool allRanks = allStr ? (strncmp(allStr, "all", strlen(allStr)) == 0) : false;
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {

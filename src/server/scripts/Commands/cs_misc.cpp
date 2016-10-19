@@ -1008,7 +1008,7 @@ public:
     static bool HandleCooldownCommand(ChatHandler* handler, char const* args)
     {
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -1531,7 +1531,7 @@ public:
             count = 1;
 
         Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         Player* playerTarget = handler->getSelectedPlayer();
         if (!playerTarget)
@@ -1618,7 +1618,7 @@ public:
         }
 
         Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         Player* playerTarget = handler->getSelectedPlayer();
 
@@ -1715,7 +1715,7 @@ public:
     static bool HandleMaxSkillCommand(ChatHandler* handler, char const* /*args*/)
     {
         Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
 
         Player* target = handler->GetSession()->GetPlayer();
@@ -1755,7 +1755,7 @@ public:
         int32 level = uint32(atol(levelStr));
 
         Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         Player* target = handler->GetSession()->GetPlayer();
         if (!target)
@@ -2451,7 +2451,7 @@ public:
             return false;
 
         Player* player = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!player)
         {

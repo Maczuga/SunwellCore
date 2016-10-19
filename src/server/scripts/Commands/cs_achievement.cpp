@@ -61,7 +61,7 @@ public:
         }
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {

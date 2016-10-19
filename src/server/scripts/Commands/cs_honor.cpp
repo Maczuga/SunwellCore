@@ -60,7 +60,7 @@ public:
             return false;
 
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {
@@ -99,7 +99,7 @@ public:
     static bool HandleHonorUpdateCommand(ChatHandler* handler, char const* /*args*/)
     {
         Player* target = handler->GetSession()->GetSecurity() >= SEC_ADMINISTRATOR
-            ? handler->GetSession()->GetPlayer()
+            ? handler->getSelectedPlayer()
             : handler->GetSession()->GetPlayer();
         if (!target)
         {

@@ -6253,6 +6253,22 @@ void SpellMgr::LoadDbcDataCorrections()
 		case 49214:
             spellInfo->DurationIndex = 3; // 1 minute
 			break;
+        // Twisting Blade
+		case 47938:
+            spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_TARGET_ENEMY;
+			break;
+		case 47939:
+            spellInfo->EffectImplicitTargetA[0] = TARGET_GAMEOBJECT_NEARBY_ENTRY;
+            spellInfo->EffectImplicitTargetB[0] = 0;
+			break;
+		case 37834:
+            spellInfo->EffectImplicitTargetA[0] = TARGET_UNIT_TARGET_ANY;
+            spellInfo->EffectImplicitTargetB[0] = 0;
+			break;
+		case 40926:
+            spellInfo->AttributesEx5 |= SPELL_ATTR5_CAN_CHANNEL_WHEN_MOVING;
+            spellInfo->EffectImplicitTargetB[0] = 0;
+			break;
         }
 
         switch (spellInfo->SpellFamilyName)
