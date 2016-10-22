@@ -6466,7 +6466,7 @@ void Player::UpdateSkillsToMaxSkillsForLevel()
 // To "remove" a skill line, set it's values to zero
 void Player::SetSkill(uint16 id, uint16 step, uint16 newVal, uint16 maxVal)
 { 
-    if (!id)
+    if (!id || id == 142 || id == 51) // 141 and 51 - Survival skill from beta.
         return;
 
     uint16 currVal;
@@ -16645,7 +16645,7 @@ void Player::KilledMonster(CreatureTemplate const* cInfo, uint64 guid)
             KilledMonsterCredit(cInfo->KillCredit[i], 0);
 }
 
-void Player::KilledMonsterCredit(uint32 entry, uint64 guid)
+void Player::KilledMonsterCredit(uint32 entry, uint64 guid /*= 0 */)
 { 
     uint16 addkillcount = 1;
     uint32 real_entry = entry;
@@ -21156,7 +21156,8 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
         return false;
 
     // not let cheating with start flight in time of logout process || while in combat || has type state: stunned || has type state: root
-    if (GetSession()->isLogingOut() || IsInCombat() || HasUnitState(UNIT_STATE_STUNNED) || HasUnitState(UNIT_STATE_ROOT))
+    // Maczuga: nodes[0] - fix for Ally of the Netherwing
+    if (GetSession()->isLogingOut() || (IsInCombat() && nodes[0] != 161) || HasUnitState(UNIT_STATE_STUNNED) || HasUnitState(UNIT_STATE_ROOT))
     {
         GetSession()->SendActivateTaxiReply(ERR_TAXIPLAYERBUSY);
         return false;

@@ -183,7 +183,7 @@ UPDATE quest_template SET NextQuestIdChain=0 WHERE Id=12249;
 DELETE FROM creature_text WHERE entry=27328;
 INSERT INTO creature_text VALUES (27328, 0, 0, "Ursoc, brother of Ursol and guardian to the furbolg tribes! Show yourself!", 12, 0, 100, 0, 0, 0, 0, 'Tur Ragepaw - say 0');
 INSERT INTO creature_text VALUES (27328, 1, 0, "Stay behind me, $N. I will do my best to protect you.", 12, 0, 100, 0, 0, 0, 0, 'Tur Ragepaw - say 1');
-INSERT INTO creature_text VALUES (27328, 2, 0, 'Urychlim konec tohoto besneni, $N.', 12, 0, 100, 0, 0, 0, 0, 'Tur Ragepaw - say 2');
+INSERT INTO creature_text VALUES (27328, 2, 0, 'My freedom means nothing if we fail to save Ursoc.  Make haste, $N.', 12, 0, 100, 0, 0, 0, 0, 'Tur Ragepaw - say 2');
 INSERT INTO creature_text VALUES (27328, 3, 0, "I will watch over you and your allies, $N.", 12, 0, 100, 0, 0, 0, 0, 'Tur Ragepaw - say 3');
 INSERT INTO creature_text VALUES (27328, 4, 0, 'Reset', 14, 0, 100, 0, 0, 0, 0, 'Tur Ragepaw - DEBUG 1');
 DELETE FROM gossip_menu WHERE entry IN (9496, 9496+1);

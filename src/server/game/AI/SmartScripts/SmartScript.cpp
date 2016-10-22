@@ -802,10 +802,6 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
         }
         case SMART_ACTION_FLEE_FOR_ASSIST:
         {
-			// Xinef: do not allow to flee without control (stun, fear etc)
-			if (!me || me->HasUnitState(UNIT_STATE_LOST_CONTROL) || me->HasUnitState(UNIT_STATE_ROOT) || me->GetSpeed(MOVE_RUN) < 0.1f)
-                break;
-
             me->DoFleeToGetAssistance();
             if (e.action.flee.withEmote)
             {
@@ -951,20 +947,14 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
         {
 			if (trigger && IsPlayer(unit))
             {
-                unit->ToPlayer()->RewardPlayerAndGroupAtEvent(e.action.killedMonster.creature, unit);
-                ;//sLog->outDebug(LOG_FILTER_DATABASE_AI, "SmartScript::ProcessAction: SMART_ACTION_CALL_KILLEDMONSTER: (trigger == true) Player %u, Killcredit: %u",
-                //    unit->GetGUIDLow(), e.action.killedMonster.creature);
-            }
-            else if (e.target.type == SMART_TARGET_NONE || e.target.type == SMART_TARGET_SELF) // Loot recipient and his group members
-            {
                 if (!me)
                     break;
 
                 if (Player* player = me->GetLootRecipient())
                 {
                     player->RewardPlayerAndGroupAtEvent(e.action.killedMonster.creature, player);
-                    //TC_LOG_DEBUG(LOG_FILTER_DATABASE_AI, "SmartScript::ProcessAction: SMART_ACTION_CALL_KILLEDMONSTER: Player %u, Killcredit: %u",
-                    //    player->GetGUIDLow(), e.action.killedMonster.creature);
+                    ;//sLog->outDebug(LOG_FILTER_DATABASE_AI, "SmartScript::ProcessAction: SMART_ACTION_CALL_KILLEDMONSTER: (trigger == true) Player %u, Killcredit: %u",
+                     //    unit->GetGUIDLow(), e.action.killedMonster.creature);
                 }
             }
             else // Specific target type
@@ -975,16 +965,17 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
 
                 for (ObjectList::const_iterator itr = targets->begin(); itr != targets->end(); ++itr)
                 {
-					if (!IsUnit(*itr))
-						continue;
-
-					Player* player = (*itr)->ToUnit()->GetCharmerOrOwnerPlayerOrPlayerItself();
-                    if (!player)
-                        continue;
-
-                    player->RewardPlayerAndGroupAtEvent(e.action.killedMonster.creature, player);
-                    ;//sLog->outDebug(LOG_FILTER_DATABASE_AI, "SmartScript::ProcessAction: SMART_ACTION_CALL_KILLEDMONSTER: Player %u, Killcredit: %u",
-                    //    (*itr)->GetGUIDLow(), e.action.killedMonster.creature);
+                    if (IsPlayer(*itr))
+                    {
+                        (*itr)->ToPlayer()->KilledMonsterCredit(e.action.killedMonster.creature);
+                        ;//sLog->outDebug(LOG_FILTER_DATABASE_AI, "SmartScript::ProcessAction: SMART_ACTION_CALL_KILLEDMONSTER: Player %u, Killcredit: %u",
+                         //    (*itr)->GetGUIDLow(), e.action.killedMonster.creature);
+                    }
+                    else if (IsUnit(*itr)) // Special handling for vehicles
+                        if (Vehicle* vehicle = (*itr)->ToUnit()->GetVehicleKit())
+                            for (SeatMap::iterator seatItr = vehicle->Seats.begin(); seatItr != vehicle->Seats.end(); ++seatItr)
+                                if (Player* player = ObjectAccessor::FindPlayer(seatItr->second.Passenger.Guid))
+                                    player->KilledMonsterCredit(e.action.killedMonster.creature);
                 }
 
                 delete targets;
@@ -3909,6 +3900,16 @@ void SmartScript::UpdateTimer(SmartScriptHolder& e, uint32 const diff)
                     e.timer = 1;
                     return;
                 }
+            }
+        }
+
+        // Delay flee for assist event if stunned or rooted
+        if (e.GetActionType() == SMART_ACTION_FLEE_FOR_ASSIST)
+        {
+            if (me && (me->HasUnitState(UNIT_STATE_LOST_CONTROL | UNIT_STATE_ROOT | UNIT_STATE_STUNNED) || me->GetSpeed(MOVE_RUN) <= 0.1f))
+            {
+                e.timer = 1;
+                return;
             }
         }
 

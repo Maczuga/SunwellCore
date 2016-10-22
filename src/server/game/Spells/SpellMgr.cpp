@@ -3136,6 +3136,10 @@ void SpellMgr::LoadSpellCustomAttr()
 				spellInfo->RecoveryTime = 1500;
 				spellInfo->_requireCooldownInfo = true;
 				break;
+            case 48620:
+                spellInfo->RecoveryTime = 10000;
+                spellInfo->_requireCooldownInfo = true;
+                break;
             case 44535: // Spirit Heal, abilities also have no cost
                 spellInfo->Effects[EFFECT_0].MiscValue = 127;
                 break;
@@ -6241,6 +6245,8 @@ void SpellMgr::LoadDbcDataCorrections()
 			spellInfo->EffectImplicitTargetA[EFFECT_1] = TARGET_UNIT_TARGET_ANY;
 			spellInfo->EffectImplicitTargetA[EFFECT_2] = TARGET_UNIT_TARGET_ANY;
 			break;
+        //////////////////////////////////////////
+        // OWN
 		// Animal Blood
 		case 46222:
             spellInfo->EffectImplicitTargetB[0] = 15;
@@ -6269,6 +6275,19 @@ void SpellMgr::LoadDbcDataCorrections()
             spellInfo->AttributesEx5 |= SPELL_ATTR5_CAN_CHANNEL_WHEN_MOVING;
             spellInfo->EffectImplicitTargetB[0] = 0;
 			break;
+        case 47629:
+            spellInfo->EffectBasePoints[0] += 300;
+            spellInfo->EffectBasePoints[1] += 100;
+            break;
+        // Siphon Bloodgem
+        case 34367:
+            spellInfo->ChannelInterruptFlags = 0;
+            break;
+        // Detect Undead
+        case 11389:
+            spellInfo->manaPerSecond = 0;
+            spellInfo->powerType = 0;
+            break;
         }
 
         switch (spellInfo->SpellFamilyName)
@@ -6302,9 +6321,6 @@ void SpellMgr::LoadDbcDataCorrections()
     properties->Type = SUMMON_TYPE_TOTEM;
     properties = const_cast<SummonPropertiesEntry*>(sSummonPropertiesStore.LookupEntry(647)); // 52893
     properties->Type = SUMMON_TYPE_TOTEM;
-    properties = const_cast<SummonPropertiesEntry*>(sSummonPropertiesStore.LookupEntry(61)); // Snufflenose Gopher
-    properties->Type = SUMMON_TYPE_GUARDIAN;
-    properties->Category = SUMMON_CATEGORY_PET;
 
 	// Correct Pet Size
 	CreatureDisplayInfoEntry* displayEntry = const_cast<CreatureDisplayInfoEntry*>(sCreatureDisplayInfoStore.LookupEntry(17028)); // Kurken

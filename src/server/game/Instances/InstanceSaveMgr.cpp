@@ -769,6 +769,8 @@ void InstanceSaveManager::CopyBinds(uint32 from, uint32 to, Player* toPlr)
 void InstanceSaveManager::UnbindAllFor(InstanceSave* save)
 {
     InstanceSave::PlayerListType &pList = save->m_playerList;
+    if (pList.size() > 40) return;
+
     while (!pList.empty())
 		PlayerUnbindInstance(*(pList.begin()), save->GetMapId(), save->GetDifficulty(), true, ObjectAccessor::GetObjectInOrOutOfWorld(MAKE_NEW_GUID(*(pList.begin()), 0, HIGHGUID_PLAYER), (Player*)NULL));
 }
