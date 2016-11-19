@@ -21,3 +21,19 @@ Kończąc - chciałbym pozdrowić wszystkich testerów, którzy sumiennie zgłas
 Pozdrawiam, Noob. 
 
 PS: Część obecnej administracji jest połączona z portalem DarkWizard (zdradzę tylko 1 osobę, reszta mi nie zawiniła): Raphael = Brave.
+
+Kilka informacji:
+1. Tak - jestem Maczuga - założyciel gównianych (dla większości) serwerów typu CataProject czy Ulduar. Cała administracja o tym wiedziała.
+2. Początkowo nie miałem zamiaru zdradzać sekretu z DW - jednak gdy zauważyłem, że mój temat został szybko usunięty z forum - zmieniłem zdanie.
+3. W obecnej administracji jest kilka osób, które są w porzadku (jak wspomniałem - Crysis, Soulless, i póki był - Pio). Niech Soulless czym prędzej przyswaja strukturę SC/TC, bo z tego co widzę, to jest najbardziej ogarniętym programistą w waszym zespole.
+4. Nie odszedłbym gdyby ekipa była zgrana i każdy miał z góry określone. 
+5. Restrukturyzacja SC była po to, aby móc w przyszłości łatwo przeportować inne dodatki na SC - utrzymują świetną wydajność. Dla celów czysto-WotLK jest ona zbędna a nawet zaleca się revert.
+6. W SC jest masa bugów (wystarczy zajrzeć na bugtracker sunwella) - z czego niektóre ukryte celowo jak fix dla petów: https://github.com/azerothcore/azerothcore-wotlk/pull/248
+7. Dostałem dzisiaj informację od brata, że rano na serwerze nie działał exp z mobków oraz mapa bez addona - obecni devowie nie radzą sobie z prostym revertem commita restrukturyzacyjnego i łataniem konfliktów.
+8. Kod strony znajdziecie tutaj: https://bitbucket.org/maczuga/fusioncms-sunwell/commits/all - jak widzicie większość zmian również moich, nic się nie zmieniło od dłuższego czasu.
+9. Na forum sunwella dostałem bana na IP (całe szczęście tylko jedno). Na stronie o dziwo nie.
+10. Cule zrobił dobrą reklamę dla serwera, aczkolwiek radziłbym wam wziąć na wstrzymanie jego obietnice (robi reklamę, więc jego zadaniem jest "sprzedać produkt" - nie ważne ile jest prawdy w tym co mówi). 
+
+Więcej niebawem.
+
+PS: Jak będziecie dalej wykręcać się kłamstwami - polecą logi/screeny z HipChata (logi ciągle mam).
