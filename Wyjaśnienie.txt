@@ -1,0 +1,21 @@
+Zacznę może od tego, że postanowiłem to napisać po tym, jak zobaczyłem pewny wpis na DW (chyba nowego deva): http://forum.darkwizard.pl/topic/16376-sunwell-335a-progressive-x1-pl/?p=134227
+
+Drogi kolego jeżeli nie potrafisz docenić czyjejś pracy to najlepiej wcale jej nie używaj - problem z MMAPami był na długo przed update recastnav. 
+
+A więc, moje odejście z projektu nie było spowodowane żadnym wyjazdem, indywidualną sprawą czy jakimkolwiek innym powodem jaki mogliście usłyszeć. Odpuściłem projekt z własnej woli, ponieważ większość ekipy (poza Soulless oraz Crysis) całkowicie olewali to co się dzieje. Najbardziej olewał to sam założyciel - Raphael. Nie zmieniło się to do czasu aż zobaczył, że przestałem cokolwiek działać na serwerze (czyli pierwszy tydzień listopada). Nie było żadnej rozpiski obowiązków, żadnej kontroli - każdy robił co chciał - czyli nic. Na tydzień przed startem oficjalnie oznajmiłem, że odchodzę z projektu, ponieważ mam dość takiej samowolki,  braku ogarnięcia ekipy jak i wojen pomiędzy poszczególnymi ludźmi. 
+
+Na mojej głowie było ogarnięcie maszyny, eliminacja błędów z silnika, zarządzanie skrzynkami mailowymi, przez większość czasu byłem też odpowiedzialny za stronę. Poświęcalem temu ok. 8 godzin dziennie (łącząc to z pracą), w dniach wolnych nawet do 12, nie ważne czy niedziela czy święto). Z grzecznosci postanowiłem zostawić moją pracę dla projektu, pod warunkiem, że nowe commity będą szły dalej na moje repo. Wszystkie inne repozytoria zostały przekierowane na Raphaela. Niestety, ekipa albo do tej pory nie zrobila żadnych zmian w silniku, albo nie wywiązała się z obiecanych rzeczy (a jakby nie patrzeć, niby devow jest 3, równie ogarniętych, jak nie bardziej niż ja) - więc z BT powinno znikać co najmniej 100 wpisów dziennie (średnio zamykalem sam z naprawianiem ok 45 dziennie w dni robocze). Zresztą skoro są tacy ogarnięci, to czemu przez 3 dni zasypywaliscie mnie z wiadomościami - jak zakompilowac core? 
+
+Dodatkowo wspomniany na początku post - kolego, bałagan to masz w czystym SC, a razem z nim masę ukrytych bugów. A żeby naprawić mmapy wystarczy dać revert na 1 commit. 
+
+Macie wszystkie moje commity, SQLki do bazy, mieliście nawet całą bazę world - nie wiem co z nią zrobiliście, pewnie zapomnieliscie zrobić backupu. Nie zdziwiłoby mnie to. Coś mi się nie podoba ten kit z wymianą bazy. 
+
+Zresztą - jak ktoś chce to zapraszam w poniższy link, opublikowałem swoje repo do publiki, jakby ktoś chciał niech forkuje i robi swój sunwell.pl
+
+https://bitbucket.org/maczuga/sunwellcore/commits/
+
+Nie wiem też co wgraliscie, że ludzie mają problemy z połączeniem (mimo zmiany systemu, bo przecież to miał być błąd w jądrze linuxa?). Dziwny jest też antycheat, który banuje ludzi za nic (albo raczej jeden konkretny typ akcji powoduje fałszywe raporty). 
+
+Kończąc - chciałbym pozdrowić wszystkich testerów, którzy sumiennie zgłaszali nawet najmniejsze błędy - chciałbym jakoś was zapewnić, że wasz czas nie poszedł na marne, ale przy obecnej obsadzie nie mogę tego zapewnić. 
+
+Pozdrawiam, Noob. 
